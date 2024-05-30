@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">HighKing</string>
+    <string name="logo_desc">logo desc</string>
+    <string name="illustration_desc">illustration desc</string>
+    <string name="onboarding_2">Onboarding 2</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce faucibus eleifend erat, ac egestas massa mattis id.</string>
+    <string name="create_account">Create Account</string>
+    <string name="your_username">Your username</string>
+    <string name="your_email">Your email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="your_no_handphone">Your no handphone</string>
+    <string name="re_type_password">Re-type Password</string>
+    <string name="register">Register</string>
+    <string name="already_register_login">Already register? Login</string>
 </resources>
