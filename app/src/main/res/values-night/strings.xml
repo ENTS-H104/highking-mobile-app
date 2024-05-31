@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lokasi">lokasi</string>
+    <string name="tanggal_berangkat">Tanggal Berangkat</string>
+    <string name="cari_trip">Cari Trip</string>
+    <string name="mitra_trip">Mitra Trip</string>
+    <string name="profil">Profil</string>
+</resources>
