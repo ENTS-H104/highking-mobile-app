@@ -12,4 +12,10 @@
     <string name="re_type_password">Re-type Password</string>
     <string name="register">Register</string>
     <string name="already_register_login">Already register? Login</string>
+    <string name="home">Home</string>
+    <string name="chat">Chat</string>
+    <string name="orders">Orders</string>
+    <string name="profile">Profile</string>
+    <string name="gunung_terpopuler">Gunung Terpopuler</string>
+    <string name="rekomendasi_trip">Rekomendasi Trip</string>
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingVertical="16dp"
     android:paddingHorizontal="30dp"
-    android:background="@drawable/iv_background_gradient_light_green">
+    android:background="@drawable/iv_background_gradient_light_green"
     tools:context=".LoginFragment">
 
     <ImageView

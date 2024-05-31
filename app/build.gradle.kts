@@ -55,5 +55,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.google.android.material:material:1.4.0")
+    implementation(libs.material.v140)
+    implementation("com.mikepenz:iconics-core:5.3.4")
+    implementation("com.mikepenz:iconics-views:5.3.4")
+    implementation(libs.phosphor.typeface)
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.annotation:annotation:1.2.0")
 }
