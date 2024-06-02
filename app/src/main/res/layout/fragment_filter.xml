@@ -18,7 +18,7 @@
         android:layout_marginBottom="20dp"
         android:drawableStart="@drawable/ic_location_24_black"
         android:shadowColor="@color/black"
-        android:text="@git bstring/lokasi" />
+        android:text="@string/lokasi" />
     <Button
         android:id="@+id/btn_tanggal"
         android:layout_width="match_parent"
