@@ -8,13 +8,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/iv_fotoTrip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:contentDescription="@string/txt_imagetrip"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,6 +31,44 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_fotoTrip" />
+
+        <TextView
+            android:id="@+id/tv_hargaTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Rp. 000.000"
+            android:textColor="@color/green_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_fotoTrip" />
+
+        <TextView
+            android:id="@+id/tv_personTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="0/10"
+            android:textColor="@color/green_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/tv_description"
+            app:layout_constraintEnd_toEndOf="@+id/tv_hargaTrip"
+            app:layout_constraintTop_toBottomOf="@+id/iv_fotoTrip" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="65dp"
+            android:src="@drawable/ic_persons"
+            app:layout_constraintBottom_toTopOf="@+id/tv_description"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_fotoTrip" />
 
         <androidx.cardview.widget.CardView
@@ -104,15 +143,34 @@
                     tools:src="@tools:sample/avatars" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/tv_namaMitra"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_profileMitra"
-                    app:layout_constraintHorizontal_bias="0.38"
+                    android:layout_marginTop="-70dp"
+                    android:text="Nama Mitra"
+                    app:layout_constraintStart_toEndOf="@+id/tv_mitraTrip"
+                    app:layout_constraintTop_toBottomOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/tv_ratingSkor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:text="4.6/5"
+                    android:textColor="@color/ratings_yellow"
                     app:layout_constraintStart_toEndOf="@+id/tv_fotoMitra"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_namaMitra" />
+
+                <RatingBar
+                    android:id="@+id/ic_ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-30dp"
+                    android:layout_marginTop="1dp"
+                    app:layout_constraintStart_toEndOf="@+id/tv_namaMitra"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_namaMitra" />
 
                 <Button
                     android:id="@+id/btn_profileMitra"

@@ -20,4 +20,6 @@
     <string name="mitra_trip">Mitra Trip</string>
     <string name="profil">Profil</string>
     <string name="loremipsum">lorem lorem lorem ipsum sit amet dolor, lorem ipsum sit amet dolor, lorem ipsum sit amet dolor,lorem ipsum sit amet dolor, lorem ipsum sit amet dolor</string>
+    <string name="txt_imagetrip">gambar foto trip</string>
+    <string name="white_secondary">E2E2E2</string>
 </resources>
