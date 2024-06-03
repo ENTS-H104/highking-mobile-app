@@ -61,4 +61,5 @@ dependencies {
     implementation(libs.phosphor.typeface)
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.annotation:annotation:1.2.0")
+    implementation(libs.circleimageview)
 }
