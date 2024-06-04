@@ -10,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.entsh104.highking.R
 import com.entsh104.highking.ui.model.Trip
 
-class TripsAdapter(private val trips: List<Trip>) :
+class TripsAdapter(private val trips: List<Trip>, private val isHorizontal: Boolean = false) :
     RecyclerView.Adapter<TripsAdapter.TripViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_trip, parent, false)
-        return TripViewHolder(view)
+        return TripViewHolder(view, isHorizontal)
     }
 
     override fun onBindViewHolder(holder: TripViewHolder, position: Int) {
@@ -27,7 +27,7 @@ class TripsAdapter(private val trips: List<Trip>) :
         return trips.size
     }
 
-    inner class TripViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TripViewHolder(itemView: View, private val isHorizontal: Boolean) : RecyclerView.ViewHolder(itemView) {
         private val imageView: ImageView = itemView.findViewById(R.id.imageViewTrip)
         private val buttonLove: ImageButton = itemView.findViewById(R.id.buttonLove)
         private val textViewTripName: TextView = itemView.findViewById(R.id.textViewTripName)
@@ -50,6 +50,13 @@ class TripsAdapter(private val trips: List<Trip>) :
                 buttonLove.setImageResource(
                     if (trip.isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
                 )
+            }
+
+            // Adjust item layout params for horizontal orientation
+            if (isHorizontal) {
+                val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
+                layoutParams.width = (itemView.context.resources.displayMetrics.widthPixels / 2) - 24
+                itemView.layoutParams = layoutParams
             }
         }
     }

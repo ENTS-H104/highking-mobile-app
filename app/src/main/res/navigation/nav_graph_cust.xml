@@ -9,5 +9,14 @@
         android:id="@+id/berandaFragment"
         android:name="com.entsh104.highking.ui.cust.beranda.BerandaFragment"
         android:label="fragment_cust_beranda"
-        tools:layout="@layout/fragment_cust_beranda" />
+        tools:layout="@layout/fragment_cust_beranda" >
+        <action
+            android:id="@+id/action_berandaFragment_to_listTripFragment"
+            app:destination="@id/listTripFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listTripFragment"
+        android:name="com.entsh104.highking.ui.cust.trip.ListTripFragment"
+        android:label="fragment_cust_list_trip"
+        tools:layout="@layout/fragment_cust_list_trip" />
 </navigation>

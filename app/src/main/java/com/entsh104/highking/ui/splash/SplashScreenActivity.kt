@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import com.entsh104.highking.databinding.ActivitySplashScreenBinding
 import com.entsh104.highking.ui.auth.AuthActivity
+import com.entsh104.highking.ui.cust.CustActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
         Looper.myLooper()?.let {
             Handler(it).postDelayed({
-                startActivity(Intent(this, AuthActivity::class.java))
+                startActivity(Intent(this, CustActivity::class.java))
                 finish()
             }, 2000)
         }

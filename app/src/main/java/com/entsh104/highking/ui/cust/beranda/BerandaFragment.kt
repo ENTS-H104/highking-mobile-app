@@ -1,20 +1,22 @@
 package com.entsh104.highking.ui.cust.beranda
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.entsh104.highking.R
+import com.entsh104.highking.databinding.FragmentCustBerandaBinding
 import com.entsh104.highking.ui.adapters.BannerAdapter
 import com.entsh104.highking.ui.adapters.MountainsAdapter
 import com.entsh104.highking.ui.adapters.TripsAdapter
 import com.entsh104.highking.ui.model.Banner
 import com.entsh104.highking.ui.model.Mountain
 import com.entsh104.highking.ui.model.Trip
-
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.entsh104.highking.R
-import com.entsh104.highking.databinding.FragmentCustBerandaBinding
 
 class BerandaFragment : Fragment() {
 
@@ -34,12 +36,20 @@ class BerandaFragment : Fragment() {
 
         // Set up RecyclerViews
         setupRecyclerViews()
+
+        // Set up click listener for "Lihat Semua" in Rekomendasi Trip section
+        binding.root.findViewById<TextView>(R.id.rekomendasi_trip_lihat_semua).setOnClickListener {
+            findNavController().navigate(R.id.action_berandaFragment_to_listTripFragment)
+        }
     }
 
     private fun setupRecyclerViews() {
         binding.recyclerViewBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewMountains.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerViewTrips.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        // Use GridLayoutManager with 2 columns for horizontal RecyclerView
+        val tripsLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewTrips.layoutManager = tripsLayoutManager
 
         // Set up adapters
         val bannerAdapter = BannerAdapter(getBannerData())
@@ -48,7 +58,7 @@ class BerandaFragment : Fragment() {
         val mountainsAdapter = MountainsAdapter(getMountainsData())
         binding.recyclerViewMountains.adapter = mountainsAdapter
 
-        val tripsAdapter = TripsAdapter(getTripsData())
+        val tripsAdapter = TripsAdapter(getTripsData(), true) // Pass true to indicate horizontal layout
         binding.recyclerViewTrips.adapter = tripsAdapter
     }
 
@@ -66,7 +76,10 @@ class BerandaFragment : Fragment() {
         return listOf(
             Mountain(R.drawable.iv_mountain, "Mountain 1"),
             Mountain(R.drawable.iv_mountain, "Mountain 2"),
-            Mountain(R.drawable.iv_mountain, "Mountain 3")
+            Mountain(R.drawable.iv_mountain, "Mountain 3"),
+            Mountain(R.drawable.iv_mountain, "Mountain 4"),
+            Mountain(R.drawable.iv_mountain, "Mountain 5"),
+            Mountain(R.drawable.iv_mountain, "Mountain 6")
         )
     }
 
@@ -74,6 +87,9 @@ class BerandaFragment : Fragment() {
         // Replace with your actual data fetching logic
         return listOf(
             Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 99),
+            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 99),
+            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 99),
+            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 99),
             Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 99),
             Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 99)
         )

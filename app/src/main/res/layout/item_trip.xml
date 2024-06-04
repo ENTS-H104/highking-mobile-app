@@ -1,123 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
     app:cardCornerRadius="12dp"
     app:cardElevation="1dp">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="7dp">
-
-    <!-- Trip Image with Heart Icon -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardViewTrip"
-        android:layout_width="135dp"
-        android:layout_height="110dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:cardCornerRadius="8dp">
-            <ImageView
-            android:id="@+id/imageViewTrip"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <ImageButton
-        android:id="@+id/buttonLove"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_margin="8dp"
-        android:background="@drawable/circle_background"
-        android:padding="4dp"
-        app:layout_constraintTop_toTopOf="@id/cardViewTrip"
-        app:layout_constraintEnd_toEndOf="@id/cardViewTrip"
-        android:src="@drawable/ic_heart_outline" />
-
-    <!-- Grouped elements -->
-    <LinearLayout
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="4dp"
-        app:layout_constraintTop_toBottomOf="@id/cardViewTrip"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:padding="7dp">
 
-        <!-- Trip Name -->
-        <TextView
-            android:id="@+id/textViewTripName"
+        <!-- Trip Image with Heart Icon -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewTrip"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="Trip Name"
-            android:textSize="16sp" />
-
-        <!-- Mountain Name with Icon -->
-        <LinearLayout
-            android:id="@+id/layoutMountainName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="4dp">
-
+            android:layout_height="110dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="8dp">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_place_outline" />
+                android:id="@+id/imageViewTrip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/textViewMountainName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:text="Mountain Name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/buttonLove"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/circle_background"
+            android:padding="4dp"
+            app:layout_constraintTop_toTopOf="@id/cardViewTrip"
+            app:layout_constraintEnd_toEndOf="@id/cardViewTrip"
+            android:src="@drawable/ic_heart_outline" />
 
-        <!-- Price and Capacity -->
+        <!-- Grouped elements -->
         <LinearLayout
-            android:id="@+id/layoutPriceCapacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="6dp">
+            android:orientation="vertical"
+            android:paddingHorizontal="4dp"
+            app:layout_constraintTop_toBottomOf="@id/cardViewTrip"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
+            <!-- Trip Name -->
             <TextView
-                android:id="@+id/textViewPrice"
-                android:layout_width="wrap_content"
+                android:id="@+id/textViewTripName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Rp 150.000"
-                android:textColor="@android:color/holo_green_dark"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:layout_weight="1"/>
+                android:layout_marginTop="6dp"
+                android:text="Trip Name"
+                android:textSize="16sp" />
 
+            <!-- Mountain Name with Icon -->
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/layoutMountainName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_person_outline" />
+                    android:src="@drawable/ic_place_outline" />
 
                 <TextView
-                    android:id="@+id/textViewCapacity"
+                    android:id="@+id/textViewMountainName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:text="99"
+                    android:text="Mountain Name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
             </LinearLayout>
+
+            <!-- Price and Capacity -->
+            <LinearLayout
+                android:id="@+id/layoutPriceCapacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/textViewPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 150.000"
+                    android:textColor="@color/green_primary"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_weight="1"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_person_outline" />
+
+                    <TextView
+                        android:id="@+id/textViewCapacity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:text="99"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout></androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
