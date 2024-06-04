@@ -22,13 +22,12 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.splashscreen.SplashScreen"
+            android:name=".ui.splash.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/Base.Theme.HighKing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

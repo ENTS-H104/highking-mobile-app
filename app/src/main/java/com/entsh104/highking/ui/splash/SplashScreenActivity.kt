@@ -1,15 +1,14 @@
-package com.entsh104.highking.ui.auth.splashscreen
+package com.entsh104.highking.ui.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.entsh104.highking.R
 import com.entsh104.highking.databinding.ActivitySplashScreenBinding
 import com.entsh104.highking.ui.auth.AuthActivity
 
-class SplashScreen : AppCompatActivity() {
+class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivitySplashScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {

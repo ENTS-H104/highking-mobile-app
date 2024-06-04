@@ -9,24 +9,26 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.entsh104.highking.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.entsh104.highking.databinding.ActivityCustBinding
 
 class CustActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityCustBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cust)
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_cust) as NavHostFragment
-        val navController = navHostFragment.navController
+        binding = ActivityCustBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_chat, R.id.nav_orders, R.id.nav_profile
-        ))
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment_cust) as NavHostFragment
+        navController = navHostFragment.navController
 
+        setupActionBarWithNavController(navController)
+
+        val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
         bottomNavigationView.setupWithNavController(navController)
     }
 
@@ -34,3 +36,4 @@ class CustActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
+

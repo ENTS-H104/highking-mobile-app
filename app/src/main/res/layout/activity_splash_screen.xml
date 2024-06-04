@@ -6,9 +6,10 @@
 
     <ImageView
         android:id="@+id/splashLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/iv_spash_screen.png"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/iv_splash_screen"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

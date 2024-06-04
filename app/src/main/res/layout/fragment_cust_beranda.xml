@@ -1,4 +1,4 @@
-<!-- res/layout/activity_main.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,29 @@
     android:padding="16dp"
     tools:context=".ui.cust.beranda.BerandaFragment">
 
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome Back, Daffa!"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search"
+            android:padding="8dp"/>
+    </LinearLayout>
+
+    <!-- Banners -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewBanner"
         android:layout_width="match_parent"
@@ -14,13 +37,30 @@
         android:padding="8dp"
         android:orientation="horizontal"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Section: Gunung Terpopuler -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="@string/gunung_terpopuler"
-        android:textSize="18sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/gunung_terpopuler"
+            android:textSize="16sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Lihat Semua"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_blue_dark"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMountains"
@@ -29,13 +69,30 @@
         android:padding="8dp"
         android:orientation="horizontal"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- Section: Rekomendasi Trip -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textSize="18sp"
-        android:text="@string/rekomendasi_trip"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:text="@string/rekomendasi_trip"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Lihat Semua"
+            android:textSize="14sp"
+            android:textColor="@android:color/holo_blue_dark"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTrips"
