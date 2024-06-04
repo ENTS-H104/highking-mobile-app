@@ -1,59 +1,49 @@
 package com.entsh104.highking.ui.auth.registerverification
-import com.entsh104.highking.R
+
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import com.entsh104.highking.databinding.FragmentAuthRegisterVerificationBinding
+import com.entsh104.highking.ui.cust.CustActivity
 
 class VerificationFragment : Fragment() {
+
+    private var _binding: FragmentAuthRegisterVerificationBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_auth_register_verification, container, false)
+        _binding = FragmentAuthRegisterVerificationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        val codeDigit1: TextInputEditText = view.findViewById(R.id.code_digit_1)
-        val codeDigit2: TextInputEditText = view.findViewById(R.id.code_digit_2)
-        val codeDigit3: TextInputEditText = view.findViewById(R.id.code_digit_3)
-        val codeDigit4: TextInputEditText = view.findViewById(R.id.code_digit_4)
-        val verificationButton: Button = view.findViewById(R.id.verification_button)
-        val resendButton: TextView = view.findViewById(R.id.verification_resend)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        verificationButton.setOnClickListener {
-            val verificationCode = codeDigit1.text.toString() +
-                    codeDigit2.text.toString() +
-                    codeDigit3.text.toString() +
-                    codeDigit4.text.toString()
+        binding.verificationButton.setOnClickListener {
+            val code1 = binding.codeDigit1.text.toString().trim()
+            val code2 = binding.codeDigit2.text.toString().trim()
+            val code3 = binding.codeDigit3.text.toString().trim()
+            val code4 = binding.codeDigit4.text.toString().trim()
 
-            // Validasi input
-            if (verificationCode.length != 4) {
-                Toast.makeText(requireContext(), "Kode verifikasi harus 4 digit", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            if (code1.isEmpty() || code2.isEmpty() || code3.isEmpty() || code4.isEmpty()) {
+                Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(activity, CustActivity::class.java)
+                startActivity(intent)
+                activity?.finish()
             }
-
-            // TODO: Implementasi logika verifikasi (misalnya, panggil API)
-            // Contoh:
-            // viewModel.verifyCode(verificationCode)
-
-            // Jika verifikasi berhasil, arahkan ke halaman berikutnya (misalnya halaman utama)
-//            findNavController().navigate(R.id.action_verificationFragment_to_mainActivity)
         }
+    }
 
-        // Set onClickListener untuk TextView "Kirim Ulang"
-        resendButton.setOnClickListener {
-            // TODO: Implementasi logika kirim ulang kode verifikasi (misalnya, panggil API)
-            Toast.makeText(requireContext(), "Kode verifikasi dikirim ulang", Toast.LENGTH_SHORT).show()
-        }
-
-        return view
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

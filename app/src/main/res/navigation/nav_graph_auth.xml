@@ -10,7 +10,7 @@
         android:label="fragment_auth_onboarding_1"
         tools:layout="@layout/fragment_auth_onboarding_1" >
         <action
-            android:id="@+id/action_onboardingFragment1_to_onboardingFragment22"
+            android:id="@+id/action_onboardingFragment1_to_onboardingFragment2"
             app:destination="@id/onboardingFragment2" />
     </fragment>
     <fragment
