@@ -63,7 +63,7 @@ class TripsAdapter(private val trips: List<Trip>, private val isHorizontal: Bool
 
             // Set click listener to navigate to detail trip
             itemView.setOnClickListener {
-                val action = ListTripFragmentDirections.actionListTripFragmentToDetailTripFragment(trip)
+                val action = ListTripFragmentDirections.actionListTripToDetailTrip(trip)
                 itemView.findNavController().navigate(action)
             }
         }

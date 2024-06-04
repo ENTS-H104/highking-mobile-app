@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -37,9 +38,18 @@ class BerandaFragment : Fragment() {
         // Set up RecyclerViews
         setupRecyclerViews()
 
+        // toolbar customize to custom action bar beranda
+        // Customize the ActionBar
+//        (activity as AppCompatActivity).supportActionBar?.apply {
+//            setDisplayShowTitleEnabled(false)
+//            customView = LayoutInflater.from(context).inflate(R.layout.custom_action_bar_beranda, null)
+//            setDisplayShowCustomEnabled(true)
+//        }
+
+
         // Set up click listener for "Lihat Semua" in Rekomendasi Trip section
         binding.root.findViewById<TextView>(R.id.rekomendasi_trip_lihat_semua).setOnClickListener {
-            findNavController().navigate(R.id.action_berandaFragment_to_listTripFragment)
+            findNavController().navigate(R.id.action_home_to_listTrip)
         }
     }
 

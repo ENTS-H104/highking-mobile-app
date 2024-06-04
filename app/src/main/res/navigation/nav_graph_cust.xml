@@ -2,35 +2,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_cust"
-    app:startDestination="@id/berandaFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
-        android:id="@+id/berandaFragment"
+        android:id="@+id/nav_home"
         android:name="com.entsh104.highking.ui.cust.beranda.BerandaFragment"
-        android:label="fragment_cust_beranda"
+        android:label="Home"
         tools:layout="@layout/fragment_cust_beranda">
         <action
-            android:id="@+id/action_berandaFragment_to_listTripFragment"
-            app:destination="@id/listTripFragment" />
+            android:id="@+id/action_home_to_listTrip"
+            app:destination="@id/nav_listTrip" />
     </fragment>
 
     <fragment
-        android:id="@+id/listTripFragment"
+        android:id="@+id/nav_listTrip"
         android:name="com.entsh104.highking.ui.cust.trip.ListTripFragment"
-        android:label="fragment_cust_list_trip"
+        android:label="List Trip"
         tools:layout="@layout/fragment_cust_list_trip">
         <action
-            android:id="@+id/action_listTripFragment_to_detailTripFragment"
-            app:destination="@id/detailTripFragment" />
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
     </fragment>
 
     <fragment
-        android:id="@+id/detailTripFragment"
+        android:id="@+id/nav_detailTrip"
         android:name="com.entsh104.highking.ui.cust.detailTrip.DetailTripFragment"
-        android:label="fragment_cust_detail_trip"
+        android:label="Detail Trip"
         tools:layout="@layout/fragment_cust_detail_trip">
         <argument
             android:name="trip"
             app:argType="com.entsh104.highking.ui.model.Trip" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.entsh104.highking.ui.cust.chat.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_cust_chat" />
+
+    <fragment
+        android:id="@+id/nav_orders"
+        android:name="com.entsh104.highking.ui.cust.ticket.TicketFragment"
+        android:label="Orders"
+        tools:layout="@layout/fragment_cust_ticket" />
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.entsh104.highking.ui.cust.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_cust_profile" />
 </navigation>
