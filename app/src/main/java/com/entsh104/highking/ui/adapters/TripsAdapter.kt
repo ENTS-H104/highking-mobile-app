@@ -1,24 +1,25 @@
 package com.entsh104.highking.ui.adapters
 
-import com.entsh104.highking.ui.model.Trip
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.entsh104.highking.R
+import com.entsh104.highking.ui.model.Trip
 
 class TripsAdapter(private val trips: List<Trip>) :
-    RecyclerView.Adapter<TripsAdapter.TripsViewHolder>() {
+    RecyclerView.Adapter<TripsAdapter.TripViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_trip, parent, false)
-        return TripsViewHolder(view)
+        return TripViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TripsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TripViewHolder, position: Int) {
         holder.bind(trips[position])
     }
 
@@ -26,16 +27,30 @@ class TripsAdapter(private val trips: List<Trip>) :
         return trips.size
     }
 
-    inner class TripsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(R.id.iv_imageTrip)
-        private val nameTextView: TextView = itemView.findViewById(R.id.tv_namaTripCard)
-        private val priceTextView: TextView = itemView.findViewById(R.id.tv_harga)
+    inner class TripViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val imageView: ImageView = itemView.findViewById(R.id.imageViewTrip)
+        private val buttonLove: ImageButton = itemView.findViewById(R.id.buttonLove)
+        private val textViewTripName: TextView = itemView.findViewById(R.id.textViewTripName)
+        private val textViewMountainName: TextView = itemView.findViewById(R.id.textViewMountainName)
+        private val textViewPrice: TextView = itemView.findViewById(R.id.textViewPrice)
+        private val textViewCapacity: TextView = itemView.findViewById(R.id.textViewCapacity)
 
         fun bind(trip: Trip) {
             imageView.setImageResource(trip.imageResId)
-            nameTextView.text = trip.name
-            priceTextView.text = trip.price
+            textViewTripName.text = trip.name
+            textViewMountainName.text = trip.mountainName
+            textViewPrice.text = trip.price
+            textViewCapacity.text = trip.capacity.toString()
+            buttonLove.setImageResource(
+                if (trip.isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
+            )
+            buttonLove.setOnClickListener {
+                // Handle love button click
+                trip.isLoved = !trip.isLoved
+                buttonLove.setImageResource(
+                    if (trip.isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
+                )
+            }
         }
     }
 }
-

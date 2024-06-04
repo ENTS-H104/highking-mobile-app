@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.entsh104.highking.R
 import com.entsh104.highking.ui.model.Banner
-import android.widget.TextView
 
 class BannerAdapter(private val banners: List<Banner>) :
     RecyclerView.Adapter<BannerAdapter.BannerViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(com.entsh104.highking.R.layout.item_banner, parent, false)
+            .inflate(R.layout.item_banner, parent, false)
         return BannerViewHolder(view)
     }
 
@@ -26,11 +26,10 @@ class BannerAdapter(private val banners: List<Banner>) :
     }
 
     inner class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val imageView: ImageView = itemView.findViewById(com.entsh104.highking.R.id.iv_banner)
+        private val bannerImage: ImageView = itemView.findViewById(R.id.bannerImage)
 
         fun bind(banner: Banner) {
-            imageView.setImageResource(banner.imageResId)
+            bannerImage.setImageResource(banner.imageResId)
         }
     }
 }
-

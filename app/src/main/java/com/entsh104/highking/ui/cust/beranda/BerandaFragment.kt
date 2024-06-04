@@ -38,7 +38,7 @@ class BerandaFragment : Fragment() {
 
     private fun setupRecyclerViews() {
         binding.recyclerViewBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerViewMountains.layoutManager     = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerViewMountains.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewTrips.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         // Set up adapters
@@ -73,9 +73,9 @@ class BerandaFragment : Fragment() {
     private fun getTripsData(): List<Trip> {
         // Replace with your actual data fetching logic
         return listOf(
-            Trip(R.drawable.iv_trip, "Trip 1", "Price 1"),
-            Trip(R.drawable.iv_trip, "Trip 2", "Price 2"),
-            Trip(R.drawable.iv_trip, "Trip 3", "Price 3")
+            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 99),
+            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 99),
+            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 99)
         )
     }
 
@@ -84,4 +84,3 @@ class BerandaFragment : Fragment() {
         _binding = null
     }
 }
-

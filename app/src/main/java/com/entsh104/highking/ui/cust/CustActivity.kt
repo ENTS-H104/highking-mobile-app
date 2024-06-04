@@ -26,8 +26,6 @@ class CustActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_cust) as NavHostFragment
         navController = navHostFragment.navController
 
-        setupActionBarWithNavController(navController)
-
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
         bottomNavigationView.setupWithNavController(navController)
     }

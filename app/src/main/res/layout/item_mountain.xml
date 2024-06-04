@@ -1,15 +1,25 @@
-<!-- res/layout/item_mountain.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/imageViewMountain"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="230px"
+        android:layout_height="160px"
+        android:layout_gravity="center"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <ImageView
+            android:id="@+id/imageViewMountain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rounded_corners" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/textViewMountainName"
