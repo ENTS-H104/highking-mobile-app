@@ -6,9 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.entsh104.highking.R
 import com.entsh104.highking.ui.model.Trip
+import com.entsh104.highking.ui.cust.trip.ListTripFragmentDirections
 
 class TripsAdapter(private val trips: List<Trip>, private val isHorizontal: Boolean = false) :
     RecyclerView.Adapter<TripsAdapter.TripViewHolder>() {
@@ -55,8 +57,14 @@ class TripsAdapter(private val trips: List<Trip>, private val isHorizontal: Bool
             // Adjust item layout params for horizontal orientation
             if (isHorizontal) {
                 val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
-                layoutParams.width = (itemView.context.resources.displayMetrics.widthPixels / 2) - 24
+                layoutParams.width = (itemView.context.resources.displayMetrics.widthPixels / 2) - 24 // Adjust the width to be half of the screen width with margin
                 itemView.layoutParams = layoutParams
+            }
+
+            // Set click listener to navigate to detail trip
+            itemView.setOnClickListener {
+                val action = ListTripFragmentDirections.actionListTripFragmentToDetailTripFragment(trip)
+                itemView.findNavController().navigate(action)
             }
         }
     }

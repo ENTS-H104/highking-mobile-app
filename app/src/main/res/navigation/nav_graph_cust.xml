@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,14 +8,29 @@
         android:id="@+id/berandaFragment"
         android:name="com.entsh104.highking.ui.cust.beranda.BerandaFragment"
         android:label="fragment_cust_beranda"
-        tools:layout="@layout/fragment_cust_beranda" >
+        tools:layout="@layout/fragment_cust_beranda">
         <action
             android:id="@+id/action_berandaFragment_to_listTripFragment"
             app:destination="@id/listTripFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/listTripFragment"
         android:name="com.entsh104.highking.ui.cust.trip.ListTripFragment"
         android:label="fragment_cust_list_trip"
-        tools:layout="@layout/fragment_cust_list_trip" />
+        tools:layout="@layout/fragment_cust_list_trip">
+        <action
+            android:id="@+id/action_listTripFragment_to_detailTripFragment"
+            app:destination="@id/detailTripFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailTripFragment"
+        android:name="com.entsh104.highking.ui.cust.detailTrip.DetailTripFragment"
+        android:label="fragment_cust_detail_trip"
+        tools:layout="@layout/fragment_cust_detail_trip">
+        <argument
+            android:name="trip"
+            app:argType="com.entsh104.highking.ui.model.Trip" />
+    </fragment>
 </navigation>
