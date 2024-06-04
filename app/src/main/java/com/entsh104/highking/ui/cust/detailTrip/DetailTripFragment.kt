@@ -35,7 +35,7 @@ class DetailTripFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail_trip, container, false)
+        return inflater.inflate(R.layout.fragment_cust_detail_trip, container, false)
     }
 
     companion object {

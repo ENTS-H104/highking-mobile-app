@@ -29,4 +29,11 @@
     <string name="txt_imagetrip">gambar foto trip</string>
     <string name="white_secondary">E2E2E2</string>
     <string name="payment_accepted">Payment Accepted</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="not_register_yet_register">Not register yet? Register</string>
+    <string name="enter_username">Enter username</string>
+    <string name="sign_in">Sign in</string>
+    <string name="lorem_ipsum_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce faucibus eleifend erat, ac egestas massa mattis id.</string>
+    <string name="onboarding_1">Onboarding 1</string>
+    <string name="mountain_name">Mountain Name</string>
 </resources>

@@ -35,7 +35,7 @@ class ListTripFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_trip, container, false)
+        return inflater.inflate(R.layout.fragment_cust_list_trip, container, false)
     }
 
     companion object {

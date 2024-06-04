@@ -1,9 +1,5 @@
 [versions]
 agp = "8.3.0"
-fontawesomeTypeface = "5.9.0.1-kotlin"
-iconicsCore = "5.3.4"
-iconicsCoreVersion = "5.4.0"
-iconicsViews = "4.2.0"
 circleimageview = "3.1.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -15,17 +11,12 @@ material = "1.12.0"
 activity = "1.9.0"
 constraintlayout = "2.1.4"
 materialVersion = "1.4.0"
-materialVersion = "1.12.0"
 navigationFragmentKtx = "2.7.7"
 navigationUiKtx = "2.7.7"
 phosphorTypeface = "1.0.0.1-kotlin"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-fontawesome-typeface = { module = "com.mikepenz:fontawesome-typeface", version.ref = "fontawesomeTypeface" }
-iconics-core = { module = "com.mikepenz:iconics-core", version.ref = "iconicsCore" }
-iconics-core-v540 = { module = "com.mikepenz:iconics-core", version.ref = "iconicsCoreVersion" }
-iconics-views = { module = "com.mikepenz:iconics-views", version.ref = "iconicsViews" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

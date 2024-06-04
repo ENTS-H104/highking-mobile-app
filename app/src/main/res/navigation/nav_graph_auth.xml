@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_auth"
+    app:startDestination="@id/onboardingFragment1">
+    <fragment
+        android:id="@+id/onboardingFragment1"
+        android:name="com.entsh104.highking.ui.auth.onboarding.OnboardingFragment1"
+        android:label="fragment_auth_onboarding_1"
+        tools:layout="@layout/fragment_auth_onboarding_1" >
+        <action
+            android:id="@+id/action_onboardingFragment1_to_onboardingFragment22"
+            app:destination="@id/onboardingFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFragment2"
+        android:name="com.entsh104.highking.ui.auth.onboarding.OnboardingFragment2"
+        android:label="fragment_auth_onboarding_2"
+        tools:layout="@layout/fragment_auth_onboarding_2" >
+        <action
+            android:id="@+id/action_onboardingFragment2_to_onboardingFragmentGate"
+            app:destination="@id/onboardingFragmentGate" />
+    </fragment>
+    <fragment
+        android:id="@+id/onboardingFragmentGate"
+        android:name="com.entsh104.highking.ui.auth.onboarding.OnboardingFragmentGate"
+        android:label="fragment_auth_onboarding_gate"
+        tools:layout="@layout/fragment_auth_onboarding_gate" >
+        <action
+            android:id="@+id/action_onboardingFragmentGate_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_onboardingFragmentGate_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.entsh104.highking.ui.auth.login.LoginFragment"
+        android:label="fragment_auth_login"
+        tools:layout="@layout/fragment_auth_login" />
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.entsh104.highking.ui.auth.register.RegisterFragment"
+        android:label="fragment_auth_register"
+        tools:layout="@layout/fragment_auth_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_verificationFragment"
+            app:destination="@id/verificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/verificationFragment"
+        android:name="com.entsh104.highking.ui.auth.registerverification.VerificationFragment"
+        android:label="fragment_auth_register_verification"
+        tools:layout="@layout/fragment_auth_register_verification" />
+</navigation>

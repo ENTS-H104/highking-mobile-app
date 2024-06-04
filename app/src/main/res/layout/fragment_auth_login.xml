@@ -7,7 +7,7 @@
     android:paddingVertical="16dp"
     android:paddingHorizontal="30dp"
     android:background="@drawable/iv_background_gradient_light_green"
-    tools:context=".LoginFragment">
+    tools:context=".ui.auth.login.LoginFragment">
 
     <ImageView
         android:id="@+id/logo"
@@ -37,7 +37,7 @@
         android:layout_below="@id/illustration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Sign in"
+        android:text="@string/sign_in"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"/>
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_title"
         android:layout_marginTop="16dp"
-        android:hint="Enter username"
+        android:hint="@string/enter_username"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusTopStart="8dp"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/username_input_layout"
         android:layout_marginTop="8dp"
-        android:hint="Enter Password"
+        android:hint="@string/enter_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusTopStart="8dp"
@@ -95,7 +95,8 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/iv_rounded_button"
         android:text="Login"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/forgot_password"
@@ -104,7 +105,7 @@
         android:layout_below="@id/login_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Forgot Password?"
+        android:text="@string/forgot_password"
         android:textSize="14sp"
         android:textColor="@android:color/black"/>
 
@@ -115,7 +116,7 @@
         android:layout_below="@id/forgot_password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="Not register yet? Register"
+        android:text="@string/not_register_yet_register"
         android:textSize="14sp"
         android:textColor="@android:color/black"/>
 
