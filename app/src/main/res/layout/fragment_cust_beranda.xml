@@ -16,20 +16,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp"
+            android:paddingVertical="8dp"
             android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Welcome Back, Daffa!"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_weight="1"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_search"
                 android:padding="8dp"/>
         </LinearLayout>
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="@string/gunung_terpopuler"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:layout_weight="1"/>
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="@string/rekomendasi_trip"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"

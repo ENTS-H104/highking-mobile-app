@@ -2,11 +2,133 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.HighKing" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/green_primary</item>
-         <item name="colorSecondary">@color/white</item>
-         <item name="colorTertiary">@color/white</item>
-         <item name="android:colorBackground">@color/white_bg</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/green_primary</item>
+        <item name="colorPrimaryVariant">@color/green_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/green_primary</item>
+        <item name="colorSecondaryVariant">@color/green_primary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Teritary brand color. -->
+        <item name="colorTertiary">@color/green_primary</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:fontFamily">@font/poppinsregular</item>
+        <item name="fontFamily">@font/poppinsregular</item>
+
+        <item name="android:colorBackground">@color/white_bg</item>
+        <item name="android:buttonStyle">@style/NotAllCapsButtonStyle</item>
     </style>
 
     <style name="Theme.HighKing" parent="Base.Theme.HighKing" />
+
+    <style name="NotAllCapsButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="BottomNavigationLabelStyle" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingTop">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabPaddingBottom">0dp</item>
+    </style>
+
+    <style name="TransparentDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+
+    <style name="testStyleAppBar">
+        <item name="fontFamily">@font/poppinsmedium</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- FOR TYPOGRAPHY   -->
+
+    <style name="textStyleSemIBold_32">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinssemibold</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="textStyleSemIBold_24">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinssemibold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="textStyleSemIBold_20">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinssemibold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="textStyleMedium_20">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinsmedium</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="textStyleSemIBold_16">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinssemibold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="textStyleMedium_16">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinsmedium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:includeFontPadding">false</item>
+
+    </style>
+
+    <style name="textStyleMedium_14">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinsmedium</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="textStyleButton">
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/poppinssemibold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- FOR TYPOGRAPHY   -->
+
+    <!-- FOR CUSTOM GENERAL THEME   -->
+
+    <style name="textStyleMedium_custom">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinsmedium</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="textStyleSemiBold_custom">
+        <item name="android:textColor">@color/black</item>
+        <item name="fontFamily">@font/poppinssemibold</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
 </resources>

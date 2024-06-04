@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
+        android:textSize="16sp"
         android:text="@string/mountain_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 </LinearLayout>
