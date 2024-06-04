@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustBerandaBinding
 
-class CustBerandaFragment : Fragment() {
+class BerandaFragment : Fragment() {
 
     private var _binding: FragmentCustBerandaBinding? = null
     private val binding get() = _binding!!

@@ -2,6 +2,12 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph_cust">
+    android:id="@+id/nav_graph_cust"
+    app:startDestination="@id/berandaFragment">
 
+    <fragment
+        android:id="@+id/berandaFragment"
+        android:name="com.entsh104.highking.ui.cust.beranda.BerandaFragment"
+        android:label="fragment_cust_beranda"
+        tools:layout="@layout/fragment_cust_beranda" />
 </navigation>
