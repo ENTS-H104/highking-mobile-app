@@ -63,4 +63,5 @@ dependencies {
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.annotation:annotation:1.2.0")
     implementation(libs.circleimageview)
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
 }

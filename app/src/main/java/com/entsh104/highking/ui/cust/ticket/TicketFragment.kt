@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustTicketBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -25,13 +24,17 @@ class TicketFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tabTitles = listOf("Menunggu", "Aktif", "Selesai")
+        val adapter = TicketPagerAdapter(this)
+        binding.viewPager.adapter = adapter
 
-//        binding.viewPager.adapter = TicketPagerAdapter(this)
-//
-//        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-//            tab.text = tabTitles[position]
-//        }.attach()
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "Menunggu"
+                1 -> "Aktif"
+                2 -> "Selesai"
+                else -> null
+            }
+        }.attach()
     }
 
     override fun onDestroyView() {
