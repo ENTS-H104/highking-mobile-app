@@ -30,7 +30,7 @@ class ListTripFragment : Fragment() {
         // Set up RecyclerView with GridLayoutManager
         val gridLayoutManager = GridLayoutManager(context, 2)
         binding.recyclerViewTrips.layoutManager = gridLayoutManager
-        binding.recyclerViewTrips.addItemDecoration(GridSpacingItemDecoration(2, 16, true))
+        binding.recyclerViewTrips.addItemDecoration(GridSpacingItemDecoration(2, 1, true))
 
         binding.recyclerViewTrips.adapter = TripsAdapter(getTripsData())
     }
