@@ -44,6 +44,9 @@ class BerandaFragment : Fragment() {
         binding.root.findViewById<TextView>(R.id.gunung_terpopuler_lihat_semua).setOnClickListener {
             findNavController().navigate(R.id.action_home_to_listMountain)
         }
+        binding.root.findViewById<TextView>(R.id.ll_temukan_trip_terdekat).setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_listTrip)
+        }
     }
 
     private fun setupRecyclerViews() {

@@ -96,6 +96,7 @@
 
         <!-- New Section: Temukan Trip Terdekat! -->
         <LinearLayout
+            android:id="@+id/ll_temukan_trip_terdekat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
