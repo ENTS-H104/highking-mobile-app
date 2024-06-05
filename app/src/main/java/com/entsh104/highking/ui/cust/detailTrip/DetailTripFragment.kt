@@ -35,7 +35,7 @@ class DetailTripFragment : Fragment() {
         binding.ivTripImage.setImageResource(trip.imageResId)
         binding.tvTripName.text = trip.name
         binding.tvTripPrice.text = trip.price
-        binding.tvTripAvailability.text = "${trip.capacity}/20"
+        binding.tvTripAvailability.text = "${trip.capacity}"
         binding.tvTripLocation.text = trip.mountainName
         // Update other views as needed
 

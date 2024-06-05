@@ -50,7 +50,11 @@
         android:id="@+id/nav_chat"
         android:name="com.entsh104.highking.ui.cust.chat.ChatFragment"
         android:label="Chat"
-        tools:layout="@layout/fragment_cust_chat" />
+        tools:layout="@layout/fragment_cust_chat" >
+        <action
+            android:id="@+id/action_nav_chat_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_orders"
@@ -113,4 +117,9 @@
             android:id="@+id/action_nav_search_to_nav_listTrip"
             app:destination="@id/nav_listTrip" />
     </fragment>
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.entsh104.highking.ui.cust.chatroom.ChatRoomFragment"
+        android:label="ChatRoom"
+        tools:layout="@layout/fragment_cust_chatroom" />
 </navigation>
