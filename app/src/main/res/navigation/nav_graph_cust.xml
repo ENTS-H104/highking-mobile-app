@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_listTrip_to_detailTrip"
             app:destination="@id/nav_detailTrip" />
+        <action
+            android:id="@+id/action_home_to_listMountain"
+            app:destination="@id/nav_listMountain" />
     </fragment>
 
     <fragment
@@ -54,4 +57,9 @@
         android:name="com.entsh104.highking.ui.cust.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_cust_profile" />
+    <fragment
+        android:id="@+id/nav_listMountain"
+        android:name="com.entsh104.highking.ui.cust.mountain.ListMountainFragment"
+        android:label="List Mountain"
+        tools:layout="@layout/fragment_cust_list_mountain" />
 </navigation>
