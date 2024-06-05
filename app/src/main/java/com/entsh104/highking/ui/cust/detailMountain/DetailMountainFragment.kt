@@ -62,7 +62,7 @@ class DetailMountainFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip)
         }
 
-        binding.root.findViewById<TextView>(R.id.tv_see_all_trips).setOnClickListener {
+        binding.tvSeeAllTrips.setOnClickListener {
             findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip)
         }
     }

@@ -38,13 +38,13 @@ class BerandaFragment : Fragment() {
         setupRecyclerViews()
 
         // Set up click listener for "Lihat Semua" in Rekomendasi Trip section
-        binding.root.findViewById<TextView>(R.id.rekomendasi_trip_lihat_semua).setOnClickListener {
+        binding.rekomendasiTripLihatSemua.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_listTrip)
         }
-        binding.root.findViewById<TextView>(R.id.gunung_terpopuler_lihat_semua).setOnClickListener {
+        binding.gunungTerpopulerLihatSemua.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_listMountain)
         }
-        binding.root.findViewById<TextView>(R.id.ll_temukan_trip_terdekat).setOnClickListener {
+        binding.llTemukanTripTerdekat.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_listTrip)
         }
     }
