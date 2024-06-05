@@ -31,7 +31,7 @@ class CustActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_chat, R.id.nav_orders, R.id.nav_profile)
+            setOf(R.id.nav_home, R.id.nav_chat, R.id.nav_search, R.id.nav_orders, R.id.nav_profile)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
 

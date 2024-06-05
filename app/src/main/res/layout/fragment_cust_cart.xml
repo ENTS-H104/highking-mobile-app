@@ -252,7 +252,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_navigate_next_24"
-                            app:tint="@color/black"/>
+                            app:tint="@color/dark_grey"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -282,7 +282,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_navigate_next_24"
-                            app:tint="@color/black"/>
+                            app:tint="@color/dark_grey"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -327,7 +327,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_navigate_next_24"
-                    app:tint="@android:color/black"/>
+                    app:tint="@color/dark_grey"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -366,7 +366,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_navigate_next_24"
-                        app:tint="@android:color/black"/>
+                        app:tint="@color/dark_grey"/>
                 </LinearLayout>
             </LinearLayout>
 

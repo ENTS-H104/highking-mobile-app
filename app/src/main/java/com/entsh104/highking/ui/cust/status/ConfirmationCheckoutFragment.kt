@@ -29,7 +29,7 @@ class ConfirmationCheckoutFragment : Fragment() {
 
         // Set click listener for back to history button
         binding.btnBackToHistory.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_confirmation_accepted_to_nav_orders, null, NavOptionsUtil.defaultNavOptions)
+            findNavController().navigate(R.id.action_nav_confirmation_accepted_to_nav_orders)
         }
     }
 

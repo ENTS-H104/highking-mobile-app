@@ -1,60 +1,118 @@
 package com.entsh104.highking.ui.cust.filter
 
+import android.app.DatePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
+import com.entsh104.highking.ui.util.NavOptionsUtil
+import java.util.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FilterFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FilterFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var autoCompleteLocation: AutoCompleteTextView
+    private lateinit var textViewDate: TextView
+    private lateinit var btnSearchTrip: Button
+    private val mountainList = listOf(
+        "Semeru",
+        "Rinjani",
+        "Kerinci",
+        "Merbabu",
+        "Slamet",
+        "Gede",
+        "Lawu",
+        "Merapi",
+        "Pangrango",
+        "Sindoro",
+        "Arjuno",
+        "Welirang",
+        "Sumbing",
+        "Raung",
+        "Agung",
+        "Batur",
+        "Bromo",
+        "Ijen",
+        "Papandayan",
+        "Tambora",
+        "Soputan",
+        "Lokon",
+        "Bambapuang",
+        "Gamalama",
+        "Krakatau",
+        "Kelimutu",
+        "Bukit Raya",
+        "Mutis",
+        "Cartenz",
+        "Salak",
+        "Dempo",
+        "Sinabung",
+        "Leuser",
+        "Dieng",
+        "Talakmau",
+        "Halimun",
+        "Burangrang",
+        "Guntur",
+        "Ciremai",
+        "Latimojong",
+        "Semeru",
+        "Palung",
+        "Lewotobi",
+        "Inerie",
+        "Besar",
+        "Seulawah Agam",
+        "Hutapanjang",
+        "Butak",
+        "Karangetang",
+        "Tambora"
+    )
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cust_filter, container, false)
+        val view = inflater.inflate(R.layout.fragment_cust_filter, container, false)
+
+        autoCompleteLocation = view.findViewById(R.id.autoCompleteLocation)
+        textViewDate = view.findViewById(R.id.textViewDate)
+        btnSearchTrip = view.findViewById(R.id.btn_search_trip)
+
+        // Setup AutoCompleteTextView
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, mountainList)
+        autoCompleteLocation.setAdapter(adapter)
+        autoCompleteLocation.threshold = 1
+
+        // Setup DatePickerDialog
+        textViewDate.setOnClickListener {
+            showDatePickerDialog()
+        }
+
+        // Setup Search Button
+        btnSearchTrip.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_search_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FilterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FilterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+            val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+            textViewDate.text = selectedDate
+        }, year, month, day)
+
+        datePickerDialog.show()
     }
 }
