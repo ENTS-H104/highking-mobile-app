@@ -1,6 +1,7 @@
 package com.entsh104.highking.ui.cust
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -36,6 +37,16 @@ class CustActivity : AppCompatActivity() {
 
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
         bottomNavigationView.setupWithNavController(navController)
+    }
+
+    fun hideToolbarAndNavbar() {
+        supportActionBar?.hide()
+        findViewById<View>(R.id.bottomNavigationView)?.visibility = View.GONE
+    }
+
+    fun showToolbarAndNavbar() {
+        supportActionBar?.show()
+        findViewById<View>(R.id.bottomNavigationView)?.visibility = View.VISIBLE
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -7,28 +7,44 @@
     android:background="@drawable/iv_background_gradient_light_green"
     tools:context=".ui.cust.status.ConfirmationCheckoutFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_check_60_primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
+    <!-- Grouped ImageView and TextView -->
+    <LinearLayout
+        android:id="@+id/confirmation_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/payment_accepted"
-        android:textColor="@color/green_primary"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_check_60_primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/payment_accepted"
+            android:textColor="@color/green_primary"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
+        <!-- Button to go back to order history -->
+        <Button
+            android:id="@+id/btn_back_to_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kembali ke Histori Pesanan"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/green_primary"
+            android:layout_marginTop="16dp"
+            android:layout_marginHorizontal="16dp"/>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

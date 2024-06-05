@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustCartBinding
 
@@ -31,7 +32,7 @@ class CartFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnCheckout.setOnClickListener {
-            // Implement checkout functionality
+            findNavController().navigate(R.id.action_nav_cart_to_confirmationCheckoutFragment)
         }
 
         binding.llPaymentMethod.setOnClickListener {

@@ -91,5 +91,17 @@
         android:name="com.entsh104.highking.ui.cust.cart.CartFragment"
         android:label="Checkout"
         tools:layout="@layout/fragment_cust_cart">
+        <action
+            android:id="@+id/action_nav_cart_to_confirmationCheckoutFragment"
+            app:destination="@id/nav_confirmation_accepted" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_confirmation_accepted"
+        android:name="com.entsh104.highking.ui.cust.status.ConfirmationCheckoutFragment"
+        android:label="Status"
+        tools:layout="@layout/fragment_cust_confirmation_checkout" >
+        <action
+            android:id="@+id/action_nav_confirmation_accepted_to_nav_orders"
+            app:destination="@id/nav_orders" />
     </fragment>
 </navigation>
