@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustDetailTripBinding
 
@@ -65,6 +66,10 @@ class DetailTripFragment : Fragment() {
         // Toggle FAQ 2 section
         binding.tvFaq2.setOnClickListener {
             toggleSection(binding.llFaq2Content, binding.ivExpandFaq2)
+        }
+
+        binding.fabCheckoutTrip.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_detailTrip_to_cartFragment)
         }
     }
 

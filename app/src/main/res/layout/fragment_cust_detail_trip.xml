@@ -801,7 +801,7 @@
 
     <!-- Search Trips Button -->
     <Button
-        android:id="@+id/fab_search_trips"
+        android:id="@+id/fab_checkout_trip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pesan Trip"
