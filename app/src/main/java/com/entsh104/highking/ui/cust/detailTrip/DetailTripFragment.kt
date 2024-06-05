@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustDetailTripBinding
+import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class DetailTripFragment : Fragment() {
 
@@ -69,7 +70,7 @@ class DetailTripFragment : Fragment() {
         }
 
         binding.fabCheckoutTrip.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_detailTrip_to_cartFragment)
+            findNavController().navigate(R.id.action_nav_detailTrip_to_cartFragment, null, NavOptionsUtil.defaultNavOptions)
         }
     }
 

@@ -12,6 +12,7 @@ import com.entsh104.highking.ui.adapters.TripsAdapter
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.ui.model.Trip
+import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class DetailMountainFragment : Fragment() {
 
@@ -59,11 +60,11 @@ class DetailMountainFragment : Fragment() {
 
         // Handle search trips button click
         binding.fabSearchTrips.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip)
+            findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
         }
 
         binding.tvSeeAllTrips.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip)
+            findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
         }
     }
 

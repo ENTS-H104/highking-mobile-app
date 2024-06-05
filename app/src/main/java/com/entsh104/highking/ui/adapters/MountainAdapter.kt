@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.entsh104.highking.R
 import com.entsh104.highking.ui.cust.mountain.ListMountainFragmentDirections
 import com.entsh104.highking.ui.model.Mountain
+import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class MountainAdapter(
     private val mountains: List<Mountain>,
@@ -69,7 +70,7 @@ class MountainAdapter(
 
             itemView.setOnClickListener {
                 val action = ListMountainFragmentDirections.actionListMountainToDetailMountain(mountain)
-                itemView.findNavController().navigate(action)
+                itemView.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
         }
     }

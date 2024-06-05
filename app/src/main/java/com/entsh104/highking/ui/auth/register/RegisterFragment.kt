@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentAuthRegisterBinding
+import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class RegisterFragment : Fragment() {
 
@@ -38,7 +39,7 @@ class RegisterFragment : Fragment() {
             } else if (password != retypePassword) {
                 Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
             } else {
-                findNavController().navigate(R.id.action_registerFragment_to_verificationFragment)
+                findNavController().navigate(R.id.action_registerFragment_to_verificationFragment, null, NavOptionsUtil.defaultNavOptions)
             }
         }
     }

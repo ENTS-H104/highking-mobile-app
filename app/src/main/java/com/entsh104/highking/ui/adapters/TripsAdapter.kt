@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.entsh104.highking.R
 import com.entsh104.highking.ui.model.Trip
 import com.entsh104.highking.ui.cust.trip.ListTripFragmentDirections
+import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class TripsAdapter(private val trips: List<Trip>, private val isHorizontal: Boolean = false) :
     RecyclerView.Adapter<TripsAdapter.TripViewHolder>() {
@@ -65,7 +66,7 @@ class TripsAdapter(private val trips: List<Trip>, private val isHorizontal: Bool
             // Set click listener to navigate to detail trip
             itemView.setOnClickListener {
                 val action = ListTripFragmentDirections.actionListTripToDetailTrip(trip)
-                itemView.findNavController().navigate(action)
+                itemView.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
         }
     }

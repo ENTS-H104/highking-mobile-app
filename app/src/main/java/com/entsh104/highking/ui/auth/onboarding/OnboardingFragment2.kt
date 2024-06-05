@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentAuthOnboarding2Binding
+import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class OnboardingFragment2 : Fragment() {
 
@@ -26,7 +27,7 @@ class OnboardingFragment2 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.nextButton.setOnClickListener {
-            findNavController().navigate(R.id.action_onboardingFragment2_to_onboardingFragmentGate)
+            findNavController().navigate(R.id.action_onboardingFragment2_to_onboardingFragmentGate, null, NavOptionsUtil.defaultNavOptions)
         }
     }
 

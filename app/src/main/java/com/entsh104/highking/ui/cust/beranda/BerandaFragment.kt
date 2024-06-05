@@ -17,6 +17,7 @@ import com.entsh104.highking.ui.adapters.TripsAdapter
 import com.entsh104.highking.ui.model.Banner
 import com.entsh104.highking.ui.model.Mountain
 import com.entsh104.highking.ui.model.Trip
+import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class BerandaFragment : Fragment() {
 
@@ -39,13 +40,13 @@ class BerandaFragment : Fragment() {
 
         // Set up click listener for "Lihat Semua" in Rekomendasi Trip section
         binding.rekomendasiTripLihatSemua.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_listTrip)
+            findNavController().navigate(R.id.action_home_to_listTrip, null, NavOptionsUtil.defaultNavOptions)
         }
         binding.gunungTerpopulerLihatSemua.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_listMountain)
+            findNavController().navigate(R.id.action_home_to_listMountain, null, NavOptionsUtil.defaultNavOptions)
         }
         binding.llTemukanTripTerdekat.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_listTrip)
+            findNavController().navigate(R.id.action_home_to_listTrip, null, NavOptionsUtil.defaultNavOptions)
         }
     }
 
