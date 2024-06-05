@@ -77,11 +77,11 @@ class BerandaFragment : Fragment() {
     private fun getMountainsData(): List<Mountain> {
         // Replace with your actual data fetching logic
         return listOf(
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false),
-            Mountain(R.drawable.iv_mountain, "Semeru", 3676, "Lumajang, Jawa Timur", 5, true),
-            Mountain(R.drawable.iv_mountain, "Merapi", 2355, "Boyolali, Jawa Tengah", 10, true),
-            Mountain(R.drawable.iv_mountain, "Rinjani", 3726, "Lombok, NTB", 7, false)
-        )
+            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
+            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
+            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
+            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
+            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),)
     }
 
     private fun getTripsData(): List<Trip> {

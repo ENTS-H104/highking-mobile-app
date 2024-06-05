@@ -1,0 +1,327 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.cust.detailMountain.DetailMountainFragment">
+
+    <!-- ScrollView to hold the content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Mountain Image -->
+            <ImageView
+                android:id="@+id/imageViewMountain"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/iv_mountain"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Location Info -->
+  <LinearLayout
+    android:id="@+id/ll_location_info"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    app:layout_constraintTop_toBottomOf="@id/imageViewMountain"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:paddingTop="16dp"
+    android:paddingBottom="4dp"
+    android:paddingHorizontal="16dp">
+
+    <ImageView
+        android:id="@+id/iv_location_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_place_outline" />
+
+    <TextView
+        android:id="@+id/textViewCityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:text="Probolinggo, Jawa Timur"
+        android:textColor="@android:color/darker_gray" />
+</LinearLayout>
+
+            <!-- Mountain Name and Elevation -->
+            <LinearLayout
+                android:id="@+id/ll_mountain_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll_location_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingHorizontal="16dp">
+
+                <TextView
+                    android:id="@+id/textViewMountainName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Gunung Bromo"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewElevation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2329 MDPL"
+                    android:textStyle="bold"
+                    android:textColor="@color/green_primary"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Description -->
+            <TextView
+                android:id="@+id/textViewDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="4dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel est lorem. Aliquam eget mauris porttitor, cursus nulla ut, viverra odio. Sed euismod vitae ipsum vitae molestie."
+                app:layout_constraintTop_toBottomOf="@id/ll_mountain_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Read More Link -->
+            <TextView
+                android:id="@+id/tv_read_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="baca selengkapnya"
+                android:textColor="@android:color/holo_blue_dark"
+                android:paddingStart="16dp"
+                app:layout_constraintTop_toBottomOf="@id/textViewDescription"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Mountain Info -->
+            <TextView
+                android:id="@+id/tv_mountain_info_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informasi Gunung"
+                android:textStyle="bold"
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_read_more"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_mountain_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="4dp"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_mountain_info_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- Weather Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/custom_bg_info"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_weather"
+                        app:tint="@color/green_primary" />
+
+                    <TextView
+                        android:id="@+id/textViewWeather"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Cuaca Hari ini: Gerimis Ringan"
+                        android:textColor="@color/green_primary" />
+                </LinearLayout>
+
+                <!-- Temperature Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/custom_bg_info"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_temperature"
+                        app:tint="@color/green_primary" />
+
+                    <TextView
+                        android:id="@+id/textViewTemperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Suhu Derajat: 25 Celcius"
+                        android:textColor="@color/green_primary" />
+                </LinearLayout>
+
+                <!-- Entry Fee Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/custom_bg_info"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_fee"
+                        app:tint="@color/green_primary" />
+
+                    <TextView
+                        android:id="@+id/textViewTicketPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="2dp"
+                        android:text="Harga Masuk: Rp 15.000"
+                        android:textColor="@color/green_primary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Map Location -->
+            <TextView
+                android:id="@+id/textViewCityName_map_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lokasi di Maps"
+                android:textStyle="bold"
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/ll_mountain_info"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_location_map"
+                android:layout_width="wrap_content"
+                android:layout_height="165dp"
+                android:src="@drawable/iv_illustration_maps"
+                app:layout_constraintTop_toBottomOf="@id/textViewCityName_map_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tv_share_info_header"
+                android:layout_marginBottom="16dp"
+                android:layout_marginHorizontal="16dp"
+                android:scaleType="centerInside" />
+
+            <!-- Share Info -->
+            <TextView
+                android:id="@+id/tv_share_info_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share Informasi"
+                android:textStyle="bold"
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/iv_location_map"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_share_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/tv_share_info_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingHorizontal="16dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_twitter"
+                    android:layout_marginEnd="8dp" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_facebook"
+                    android:layout_marginEnd="8dp" />
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_instagram" />
+            </LinearLayout>
+
+            <!-- Similar Trips -->
+            <TextView
+                android:id="@+id/tv_similar_trips_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trip Sejenis"
+                android:textStyle="bold"
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/ll_share_info"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_see_all_trips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lihat Semua"
+                android:textColor="@android:color/holo_blue_dark"
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toBottomOf="@id/ll_share_info"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_similar_trips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv_similar_trips_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingStart="16dp"
+                android:paddingBottom="66dp"
+                android:orientation="horizontal" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Search Trips Button -->
+    <Button
+    android:id="@+id/fab_search_trips"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Cari Trip Bromo"
+    android:layout_gravity="bottom"
+    android:textColor="@android:color/white"
+    android:background="@drawable/iv_rounded_button"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="8dp" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

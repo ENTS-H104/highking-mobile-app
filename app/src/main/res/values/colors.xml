@@ -5,6 +5,7 @@
     <color name="white_secondary">#B5B5B5</color>
     <color name="white_bg">#F8F9FA</color>
     <color name="green_primary">#FF31B7AC</color>
+    <color name="green_secondary">#FFD8F0EE</color>
     <color name="green_light">#FFE8F7F6</color>
     <color name="ratings_yellow">#FFDF00</color>
     <color name="selected_item_color">#FF31B7AC</color>

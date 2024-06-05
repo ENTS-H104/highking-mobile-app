@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_home_to_listMountain"
             app:destination="@id/nav_listMountain" />
+        <action
+            android:id="@+id/action_listMountain_to_detailMountain"
+            app:destination="@id/nav_detailMountain" />
     </fragment>
 
     <fragment
@@ -57,9 +60,27 @@
         android:name="com.entsh104.highking.ui.cust.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_cust_profile" />
+
     <fragment
         android:id="@+id/nav_listMountain"
         android:name="com.entsh104.highking.ui.cust.mountain.ListMountainFragment"
         android:label="List Mountain"
-        tools:layout="@layout/fragment_cust_list_mountain" />
+        tools:layout="@layout/fragment_cust_list_mountain" >
+        <action
+            android:id="@+id/action_listMountain_to_detailMountain"
+            app:destination="@id/nav_detailMountain" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_detailMountain"
+        android:name="com.entsh104.highking.ui.cust.detailMountain.DetailMountainFragment"
+        android:label="Detail Mountain"
+        tools:layout="@layout/fragment_cust_detail_mountain">
+        <argument
+            android:name="mountain"
+            app:argType="com.entsh104.highking.ui.model.Mountain" />
+        <action
+            android:id="@+id/action_nav_detailMountain_to_nav_listTrip"
+            app:destination="@id/nav_listTrip" />
+    </fragment>
 </navigation>
