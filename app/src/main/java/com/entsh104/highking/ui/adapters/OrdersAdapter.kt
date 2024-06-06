@@ -5,9 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.entsh104.highking.R
+import com.entsh104.highking.ui.cust.ticket.TicketFragmentDirections
 import com.entsh104.highking.ui.model.Order
+import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class OrdersAdapter(private val orders: List<Order>) :
     RecyclerView.Adapter<OrdersAdapter.OrderViewHolder>() {
@@ -36,10 +39,10 @@ class OrdersAdapter(private val orders: List<Order>) :
             textViewOrderName.text = order.name
             textViewPrice.text = order.price
 
-            // itemView.setOnClickListener {
-            //     val action = WaitingFragmentDirections.actionListTripFragmentToDetailTripFragment(order)
-            //     it.findNavController().navigate(action)
-            // }
+            itemView.setOnClickListener {
+                val action = TicketFragmentDirections.actionNavOrdersToOrderDetailsFragment()
+                it.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+            }
         }
     }
 }

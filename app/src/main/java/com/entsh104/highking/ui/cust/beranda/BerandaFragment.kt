@@ -70,7 +70,6 @@ class BerandaFragment : Fragment() {
     }
 
     private fun getBannerData(): List<Banner> {
-        // Replace with your actual data fetching logic
         return listOf(
             Banner(R.drawable.iv_banner),
             Banner(R.drawable.iv_banner),
@@ -79,7 +78,6 @@ class BerandaFragment : Fragment() {
     }
 
     private fun getMountainsData(): List<Mountain> {
-        // Replace with your actual data fetching logic
         return listOf(
             Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
             Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
@@ -89,7 +87,6 @@ class BerandaFragment : Fragment() {
     }
 
     private fun getTripsData(): List<Trip> {
-        // Replace with your actual data fetching logic
         return listOf(
             Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 99),
             Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 99),

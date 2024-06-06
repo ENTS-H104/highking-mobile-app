@@ -60,7 +60,11 @@
         android:id="@+id/nav_orders"
         android:name="com.entsh104.highking.ui.cust.ticket.TicketFragment"
         android:label="Orders"
-        tools:layout="@layout/fragment_cust_ticket" />
+        tools:layout="@layout/fragment_cust_ticket" >
+        <action
+            android:id="@+id/action_nav_orders_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_profile"
@@ -122,4 +126,13 @@
         android:name="com.entsh104.highking.ui.cust.chatroom.ChatRoomFragment"
         android:label="ChatRoom"
         tools:layout="@layout/fragment_cust_chatroom" />
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.entsh104.highking.ui.cust.order.OrderDetailsFragment"
+        android:label="Detail Orders"
+        tools:layout="@layout/fragment_cust_order_details" >
+        <action
+            android:id="@+id/action_orderDetailsFragment_to_nav_orders"
+            app:destination="@id/nav_orders" />
+    </fragment>
 </navigation>
