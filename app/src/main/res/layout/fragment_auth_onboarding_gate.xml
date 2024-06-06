@@ -38,7 +38,7 @@
         android:layout_below="@id/illustration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
-        android:text="Onboarding 1"
+        android:text="Onboarding Gate"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"/>
