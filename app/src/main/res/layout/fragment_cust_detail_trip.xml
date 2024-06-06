@@ -297,6 +297,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Include"
+                            android:layout_marginTop="2dp"
                             android:textColor="@color/green_primary"
                             android:textSize="16sp"
                             android:textStyle="bold"
@@ -363,7 +364,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/ic_check"
+                            android:src="@drawable/ic_slash"
                             app:tint="@color/orange" />
 
                         <TextView
@@ -372,6 +373,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Exclude"
+                            android:layout_marginTop="2dp"
                             android:textColor="@color/orange"
                             android:textSize="16sp"
                             android:textStyle="bold"

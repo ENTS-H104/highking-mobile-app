@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:textColor="@color/green_primary"
-                        android:text="99"
+                        android:text="15/30"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
                 </LinearLayout>
             </LinearLayout>

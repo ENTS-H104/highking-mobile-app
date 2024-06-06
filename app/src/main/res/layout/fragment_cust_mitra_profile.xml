@@ -30,7 +30,7 @@
             android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nama Mitra"
+            android:text="Lancar Jaya"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_gravity="center"
