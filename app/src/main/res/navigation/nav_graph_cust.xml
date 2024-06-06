@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_nav_detailTrip_to_cartFragment"
             app:destination="@id/nav_cart" />
+        <action
+            android:id="@+id/action_nav_detailTrip_to_profileMitraFragment"
+            app:destination="@id/profileMitraFragment" />
     </fragment>
 
     <fragment
@@ -135,4 +138,9 @@
             android:id="@+id/action_orderDetailsFragment_to_nav_orders"
             app:destination="@id/nav_orders" />
     </fragment>
+    <fragment
+        android:id="@+id/profileMitraFragment"
+        android:name="com.entsh104.highking.ui.cust.mitra.ProfileMitraFragment"
+        android:label="Profile Mitra"
+        tools:layout="@layout/fragment_cust_mitra_profile" />
 </navigation>

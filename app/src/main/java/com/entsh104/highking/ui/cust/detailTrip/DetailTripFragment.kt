@@ -72,6 +72,10 @@ class DetailTripFragment : Fragment() {
         binding.fabCheckoutTrip.setOnClickListener {
             findNavController().navigate(R.id.action_nav_detailTrip_to_cartFragment, null, NavOptionsUtil.defaultNavOptions)
         }
+
+        binding.btnPartnerProfile.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_detailTrip_to_profileMitraFragment, null, NavOptionsUtil.defaultNavOptions)
+        }
     }
 
     private fun toggleSection(contentLayout: LinearLayout, arrowView: ImageView) {
