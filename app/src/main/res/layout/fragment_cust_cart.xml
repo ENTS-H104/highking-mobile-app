@@ -226,6 +226,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/ll_hiker_data_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -238,7 +239,7 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_pendaki"
-                            app:tint="@color/black"/>
+                            app:tint="@color/black" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -246,44 +247,46 @@
                             android:layout_weight="1"
                             android:text="Pendaki 1"
                             android:layout_marginTop="4dp"
-                            android:layout_marginStart="8dp"/>
+                            android:layout_marginStart="8dp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_navigate_next_24"
-                            app:tint="@color/dark_grey"/>
+                            app:tint="@color/dark_grey" />
                     </LinearLayout>
+
 
                     <LinearLayout
+                        android:id="@+id/ll_hiker_data_item_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:background="@drawable/custom_bg_white_rounded_sm"
                         android:paddingVertical="10dp"
-                        android:paddingHorizontal="16dp"
-                        android:layout_marginBottom="8dp">
+                        android:paddingHorizontal="16dp">
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_pendaki"
-                            app:tint="@color/black"/>
+                            app:tint="@color/black" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Pendaki 1"
+                            android:text="Pendaki 2"
                             android:layout_marginTop="4dp"
-                            android:layout_marginStart="8dp"/>
+                            android:layout_marginStart="8dp" />
 
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_navigate_next_24"
-                            app:tint="@color/dark_grey"/>
+                            app:tint="@color/dark_grey" />
                     </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -317,6 +320,7 @@
                     android:layout_weight="1"/>
 
                 <TextView
+                    android:id="@+id/tv_payment_method"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -324,6 +328,7 @@
                     android:textColor="@android:color/holo_blue_dark"/>
 
                 <ImageView
+                    android:id="@+id/iv_payment_method"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_navigate_next_24"
@@ -363,6 +368,7 @@
                         android:text="Punya Kode Diskon?"/>
 
                     <ImageView
+                        android:id="@+id/iv_discount_code"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_navigate_next_24"

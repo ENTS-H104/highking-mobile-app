@@ -42,6 +42,10 @@ class RegisterFragment : Fragment() {
                 findNavController().navigate(R.id.action_registerFragment_to_verificationFragment, null, NavOptionsUtil.defaultNavOptions)
             }
         }
+
+        binding.loginPrompt.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+        }
     }
 
     override fun onDestroyView() {

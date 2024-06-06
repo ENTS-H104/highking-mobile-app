@@ -115,7 +115,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/forgot_password"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:text="@string/not_register_yet_register"
         android:textSize="14sp"
         android:textColor="@android:color/black"/>
