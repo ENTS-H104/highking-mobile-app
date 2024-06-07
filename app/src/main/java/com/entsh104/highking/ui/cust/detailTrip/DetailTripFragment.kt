@@ -1,5 +1,6 @@
 package com.entsh104.highking.ui.cust.detailTrip
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustDetailTripBinding
+import com.entsh104.highking.ui.model.Trip
 import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class DetailTripFragment : Fragment() {
@@ -75,6 +77,37 @@ class DetailTripFragment : Fragment() {
 
         binding.btnPartnerProfile.setOnClickListener {
             findNavController().navigate(R.id.action_nav_detailTrip_to_profileMitraFragment, null, NavOptionsUtil.defaultNavOptions)
+        }
+
+        // Share information
+        binding.llShareInfo.findViewById<View>(R.id.iv_twitter).setOnClickListener {
+            shareInformation("twitter", trip)
+        }
+        binding.llShareInfo.findViewById<View>(R.id.iv_facebook).setOnClickListener {
+            shareInformation("facebook", trip)
+        }
+        binding.llShareInfo.findViewById<View>(R.id.iv_instagram).setOnClickListener {
+            shareInformation("instagram", trip)
+        }
+    }
+
+    private fun shareInformation(platform: String, trip: Trip) {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, "Check out this trip: ${trip.name} to ${trip.mountainName}. Price: ${trip.price}. Availability: ${trip.capacity} spots left!")
+            type = "text/plain"
+        }
+
+        when (platform) {
+            "twitter" -> shareIntent.setPackage("com.twitter.android")
+            "facebook" -> shareIntent.setPackage("com.facebook.katana")
+            "instagram" -> shareIntent.setPackage("com.instagram.android")
+        }
+
+        try {
+            startActivity(shareIntent)
+        } catch (e: Exception) {
+            startActivity(Intent.createChooser(shareIntent, "Share via"))
         }
     }
 

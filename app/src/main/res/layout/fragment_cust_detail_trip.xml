@@ -778,18 +778,21 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <ImageView
+                    android:id="@+id/iv_twitter"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_twitter"
                     android:layout_marginEnd="8dp" />
 
                 <ImageView
+                    android:id="@+id/iv_facebook"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_facebook"
                     android:layout_marginEnd="8dp" />
 
                 <ImageView
+                    android:id="@+id/iv_instagram"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ic_instagram" />
