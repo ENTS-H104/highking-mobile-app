@@ -7,14 +7,16 @@
     tools:context=".ui.cust.CustActivity">
 
     <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar_cust"
         android:layout_width="match_parent"
-        android:paddingTop="4dp"
         android:layout_height="55dp"
-        android:background="@android:color/white"
+        android:background="@color/white"
+        app:title="Title"
+        app:titleCentered="true"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        />
 
     <!-- Fragment Container -->
     <fragment
