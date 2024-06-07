@@ -96,6 +96,9 @@
         <action
             android:id="@+id/action_nav_detailMountain_to_nav_listTrip"
             app:destination="@id/nav_listTrip" />
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
     </fragment>
     <fragment
         android:id="@+id/nav_cart"
@@ -142,5 +145,14 @@
         android:id="@+id/profileMitraFragment"
         android:name="com.entsh104.highking.ui.cust.mitra.ProfileMitraFragment"
         android:label="Profile Mitra"
-        tools:layout="@layout/fragment_cust_mitra_profile" />
+        tools:layout="@layout/fragment_cust_mitra_profile" >
+        <action
+            android:id="@+id/action_profileMitraFragment_to_fragmentCustReview"
+            app:destination="@id/fragmentCustReview" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCustReview"
+        android:name="com.entsh104.highking.ui.cust.review.FragmentCustReview"
+        android:label="Ulasan"
+        tools:layout="@layout/fragment_cust_review" />
 </navigation>

@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
+import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustMitraProfileBinding
 import com.google.android.material.tabs.TabLayout
 
@@ -31,6 +33,10 @@ class ProfileMitraFragment : Fragment() {
         val adapter = MitraProfilePagerAdapter(childFragmentManager)
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
+
+        binding.buttonLihatUlasan.setOnClickListener {
+            findNavController().navigate(R.id.action_profileMitraFragment_to_fragmentCustReview)
+        }
     }
 
     override fun onDestroyView() {
