@@ -1,21 +1,26 @@
 package com.entsh104.highking.ui.cust.mountain
 
+import UserRepository
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.entsh104.highking.R
+import com.entsh104.highking.data.source.local.SharedPreferencesManager
+import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustListMountainBinding
 import com.entsh104.highking.ui.adapters.MountainAdapter
-import com.entsh104.highking.ui.model.Mountain
-import com.entsh104.highking.ui.model.Trip
+import kotlinx.coroutines.launch
 
 class ListMountainFragment : Fragment() {
 
     private var _binding: FragmentCustListMountainBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userRepository: UserRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,19 +33,31 @@ class ListMountainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Setup RecyclerView
+        val prefs = SharedPreferencesManager(requireContext())
+        userRepository = UserRepository(RetrofitClient.instance, prefs)
+
         binding.recyclerViewMountains.layoutManager = LinearLayoutManager(context)
-        binding.recyclerViewMountains.adapter = MountainAdapter(getMountainsData(), false)
+
+        fetchMountains()
     }
 
-    private fun getMountainsData(): List<Mountain> {
-        return listOf(
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-        )
+    private fun fetchMountains() {
+        // Show ProgressBar
+        binding.progressBar.visibility = View.VISIBLE
+
+        lifecycleScope.launch {
+            val result = userRepository.getMountains()
+            if (result.isSuccess) {
+                val mountains = result.getOrNull() ?: emptyList()
+                val mountainsAdapter = MountainAdapter(mountains, false)
+                binding.recyclerViewMountains.adapter = mountainsAdapter
+            } else {
+                Toast.makeText(requireContext(), "Failed to load mountains", Toast.LENGTH_SHORT).show()
+            }
+
+            // Hide ProgressBar
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {

@@ -1,28 +1,31 @@
 package com.entsh104.highking.ui.cust.beranda
 
+import UserRepository
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.entsh104.highking.R
+import com.entsh104.highking.data.source.local.SharedPreferencesManager
+import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustBerandaBinding
 import com.entsh104.highking.ui.adapters.BannerAdapter
 import com.entsh104.highking.ui.adapters.MountainAdapter
-import com.entsh104.highking.ui.adapters.TripsAdapter
 import com.entsh104.highking.ui.model.Banner
-import com.entsh104.highking.ui.model.Mountain
-import com.entsh104.highking.ui.model.Trip
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import kotlinx.coroutines.launch
 
 class BerandaFragment : Fragment() {
 
     private var _binding: FragmentCustBerandaBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userRepository: UserRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,10 +38,11 @@ class BerandaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set up RecyclerViews
+        val prefs = SharedPreferencesManager(requireContext())
+        userRepository = UserRepository(RetrofitClient.instance, prefs)
+
         setupRecyclerViews()
 
-        // Set up click listener for "Lihat Semua" in Rekomendasi Trip section
         binding.rekomendasiTripLihatSemua.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_listTrip, null, NavOptionsUtil.defaultNavOptions)
         }
@@ -48,25 +52,38 @@ class BerandaFragment : Fragment() {
         binding.llTemukanTripTerdekat.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_listTrip, null, NavOptionsUtil.defaultNavOptions)
         }
+
+        fetchMountains()
     }
 
     private fun setupRecyclerViews() {
         binding.recyclerViewBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewMountains.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        // Use GridLayoutManager with 2 columns for horizontal RecyclerView
         val tripsLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         binding.recyclerViewTrips.layoutManager = tripsLayoutManager
 
-        // Set up adapters
         val bannerAdapter = BannerAdapter(getBannerData())
         binding.recyclerViewBanner.adapter = bannerAdapter
+    }
 
-        val mountainsAdapter = MountainAdapter(getMountainsData(), true)
-        binding.recyclerViewMountains.adapter = mountainsAdapter
+    private fun fetchMountains() {
+        // Show ProgressBar
+        binding.progressBar.visibility = View.VISIBLE
 
-        val tripsAdapter = TripsAdapter(getTripsData(), true)
-        binding.recyclerViewTrips.adapter = tripsAdapter
+        lifecycleScope.launch {
+            val result = userRepository.getMountains()
+            if (result.isSuccess) {
+                val mountains = result.getOrNull() ?: emptyList()
+                val mountainsAdapter = MountainAdapter(mountains, true)
+                binding.recyclerViewMountains.adapter = mountainsAdapter
+            } else {
+                Toast.makeText(requireContext(), "Failed to load mountains", Toast.LENGTH_SHORT).show()
+            }
+
+            // Hide ProgressBar
+            binding.progressBar.visibility = View.GONE
+        }
     }
 
     private fun getBannerData(): List<Banner> {
@@ -74,26 +91,6 @@ class BerandaFragment : Fragment() {
             Banner(R.drawable.iv_banner),
             Banner(R.drawable.iv_banner),
             Banner(R.drawable.iv_banner)
-        )
-    }
-
-    private fun getMountainsData(): List<Mountain> {
-        return listOf(
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),
-            Mountain(R.drawable.iv_mountain, "Bromo", 2329, "Probolinggo, Jawa Timur", 9, false, "Bromo adalah gunung berapi yang masih aktif dan paling terkenal di Indonesia.", "Cerah", "25", "Rp 50.000"),)
-    }
-
-    private fun getTripsData(): List<Trip> {
-        return listOf(
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 24)
         )
     }
 

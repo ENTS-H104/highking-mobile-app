@@ -8,13 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.entsh104.highking.R
+import com.entsh104.highking.data.model.MountainResponse
 import com.entsh104.highking.ui.cust.mountain.ListMountainFragmentDirections
-import com.entsh104.highking.ui.model.Mountain
 import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class MountainAdapter(
-    private val mountains: List<Mountain>,
+    private val mountains: List<MountainResponse>,
     private val isSimpleLayout: Boolean
 ) : RecyclerView.Adapter<MountainAdapter.MountainViewHolder>() {
 
@@ -48,28 +49,19 @@ class MountainAdapter(
         private val textViewTemperature: TextView? = itemView.findViewById(R.id.textViewTemperature)
         private val textViewTicketPrice: TextView? = itemView.findViewById(R.id.textViewTicketPrice)
 
-        fun bind(mountain: Mountain) {
-            imageView.setImageResource(mountain.imageResId)
+        fun bind(mountain: MountainResponse) {
+            Glide.with(itemView.context)
+                .load(mountain.imageUrl)
+                .into(imageView)
             textViewMountainName.text = mountain.name
-            textViewElevation?.text = "${mountain.elevation} MDPL"
-            textViewCityName?.text = mountain.location
-            textViewOpenTrips?.text = "${mountain.tripCount} Trip Open"
-            buttonLove?.setImageResource(
-                if (mountain.isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
-            )
-            buttonLove?.setOnClickListener {
-                mountain.isLoved = !mountain.isLoved
-                buttonLove.setImageResource(
-                    if (mountain.isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
-                )
-            }
+            textViewElevation?.text = "${mountain.height} MDPL"
+            textViewCityName?.text = mountain.province
+            textViewOpenTrips?.text = "${mountain.totalTripOpen} Trip Open"
             textViewDescription?.text = mountain.description
-            textViewWeather?.text = mountain.weather
-            textViewTemperature?.text = mountain.temperature
-            textViewTicketPrice?.text = mountain.entryFee
+            textViewTicketPrice?.text = "Rp ${mountain.harga}"
 
             itemView.setOnClickListener {
-                val action = ListMountainFragmentDirections.actionListMountainToDetailMountain(mountain)
+                val action = ListMountainFragmentDirections.actionListMountainToDetailMountain(mountain.mountainId)
                 itemView.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
         }

@@ -1,9 +1,12 @@
 import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
+import com.entsh104.highking.data.model.MountainDetailResponse
+import com.entsh104.highking.data.model.MountainResponse
 import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.UserResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
+import com.entsh104.highking.ui.model.Mountain
 
 class UserRepository(private val apiService: ApiService, private val prefs: SharedPreferencesManager) {
 
@@ -61,6 +64,32 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
             val response = apiService.logoutUser("Bearer $token")
             if (response.isSuccessful) {
                 prefs.clear()
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getMountains(): Result<List<MountainResponse>> {
+        return try {
+            val response = apiService.getMountains()
+            if (response.isSuccessful) {
+                Result.success(response.body()?.data ?: emptyList())
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getMountainById(id: String): Result<MountainDetailResponse> {
+        return try {
+            val response = apiService.getMountainById(id)
+            if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
                 Result.failure(Exception(response.message()))

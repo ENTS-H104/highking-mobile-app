@@ -1,5 +1,7 @@
 import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
+import com.entsh104.highking.data.model.MountainDetailResponse
+import com.entsh104.highking.data.model.MountainsResponse
 import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.UserApiResponse
@@ -9,6 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @POST("users/login")
@@ -22,4 +25,11 @@ interface ApiService {
 
     @GET("users/logout")
     suspend fun logoutUser(@Header("Authorization") token: String): Response<BasicResponse>
+
+    @GET("mountains")
+    suspend fun getMountains(): Response<MountainsResponse>
+
+    @GET("mountains/{id}")
+    suspend fun getMountainById(@Path("id") id: String): Response<MountainDetailResponse>
+
 }
