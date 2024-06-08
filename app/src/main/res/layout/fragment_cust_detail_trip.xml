@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.cust.detailTrip.DetailTripFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <!-- ScrollView to hold the content -->
     <ScrollView
         android:layout_width="match_parent"
@@ -269,81 +280,12 @@
                 android:layout_marginTop="2dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_inclusion_exclusion_header">
 
-                <!-- Include Section -->
                 <LinearLayout
                     android:id="@+id/ll_include_section"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/custom_bg_white_rounded_dropdown"
-                    android:padding="12dp"
-                    android:layout_marginBottom="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_check"
-                            app:tint="@color/green_primary" />
-
-                        <TextView
-                            android:id="@+id/tv_inclusion"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Include"
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/green_primary"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:layout_marginStart="8dp" />
-
-                        <ImageView
-                            android:id="@+id/iv_expand_inclusion"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            app:tint="@color/green_primary"
-                            android:src="@drawable/ic_arrow_down" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_inclusion_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        android:paddingTop="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
+                    android:layout_marginTop="2dp">
                 </LinearLayout>
 
                 <!-- Exclude Section -->
@@ -352,74 +294,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/custom_bg_white_rounded_dropdown"
-                    android:padding="12dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_slash"
-                            app:tint="@color/orange" />
-
-                        <TextView
-                            android:id="@+id/tv_exclusion"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Exclude"
-                            android:layout_marginTop="2dp"
-                            android:textColor="@color/orange"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:layout_marginStart="8dp" />
-
-                        <ImageView
-                            android:id="@+id/iv_expand_exclusion"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            app:tint="@color/orange"
-                            android:src="@drawable/ic_arrow_down" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_exclusion_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        android:paddingTop="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
+                    android:layout_marginTop="2dp">
                 </LinearLayout>
             </LinearLayout>
 
@@ -441,141 +316,6 @@
                 android:orientation="vertical"
                 android:layout_marginTop="2dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_trip_schedule_header">
-
-                <!-- Day 1 Section -->
-                <LinearLayout
-                    android:id="@+id/ll_day_1_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/custom_bg_white_rounded_dropdown"
-                    android:padding="12dp"
-                    android:layout_marginBottom="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/tv_day_1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Day 1"
-                            android:textColor="@android:color/black"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:id="@+id/iv_expand_day_1"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            app:tint="@android:color/darker_gray"
-                            android:src="@drawable/ic_arrow_down" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_day_1_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        android:paddingTop="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Day 2 Section -->
-                <LinearLayout
-                    android:id="@+id/ll_day_2_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/custom_bg_white_rounded_dropdown"
-                    android:padding="12dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/tv_day_2"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Day 2"
-                            android:textColor="@android:color/black"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:id="@+id/iv_expand_day_2"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            app:tint="@android:color/darker_gray"
-                            android:src="@drawable/ic_arrow_down" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_day_2_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        android:paddingTop="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
 
             <!-- FAQ -->
@@ -596,141 +336,6 @@
                 android:orientation="vertical"
                 android:layout_marginTop="2dp"
                 app:layout_constraintTop_toBottomOf="@id/tv_faq_header">
-
-                <!-- FAQ 1 Section -->
-                <LinearLayout
-                    android:id="@+id/ll_faq_1_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/custom_bg_white_rounded_dropdown"
-                    android:padding="12dp"
-                    android:layout_marginBottom="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/tv_faq_1"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Pertanyaan 1"
-                            android:textColor="@android:color/black"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:id="@+id/iv_expand_faq_1"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            app:tint="@android:color/darker_gray"
-                            android:src="@drawable/ic_arrow_down" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_faq_1_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        android:paddingTop="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- FAQ 2 Section -->
-                <LinearLayout
-                    android:id="@+id/ll_faq_2_section"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/custom_bg_white_rounded_dropdown"
-                    android:padding="12dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/tv_faq_2"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Pertanyaan 2"
-                            android:textColor="@android:color/black"
-                            android:textSize="16sp" />
-
-                        <ImageView
-                            android:id="@+id/iv_expand_faq_2"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            app:tint="@android:color/darker_gray"
-                            android:src="@drawable/ic_arrow_down" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_faq_2_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        android:paddingTop="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="• Lorem ipsum"
-                            android:paddingTop="4dp"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-                </LinearLayout>
             </LinearLayout>
 
 

@@ -39,8 +39,8 @@
         android:label="Detail Trip"
         tools:layout="@layout/fragment_cust_detail_trip">
         <argument
-            android:name="trip"
-            app:argType="com.entsh104.highking.ui.model.Trip" />
+            android:name="tripId"
+            app:argType="string" />
         <action
             android:id="@+id/action_nav_detailTrip_to_cartFragment"
             app:destination="@id/nav_cart" />

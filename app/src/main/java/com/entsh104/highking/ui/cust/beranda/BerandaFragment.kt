@@ -17,8 +17,10 @@ import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustBerandaBinding
 import com.entsh104.highking.ui.adapters.BannerAdapter
 import com.entsh104.highking.ui.adapters.MountainAdapter
+import com.entsh104.highking.ui.adapters.TripsAdapter
 import com.entsh104.highking.ui.model.Banner
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class BerandaFragment : Fragment() {
@@ -53,7 +55,7 @@ class BerandaFragment : Fragment() {
             findNavController().navigate(R.id.action_home_to_listTrip, null, NavOptionsUtil.defaultNavOptions)
         }
 
-        fetchMountains()
+        fetchData()
     }
 
     private fun setupRecyclerViews() {
@@ -67,22 +69,41 @@ class BerandaFragment : Fragment() {
         binding.recyclerViewBanner.adapter = bannerAdapter
     }
 
-    private fun fetchMountains() {
+    private fun fetchData() {
         // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
-            val result = userRepository.getMountains()
-            if (result.isSuccess) {
-                val mountains = result.getOrNull() ?: emptyList()
-                val mountainsAdapter = MountainAdapter(mountains, true)
-                binding.recyclerViewMountains.adapter = mountainsAdapter
-            } else {
-                Toast.makeText(requireContext(), "Failed to load mountains", Toast.LENGTH_SHORT).show()
-            }
+            val fetchMountainsDeferred = async { fetchMountains() }
+            val fetchOpenTripsDeferred = async { fetchOpenTrips() }
+
+            fetchMountainsDeferred.await()
+            fetchOpenTripsDeferred.await()
 
             // Hide ProgressBar
             binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    private suspend fun fetchMountains() {
+        val result = userRepository.getMountains()
+        if (result.isSuccess) {
+            val mountains = result.getOrNull() ?: emptyList()
+            val mountainsAdapter = MountainAdapter(mountains, true)
+            binding.recyclerViewMountains.adapter = mountainsAdapter
+        } else {
+            Toast.makeText(requireContext(), "Failed to load mountains", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private suspend fun fetchOpenTrips() {
+        val result = userRepository.getOpenTrips()
+        if (result.isSuccess) {
+            val openTrips = result.getOrNull()?.data ?: emptyList()
+            val tripsAdapter = TripsAdapter(openTrips, true)
+            binding.recyclerViewTrips.adapter = tripsAdapter
+        } else {
+            Toast.makeText(requireContext(), "Failed to load open trips", Toast.LENGTH_SHORT).show()
         }
     }
 

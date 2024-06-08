@@ -17,11 +17,12 @@ import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustDetailMountainBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
-import com.entsh104.highking.ui.model.Trip
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.data.model.MountainDetailResponse
+import com.entsh104.highking.data.model.OpenTrip
 
 class DetailMountainFragment : Fragment() {
 
@@ -46,68 +47,80 @@ class DetailMountainFragment : Fragment() {
         val prefs = SharedPreferencesManager(requireContext())
         userRepository = UserRepository(RetrofitClient.instance, prefs)
 
-        fetchMountainDetail(mountainId)
+        fetchData(mountainId)
     }
 
-    private fun fetchMountainDetail(mountainId: String) {
+    private fun fetchData(mountainId: String) {
         // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
-            val result = userRepository.getMountainById(mountainId)
-            if (result.isSuccess) {
-                val mountain = result.getOrNull()
-                mountain?.let {
-                    Glide.with(this@DetailMountainFragment).load(it.imageUrl).into(binding.imageViewMountain)
-                    binding.textViewCityName.text = it.province
-                    binding.textViewMountainName.text = it.name
-                    binding.textViewElevation.text = "${it.height} MDPL"
-                    binding.textViewDescription.text = it.description
-                    binding.textViewWeather.text = "Cuaca Hari ini"
-                    binding.textViewWeatherDetail.text = it.weather.cuaca
-                    binding.textViewTemperatureLabel.text = "Suhu Derajat"
-                    binding.textViewTemperature.text = "${it.weather.temperature} Celcius"
-                    binding.textViewFeeLabel.text = "Harga Masuk"
-                    binding.textViewTicketPrice.text = "Rp ${it.harga}"
-                    binding.tvSimilarTripsHeader.text = "Trip di ${it.name}"
+            val fetchMountainDetailDeferred = async { fetchMountainDetail(mountainId) }
+            val fetchTripsDeferred = async { fetchTripsForMountain(mountainId) }
 
-                    // Handle "baca selengkapnya" click
-                    binding.tvReadMore.setOnClickListener {
-                        // Logic to expand description
-                    }
-
-                    val similarTripsAdapter = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
-                    binding.rvSimilarTrips.layoutManager = similarTripsAdapter
-
-                    val tripsAdapter = TripsAdapter(getTripsData(), true)
-                    binding.rvSimilarTrips.adapter = tripsAdapter
-
-                    // Handle search trips button click
-                    binding.fabSearchTrips.setOnClickListener {
-                        findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
-                    }
-
-                    binding.tvSeeAllTrips.setOnClickListener {
-                        findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
-                    }
-
-                    // Share information
-                    binding.llShareInfo.findViewById<View>(R.id.iv_twitter).setOnClickListener {
-                        mountain?.let { shareInformation("twitter", it) }
-                    }
-                    binding.llShareInfo.findViewById<View>(R.id.iv_facebook).setOnClickListener {
-                        mountain?.let { shareInformation("facebook", it) }
-                    }
-                    binding.llShareInfo.findViewById<View>(R.id.iv_instagram).setOnClickListener {
-                        mountain?.let { shareInformation("instagram", it) }
-                    }
-                }
-            } else {
-                Toast.makeText(requireContext(), "Failed to load mountain details", Toast.LENGTH_SHORT).show()
-            }
+            fetchMountainDetailDeferred.await()
+            fetchTripsDeferred.await()
 
             // Hide ProgressBar
             binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    private suspend fun fetchMountainDetail(mountainId: String) {
+        val result = userRepository.getMountainById(mountainId)
+        if (result.isSuccess) {
+            val mountain = result.getOrNull()
+            mountain?.let {
+                Glide.with(this@DetailMountainFragment).load(it.imageUrl).into(binding.imageViewMountain)
+                binding.textViewCityName.text = it.province
+                binding.textViewMountainName.text = it.name
+                binding.textViewElevation.text = "${it.height} MDPL"
+                binding.textViewDescription.text = it.description
+                binding.textViewWeather.text = "Cuaca Hari ini"
+                binding.textViewWeatherDetail.text = it.weather.cuaca
+                binding.textViewTemperatureLabel.text = "Suhu Derajat"
+                binding.textViewTemperature.text = "${it.weather.temperature} Celcius"
+                binding.textViewFeeLabel.text = "Harga Masuk"
+                binding.textViewTicketPrice.text = "Rp ${it.harga}"
+                binding.tvSimilarTripsHeader.text = "Trip di ${it.name}"
+
+                // Handle "baca selengkapnya" click
+                binding.tvReadMore.setOnClickListener {
+                    // Logic to expand description
+                }
+
+                binding.llShareInfo.findViewById<View>(R.id.iv_twitter).setOnClickListener {
+                    mountain?.let { shareInformation("twitter", it) }
+                }
+                binding.llShareInfo.findViewById<View>(R.id.iv_facebook).setOnClickListener {
+                    mountain?.let { shareInformation("facebook", it) }
+                }
+                binding.llShareInfo.findViewById<View>(R.id.iv_instagram).setOnClickListener {
+                    mountain?.let { shareInformation("instagram", it) }
+                }
+            }
+        } else {
+            Toast.makeText(requireContext(), "Failed to load mountain details", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private suspend fun fetchTripsForMountain(mountainId: String) {
+        val result = userRepository.getOpenTrips()
+        if (result.isSuccess) {
+            val openTrips = result.getOrNull()?.data ?: emptyList()
+            val tripsAdapter = TripsAdapter(openTrips, true)
+            binding.rvSimilarTrips.adapter = tripsAdapter
+
+            // Handle search trips button click
+            binding.fabSearchTrips.setOnClickListener {
+                findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
+            }
+
+            binding.tvSeeAllTrips.setOnClickListener {
+                findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
+            }
+        } else {
+            Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -129,18 +142,6 @@ class DetailMountainFragment : Fragment() {
         } catch (e: Exception) {
             startActivity(Intent.createChooser(shareIntent, "Share via"))
         }
-    }
-
-    private fun getTripsData(): List<Trip> {
-        // Replace with your actual data fetching logic
-        return listOf(
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", false, 24),
-            Trip(R.drawable.iv_trip, "Trip Kencana", "Rinjani", "Rp 150.000", true, 24)
-        )
     }
 
     override fun onDestroyView() {

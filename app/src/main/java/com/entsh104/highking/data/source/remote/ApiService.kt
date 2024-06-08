@@ -2,6 +2,8 @@ import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
 import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.model.MountainsResponse
+import com.entsh104.highking.data.model.OpenTripDetailResponse
+import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.UserApiResponse
@@ -31,5 +33,11 @@ interface ApiService {
 
     @GET("mountains/{id}")
     suspend fun getMountainById(@Path("id") id: String): Response<MountainDetailResponse>
+
+    @GET("open-trips")
+    suspend fun getOpenTrips(): Response<OpenTripResponse>
+
+    @GET("open-trips/{open_trip_uuid}")
+    suspend fun getOpenTripById(@Path("open_trip_uuid") openTripId: String): Response<OpenTripDetailResponse>
 
 }

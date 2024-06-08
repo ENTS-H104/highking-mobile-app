@@ -1,3 +1,4 @@
+// TripsAdapter.kt
 package com.entsh104.highking.ui.adapters
 
 import android.view.LayoutInflater
@@ -7,14 +8,14 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.entsh104.highking.R
-import com.entsh104.highking.ui.model.Trip
+import com.entsh104.highking.data.model.OpenTrip
 import com.entsh104.highking.ui.cust.trip.ListTripFragmentDirections
 import com.entsh104.highking.ui.util.NavOptionsUtil
 
-class TripsAdapter(private val trips: List<Trip>, private val isHorizontal: Boolean = false) :
+class TripsAdapter(private val trips: List<OpenTrip>, private val isHorizontal: Boolean = false) :
     RecyclerView.Adapter<TripsAdapter.TripViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
@@ -39,33 +40,23 @@ class TripsAdapter(private val trips: List<Trip>, private val isHorizontal: Bool
         private val textViewPrice: TextView = itemView.findViewById(R.id.textViewPrice)
         private val textViewCapacity: TextView = itemView.findViewById(R.id.textViewCapacity)
 
-        fun bind(trip: Trip) {
-            imageView.setImageResource(trip.imageResId)
-            textViewTripName.text = trip.name
-            textViewMountainName.text = trip.mountainName
-            textViewPrice.text = trip.price
-            textViewCapacity.text = trip.capacity.toString()
-            buttonLove.setImageResource(
-                if (trip.isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
-            )
-            buttonLove.setOnClickListener {
-                // Handle love button click
-                trip.isLoved = !trip.isLoved
-                buttonLove.setImageResource(
-                    if (trip.isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
-                )
-            }
+        fun bind(trip: OpenTrip) {
+            Glide.with(itemView.context).load(trip.image_url).into(imageView)
+            textViewTripName.text = trip.open_trip_name
+            textViewMountainName.text = trip.mountain_data.joinToString(", ") { it.name }
+            textViewPrice.text = "Rp ${trip.price}"
+            textViewCapacity.text = "${trip.min_people}-${trip.max_people} people"
 
             // Adjust item layout params for horizontal orientation
             if (isHorizontal) {
                 val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
-                layoutParams.width = (itemView.context.resources.displayMetrics.widthPixels / 2) - 24 // Adjust the width to be half of the screen width with margin
+                layoutParams.width = (itemView.context.resources.displayMetrics.widthPixels / 2) - 24
                 itemView.layoutParams = layoutParams
             }
 
             // Set click listener to navigate to detail trip
             itemView.setOnClickListener {
-                val action = ListTripFragmentDirections.actionListTripToDetailTrip(trip)
+                val action = ListTripFragmentDirections.actionListTripToDetailTrip(trip.open_trip_uuid)
                 itemView.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
         }

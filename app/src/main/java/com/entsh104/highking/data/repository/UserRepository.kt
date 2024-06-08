@@ -2,11 +2,14 @@ import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
 import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.model.MountainResponse
+import com.entsh104.highking.data.model.OpenTripDetailResponse
+import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.UserResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
-import com.entsh104.highking.ui.model.Mountain
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class UserRepository(private val apiService: ApiService, private val prefs: SharedPreferencesManager) {
 
@@ -93,6 +96,32 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
                 Result.success(response.body()!!)
             } else {
                 Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getOpenTrips(): Result<OpenTripResponse> = withContext(Dispatchers.IO) {
+        try {
+            val response = apiService.getOpenTrips()
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getOpenTripById(tripId: String): Result<OpenTripDetailResponse> {
+        return try {
+            val response = apiService.getOpenTripById(tripId)
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("Failed to load trip details"))
             }
         } catch (e: Exception) {
             Result.failure(e)
