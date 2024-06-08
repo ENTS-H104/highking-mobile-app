@@ -72,7 +72,7 @@ class DetailTripFragment : Fragment() {
                 Glide.with(this@DetailTripFragment).load(trip.image_url).into(binding.ivTripImage)
                 binding.tvTripName.text = trip.open_trip_name
                 binding.tvTripPrice.text = "Rp ${trip.price}"
-                binding.tvTripAvailability.text = "${trip.min_people}-${trip.max_people} people"
+                binding.tvTripAvailability.text = "${trip.min_people}-${trip.max_people}"
                 binding.tvTripLocation.text = trip.mountain_data.joinToString(", ") { mountain -> mountain.name }
                 binding.tvTripDescription.text = trip.description
 

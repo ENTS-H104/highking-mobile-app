@@ -45,7 +45,7 @@ class TripsAdapter(private val trips: List<OpenTrip>, private val isHorizontal: 
             textViewTripName.text = trip.open_trip_name
             textViewMountainName.text = trip.mountain_data.joinToString(", ") { it.name }
             textViewPrice.text = "Rp ${trip.price}"
-            textViewCapacity.text = "${trip.min_people}-${trip.max_people} people"
+            textViewCapacity.text = "${trip.min_people}-${trip.max_people}"
 
             // Adjust item layout params for horizontal orientation
             if (isHorizontal) {
