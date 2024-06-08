@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/login_title"
         android:layout_marginTop="16dp"
-        android:hint="@string/enter_username"
+        android:hint="@string/enter_email"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:boxBackgroundMode="outline"
         app:boxCornerRadiusTopStart="8dp"
@@ -57,7 +57,7 @@
         app:boxCornerRadiusBottomEnd="8dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username_input"
+            android:id="@+id/et_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
@@ -80,7 +80,7 @@
         app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password_input"
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"

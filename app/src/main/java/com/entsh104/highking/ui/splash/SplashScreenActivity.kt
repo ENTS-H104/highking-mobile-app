@@ -7,23 +7,29 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
+import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.databinding.ActivitySplashScreenBinding
 import com.entsh104.highking.ui.auth.AuthActivity
+import com.entsh104.highking.ui.cust.CustActivity
 
 
 class SplashScreenActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivitySplashScreenBinding
+    private lateinit var prefs: SharedPreferencesManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySplashScreenBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_splash_screen)
 
-        Looper.myLooper()?.let {
-            Handler(it).postDelayed({
+        prefs = SharedPreferencesManager(this)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (prefs.getToken() != null) {
+                startActivity(Intent(this, CustActivity::class.java))
+            } else {
                 startActivity(Intent(this, AuthActivity::class.java))
-                finish()
-            }, 2000)
-        }
+            }
+            finish()
+        }, 2000)
     }
 }
