@@ -2,6 +2,7 @@ import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
 import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.TokenResponse
+import com.entsh104.highking.data.model.UserApiResponse
 import com.entsh104.highking.data.model.UserResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -17,7 +18,7 @@ interface ApiService {
     suspend fun registerUser(@Body request: RegisterRequest): Response<BasicResponse>
 
     @GET("users/get-current-user")
-    suspend fun getCurrentUser(@Header("Authorization") token: String): Response<UserResponse>
+    suspend fun getCurrentUser(@Header("Authorization") token: String): Response<UserApiResponse>
 
     @GET("users/logout")
     suspend fun logoutUser(@Header("Authorization") token: String): Response<BasicResponse>

@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ui.cust.profile.ProfileFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="visible" />
+
     <ScrollView
+        android:id="@+id/scrollViewContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,16 +133,17 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:paddingHorizontal="16dp"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Nama"
+                            android:text="Username"
                             android:textSize="14sp"
                             android:textColor="@android:color/darker_gray" />
 
                         <TextView
+                            android:id="@+id/textViewName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="HighKing"
@@ -149,6 +159,7 @@
                             android:textColor="@android:color/darker_gray" />
 
                         <TextView
+                            android:id="@+id/textViewEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="highking@gmail.com"
@@ -164,6 +175,7 @@
                             android:textColor="@android:color/darker_gray" />
 
                         <TextView
+                            android:id="@+id/textViewPhone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="(+62) XXX-XXXX-XXXX"

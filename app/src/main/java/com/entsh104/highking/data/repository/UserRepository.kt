@@ -33,16 +33,26 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
         }
     }
 
-    suspend fun getCurrentUser(token: String): Result<UserResponse> {
-        return try {
-            val response = apiService.getCurrentUser("Bearer $token")
-            if (response.isSuccessful) {
-                Result.success(response.body()!!)
-            } else {
-                Result.failure(Exception(response.message()))
+    suspend fun getCurrentUser(): Result<UserResponse> {
+        val token = prefs.getToken()
+        return if (token != null) {
+            try {
+                val response = apiService.getCurrentUser("Bearer $token")
+                if (response.isSuccessful) {
+                    val userApiResponse = response.body()
+                    if (userApiResponse != null && userApiResponse.data.isNotEmpty()) {
+                        Result.success(userApiResponse.data[0])
+                    } else {
+                        Result.failure(Exception("No user data found"))
+                    }
+                } else {
+                    Result.failure(Exception(response.message()))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
             }
-        } catch (e: Exception) {
-            Result.failure(e)
+        } else {
+            Result.failure(Exception("Token not found"))
         }
     }
 

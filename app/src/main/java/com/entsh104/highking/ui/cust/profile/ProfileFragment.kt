@@ -1,18 +1,26 @@
 package com.entsh104.highking.ui.cust.profile
 
+import UserRepository
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.entsh104.highking.R
+import com.entsh104.highking.data.source.local.SharedPreferencesManager
+import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustProfileBinding
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentCustProfileBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userRepository: UserRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,12 +33,42 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val prefs = SharedPreferencesManager(requireContext())
+        userRepository = UserRepository(RetrofitClient.instance, prefs)
+
         binding.llheaderInfoAkun.setOnClickListener {
             toggleSection(binding.contentInfoAkun, binding.arrowInfoAkun)
         }
 
         binding.headerSettings.setOnClickListener {
             toggleSection(binding.contentSettings, binding.arrowSettings)
+        }
+
+        fetchUserProfile()
+    }
+
+    private fun fetchUserProfile() {
+        lifecycleScope.launch {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.scrollViewContent.visibility = View.GONE
+
+            val result = userRepository.getCurrentUser()
+            if (result.isSuccess) {
+                val user = result.getOrNull()
+                user?.let {
+                    Log.d("ProfileFragment", "User: $it")
+                    binding.textViewUsername.text = "@" + it.username
+                    binding.textViewName.text = it.username
+                    binding.textViewEmail.text = it.email
+                    binding.textViewPhone.text = it.phone_number
+
+                    binding.progressBar.visibility = View.GONE
+                    binding.scrollViewContent.visibility = View.VISIBLE
+                }
+            } else {
+                Toast.makeText(requireContext(), "Failed to load profile", Toast.LENGTH_SHORT).show()
+                binding.progressBar.visibility = View.GONE
+            }
         }
     }
 
