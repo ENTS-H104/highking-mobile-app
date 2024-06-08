@@ -59,5 +59,9 @@
         android:id="@+id/verificationFragment"
         android:name="com.entsh104.highking.ui.auth.registerverification.VerificationFragment"
         android:label="fragment_auth_register_verification"
-        tools:layout="@layout/fragment_auth_register_verification" />
+        tools:layout="@layout/fragment_auth_register_verification" >
+        <action
+            android:id="@+id/action_verificationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

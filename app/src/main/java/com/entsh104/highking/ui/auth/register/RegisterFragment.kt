@@ -50,8 +50,7 @@ class RegisterFragment : Fragment() {
                 lifecycleScope.launch {
                     val result = userRepository.registerUser(email, username, phone_number, password)
                     if (result.isSuccess) {
-                        Toast.makeText(requireContext(), "Registration successful. Please check your email to verify.", Toast.LENGTH_LONG).show()
-                        findNavController().navigate(R.id.action_registerFragment_to_loginFragment, null, NavOptionsUtil.defaultNavOptions)
+                        findNavController().navigate(R.id.action_registerFragment_to_verificationFragment, null, NavOptionsUtil.defaultNavOptions)
                     } else {
                         Toast.makeText(requireContext(), "Registration failed", Toast.LENGTH_SHORT).show()
                     }

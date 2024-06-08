@@ -69,7 +69,7 @@
         <Button
             style="@style/Widget.Material3.Button.Icon"
             app:iconSize="24dp"
-            app:icon="@drawable/ic_navigate_next_24"
+            app:icon="@drawable/ic_login"
             app:iconGravity="textEnd"
             android:paddingEnd="14dp"
             android:id="@+id/login_button"
