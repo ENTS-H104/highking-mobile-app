@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.entsh104.highking.R
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
@@ -34,11 +35,16 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = SharedPreferencesManager(requireContext())
-            RetrofitClient.createInstance(requireContext()) 
-    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
+        RetrofitClient.createInstance(requireContext())  // Suspicious indentation: This is indented but is not continuing the previous expression (val prefs = SharedPr...) (Previous statement here
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         binding.llheaderInfoAkun.setOnClickListener {
             toggleSection(binding.contentInfoAkun, binding.arrowInfoAkun)
+        }
+
+        binding.btnLogout.setOnClickListener {
+//            val logout = userRepository.logoutUser()
+            Log.d("LOGOUT", "LOGOUT CLICKED")
         }
 
         binding.headerSettings.setOnClickListener {
@@ -62,12 +68,14 @@ class ProfileFragment : Fragment() {
                     binding.textViewName.text = it.username
                     binding.textViewEmail.text = it.email
                     binding.textViewPhone.text = it.phone_number
-
+                    Glide.with(this@ProfileFragment).load("${it.image_url}")
+                        .into(binding.imageViewProfile)
                     binding.progressBar.visibility = View.GONE
                     binding.scrollViewContent.visibility = View.VISIBLE
                 }
             } else {
-                Toast.makeText(requireContext(), "Failed to load profile", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to load profile", Toast.LENGTH_SHORT)
+                    .show()
                 binding.progressBar.visibility = View.GONE
             }
         }
