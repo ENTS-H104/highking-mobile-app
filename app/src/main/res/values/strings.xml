@@ -40,4 +40,5 @@
     <string name="cari">Cari</string>
     <string name="pencarian">Telusuri</string>
     <string name="enter_email">Enter Email</string>
+    <string name="no_item">Tidak ada data</string>
 </resources>
