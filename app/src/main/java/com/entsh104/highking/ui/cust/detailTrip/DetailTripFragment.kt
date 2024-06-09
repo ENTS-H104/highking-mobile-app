@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TripFilter
+import java.text.NumberFormat
 
 class DetailTripFragment : Fragment() {
 
@@ -72,8 +73,11 @@ class DetailTripFragment : Fragment() {
             val tripList = result.getOrNull()?.data
             tripList?.firstOrNull()?.let { trip ->
                 Glide.with(this@DetailTripFragment).load(trip.image_url).into(binding.ivTripImage)
+                var mPrice = trip.price
+                val mCurrencyFormat  = NumberFormat.getCurrencyInstance()
+                val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
                 binding.tvTripName.text = trip.open_trip_name
-                binding.tvTripPrice.text = "Rp ${trip.price}"
+                binding.tvTripPrice.text = "Rp ${myFormattedPrice}"
                 binding.tvTripAvailability.text = "${trip.min_people}-${trip.max_people}"
                 binding.tvTripLocation.text = trip.mountain_data.joinToString(", ") { mountain -> mountain.name }
                 binding.tvTripDescription.text = trip.description
