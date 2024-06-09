@@ -18,6 +18,10 @@ import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.databinding.FragmentCustMitraProfileDetailsBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
 import kotlinx.coroutines.launch
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class DetailsFragment : Fragment() {
 
@@ -75,7 +79,11 @@ class DetailsFragment : Fragment() {
             if (result.isSuccess) {
                 val mitraProfileResponse = result.getOrNull()
                 mitraProfileResponse?.data?.firstOrNull()?.let { mitraProfile ->
-                    binding.textViewJoinDate.text = mitraProfile.updated_at
+                    val dateString = mitraProfile.created_at
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                    val date: Date? = dateFormat.parse(dateString)
+                    val myFormattedDate = date?.let { DateFormat.getDateInstance().format(it) }
+                    binding.textViewJoinDate.text = myFormattedDate
                     binding.textViewDescription.text = mitraProfile.domicile_address
                 } ?: run {
                     Toast.makeText(requireContext(), "Mitra profile not found", Toast.LENGTH_SHORT).show()
