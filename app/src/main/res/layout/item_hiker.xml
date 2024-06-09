@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/custom_bg_white_rounded_sm"
+    android:paddingVertical="10dp"
+    android:paddingHorizontal="16dp"
+    android:layout_marginBottom="8dp">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_pendaki"
+        app:tint="@color/black" />
+
+    <TextView
+        android:id="@+id/tvHikerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Pendaki"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_navigate_next_24"
+        android:tint="@color/dark_grey" />
+</LinearLayout>

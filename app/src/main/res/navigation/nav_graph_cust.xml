@@ -1,0 +1,173 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_cust"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.entsh104.highking.ui.cust.beranda.BerandaFragment"
+        android:label="Welcome Back!"
+        tools:layout="@layout/fragment_cust_beranda">
+        <action
+            android:id="@+id/action_home_to_listTrip"
+            app:destination="@id/nav_listTrip" />
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+        <action
+            android:id="@+id/action_home_to_listMountain"
+            app:destination="@id/nav_listMountain" />
+        <action
+            android:id="@+id/action_listMountain_to_detailMountain"
+            app:destination="@id/nav_detailMountain" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_listTrip"
+        android:name="com.entsh104.highking.ui.cust.trip.ListTripFragment"
+        android:label="List Trip"
+        tools:layout="@layout/fragment_cust_list_trip">
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+        <argument
+            android:name="searchResults"
+            app:argType="com.entsh104.highking.data.model.TripFilter[]"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_detailTrip"
+        android:name="com.entsh104.highking.ui.cust.detailTrip.DetailTripFragment"
+        android:label="Detail Trip"
+        tools:layout="@layout/fragment_cust_detail_trip">
+        <argument
+            android:name="tripId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nav_detailTrip_to_cartFragment"
+            app:destination="@id/nav_cart" />
+        <action
+            android:id="@+id/action_nav_detailTrip_to_profileMitraFragment"
+            app:destination="@id/profileMitraFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.entsh104.highking.ui.cust.chat.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_cust_chat" >
+        <action
+            android:id="@+id/action_nav_chat_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_orders"
+        android:name="com.entsh104.highking.ui.cust.ticket.TicketFragment"
+        android:label="Orders"
+        tools:layout="@layout/fragment_cust_ticket" >
+        <action
+            android:id="@+id/action_nav_orders_to_orderDetailsFragment"
+            app:destination="@id/orderDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.entsh104.highking.ui.cust.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_cust_profile" />
+
+    <fragment
+        android:id="@+id/nav_listMountain"
+        android:name="com.entsh104.highking.ui.cust.mountain.ListMountainFragment"
+        android:label="List Mountain"
+        tools:layout="@layout/fragment_cust_list_mountain" >
+        <action
+            android:id="@+id/action_listMountain_to_detailMountain"
+            app:destination="@id/nav_detailMountain" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_detailMountain"
+        android:name="com.entsh104.highking.ui.cust.detailMountain.DetailMountainFragment"
+        android:label="Detail Mountain"
+        tools:layout="@layout/fragment_cust_detail_mountain">
+        <argument
+            android:name="mountainId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nav_detailMountain_to_nav_listTrip"
+            app:destination="@id/nav_listTrip" />
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.entsh104.highking.ui.cust.cart.CartFragment"
+        android:label="Checkout"
+        tools:layout="@layout/fragment_cust_cart">
+        <action
+            android:id="@+id/action_nav_cart_to_confirmationCheckoutFragment"
+            app:destination="@id/nav_confirmation_accepted" />
+        <argument
+            android:name="trip"
+            app:argType="com.entsh104.highking.data.model.TripFilter" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_confirmation_accepted"
+        android:name="com.entsh104.highking.ui.cust.status.ConfirmationCheckoutFragment"
+        android:label="Status"
+        tools:layout="@layout/fragment_cust_confirmation_checkout" >
+        <action
+            android:id="@+id/action_nav_confirmation_accepted_to_nav_orders"
+            app:destination="@id/nav_orders" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.entsh104.highking.ui.cust.filter.FilterFragment"
+        android:label="Pencarian"
+        tools:layout="@layout/fragment_cust_filter" >
+        <action
+            android:id="@+id/action_nav_search_to_nav_listTrip"
+            app:destination="@id/nav_listTrip" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.entsh104.highking.ui.cust.chatroom.ChatRoomFragment"
+        android:label="ChatRoom"
+        tools:layout="@layout/fragment_cust_chatroom" />
+    <fragment
+        android:id="@+id/orderDetailsFragment"
+        android:name="com.entsh104.highking.ui.cust.order.OrderDetailsFragment"
+        android:label="Detail Orders"
+        tools:layout="@layout/fragment_cust_order_details" >
+        <action
+            android:id="@+id/action_orderDetailsFragment_to_nav_orders"
+            app:destination="@id/nav_orders" />
+        <argument
+            android:name="transaction_logs_uuid"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileMitraFragment"
+        android:name="com.entsh104.highking.ui.cust.mitra.ProfileMitraFragment"
+        android:label="Profile Mitra"
+        tools:layout="@layout/fragment_cust_mitra_profile" >
+        <action
+            android:id="@+id/action_profileMitraFragment_to_fragmentCustReview"
+            app:destination="@id/fragmentCustReview" />
+        <argument
+            android:name="mitraId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCustReview"
+        android:name="com.entsh104.highking.ui.cust.review.FragmentCustReview"
+        android:label="Ulasan"
+        tools:layout="@layout/fragment_cust_review" />
+</navigation>

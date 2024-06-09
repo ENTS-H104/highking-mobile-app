@@ -1,0 +1,422 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.cust.cart.CartFragment">
+
+    <!-- ScrollView to hold the content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="18dp">
+
+            <!-- Trip Image and Info -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/ll_trip_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:cardCornerRadius="8dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="12dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardViewTrip"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:cardCornerRadius="8dp">
+                        <ImageView
+                            android:id="@+id/imageViewTrip"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/iv_trip"
+                            android:scaleType="centerCrop" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/tvTripName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Trip Kencana"
+                            android:textSize="16sp"
+                            android:layout_marginBottom="-4dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvTripLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rinjani"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DD/MM/YYYY"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvTripPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 150.000"
+                        android:layout_marginEnd="8dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green_primary" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Quantity Dropdown -->
+            <LinearLayout
+                android:id="@+id/ll_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="end"
+                app:layout_constraintTop_toBottomOf="@id/ll_trip_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QUANTITY"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_gravity="center_vertical"/>
+
+                <Spinner
+                    android:id="@+id/spinner_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/quantity_array"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
+            <!-- Important Info -->
+            <LinearLayout
+                android:id="@+id/ll_important_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll_quantity">
+
+                <!-- Divider view -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginVertical="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Penting Untuk Diketahui"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Harus Reservasi"
+                        android:drawablePadding="8dp"
+                        android:paddingVertical="6dp"
+                        android:paddingHorizontal="16dp"
+                        android:background="@drawable/custom_bg_badge_green"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="4dp"
+                        app:drawableTint="@color/white"
+                        app:drawableStartCompat="@drawable/ic_reservasi" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tidak Bisa Refund"
+                        android:drawablePadding="8dp"
+                        android:paddingVertical="6dp"
+                        android:paddingHorizontal="16dp"
+                        android:background="@drawable/custom_bg_badge_green"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="8dp"
+                        app:drawableStartCompat="@drawable/ic_slash"
+                        app:drawableTint="@color/white" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tidak Bisa Reschedule"
+                    android:drawablePadding="8dp"
+                    android:layout_marginTop="4dp"
+                    android:paddingVertical="6dp"
+                    android:paddingHorizontal="16dp"
+                    android:background="@drawable/custom_bg_badge_green"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    app:drawableStartCompat="@drawable/ic_repeat"
+                    app:drawableTint="@color/white" />
+            </LinearLayout>
+
+            <!-- Hiker Data -->
+            <LinearLayout
+                android:id="@+id/ll_hiker_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toBottomOf="@id/ll_important_info"
+                >
+
+                <!-- Divider view -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginVertical="10dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Data Diri Pendaki"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_hiker_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <!-- Payment Method -->
+            <LinearLayout
+                android:id="@+id/ll_payment_method"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll_hiker_data"
+                >
+
+                <!-- Divider view -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Metode Pembayaran"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/tv_payment_method"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Gopay"
+                    android:textColor="@android:color/holo_blue_dark"/>
+
+                <ImageView
+                    android:id="@+id/iv_payment_method"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_navigate_next_24"
+                    app:tint="@color/dark_grey"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Discount Code -->
+            <LinearLayout
+                android:id="@+id/ll_discount_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll_payment_method"
+                >
+
+                <!-- Divider view -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginVertical="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    >
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginTop="2dp"
+                        android:text="Punya Kode Diskon?"/>
+
+                    <ImageView
+                        android:id="@+id/iv_discount_code"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/ic_navigate_next_24"
+                        app:tint="@color/dark_grey"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_total_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll_discount_code">
+
+                <!-- Divider view -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey"
+                    android:layout_marginVertical="16dp" />
+
+                <!-- Total Tiket -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total Tiket"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tvTotalTiket"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 300.000"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- Biaya Admin -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Biaya Admin"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Free"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- Total Tagihan -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total Tagihan"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/tvTotalTagihan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 300.000"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/green_primary"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Checkout Button -->
+    <Button
+        android:id="@+id/btn_checkout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="Checkout"
+        android:textColor="@android:color/white"
+        android:layout_marginHorizontal="18dp"
+        android:background="@drawable/iv_rounded_button"
+        android:layout_marginBottom="8dp"
+        />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
