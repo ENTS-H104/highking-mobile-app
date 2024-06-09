@@ -10,26 +10,20 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.entsh104.highking.ui.cust.filter.FilterFragmentDirections
+import kotlinx.coroutines.launch
 import java.util.*
 
 class FilterFragment : Fragment() {
-
-    private val mountainList = listOf(
-        "Semeru", "Rinjani", "Kerinci", "Merbabu", "Slamet", "Gede", "Lawu", "Merapi", "Pangrango",
-        "Sindoro", "Arjuno", "Welirang", "Sumbing", "Raung", "Agung", "Batur", "Bromo", "Ijen",
-        "Papandayan", "Tambora", "Soputan", "Lokon", "Bambapuang", "Gamalama", "Krakatau",
-        "Kelimutu", "Bukit Raya", "Mutis", "Cartenz", "Salak", "Dempo", "Sinabung", "Leuser",
-        "Dieng", "Talakmau", "Halimun", "Burangrang", "Guntur", "Ciremai", "Latimojong", "Semeru",
-        "Palung", "Lewotobi", "Inerie", "Besar", "Seulawah Agam", "Hutapanjang", "Butak",
-        "Karangetang", "Tambora"
-    )
-
     private lateinit var actvLocation: AutoCompleteTextView
     private lateinit var tvDate: TextView
     private lateinit var btnSearch: Button
+    private val mountainList = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +37,7 @@ class FilterFragment : Fragment() {
         setupAutoCompleteTextView()
         setupDatePicker()
         setupSearchButton()
-
+        fetchMountains()
         return view
     }
 
@@ -73,7 +67,7 @@ class FilterFragment : Fragment() {
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
             val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
-                val formattedDate = String.format("%02d/%02d/%04d", selectedDay, selectedMonth + 1, selectedYear)
+                val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
                 tvDate.text = formattedDate
             }, year, month, day)
 
@@ -96,7 +90,34 @@ class FilterFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            findNavController().navigate(R.id.action_nav_search_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
+            performSearch(selectedMountain, selectedDate)
+        }
+    }
+
+    private fun fetchMountains() {
+        lifecycleScope.launch {
+            val apiService = RetrofitClient.getInstance()
+            val response = apiService.getMountains()
+            if (response.isSuccessful && response.body() != null) {
+                response.body()?.data?.forEach {
+                    mountainList.add(it.name)
+                }
+                setupAutoCompleteTextView()
+            }
+        }
+    }
+
+    private fun performSearch(mountainName: String, date: String) {
+        lifecycleScope.launch {
+            val apiService = RetrofitClient.getInstance()
+            val response = apiService.searchOpenTrip(mountainName, date)
+            if (response.isSuccessful && response.body() != null) {
+                val searchResults = response.body()?.data
+                val action = FilterFragmentDirections.actionNavSearchToNavListTrip(
+                    searchResults?.toTypedArray() ?: emptyArray()
+                )
+                findNavController().navigate(action)
+            }
         }
     }
 }

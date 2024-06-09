@@ -45,7 +45,8 @@ class DetailTripFragment : Fragment() {
         val tripId = args.tripId
 
         val prefs = SharedPreferencesManager(requireContext())
-        userRepository = UserRepository(RetrofitClient.instance, prefs)
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         fetchData(tripId)
     }

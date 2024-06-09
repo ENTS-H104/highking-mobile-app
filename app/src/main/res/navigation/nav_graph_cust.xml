@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_listTrip_to_detailTrip"
             app:destination="@id/nav_detailTrip" />
+        <argument
+            android:name="searchResults"
+            app:argType="com.entsh104.highking.data.model.TripFilter[]"/>
     </fragment>
 
     <fragment

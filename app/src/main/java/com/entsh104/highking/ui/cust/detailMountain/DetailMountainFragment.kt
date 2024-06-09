@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
@@ -22,7 +21,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.data.model.MountainDetailResponse
-import com.entsh104.highking.data.model.OpenTrip
 
 class DetailMountainFragment : Fragment() {
 
@@ -45,7 +43,8 @@ class DetailMountainFragment : Fragment() {
         val mountainId = args.mountainId
 
         val prefs = SharedPreferencesManager(requireContext())
-        userRepository = UserRepository(RetrofitClient.instance, prefs)
+            RetrofitClient.createInstance(requireContext()) 
+    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         fetchData(mountainId)
     }

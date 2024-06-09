@@ -41,7 +41,8 @@ class BerandaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = SharedPreferencesManager(requireContext())
-        userRepository = UserRepository(RetrofitClient.instance, prefs)
+            RetrofitClient.createInstance(requireContext()) 
+    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         setupRecyclerViews()
 

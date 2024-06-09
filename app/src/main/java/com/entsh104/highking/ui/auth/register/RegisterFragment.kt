@@ -33,7 +33,8 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        userRepository = UserRepository(RetrofitClient.instance, SharedPreferencesManager(requireContext()))
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), SharedPreferencesManager(requireContext()))
 
         binding.registerButton.setOnClickListener {
             val username = binding.usernameInput.text.toString().trim()

@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.entsh104.highking.R
+import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustListTripBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
-import kotlinx.coroutines.launch
 
 class ListTripFragment : Fragment() {
 
@@ -34,32 +31,22 @@ class ListTripFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = SharedPreferencesManager(requireContext())
-        userRepository = UserRepository(RetrofitClient.instance, prefs)
+            RetrofitClient.createInstance(requireContext()) 
+    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         val gridLayoutManager = GridLayoutManager(context, 2)
         binding.recyclerViewTrips.layoutManager = gridLayoutManager
         binding.recyclerViewTrips.addItemDecoration(GridSpacingItemDecoration(2, 1, true))
 
-        fetchOpenTrips()
+        arguments?.let {
+            val searchResults = ListTripFragmentArgs.fromBundle(it).searchResults
+            displayTrips(searchResults.toList())
+        }
     }
 
-    private fun fetchOpenTrips() {
-        // Show ProgressBar
-        binding.progressBar.visibility = View.VISIBLE
-
-        lifecycleScope.launch {
-            val result = userRepository.getOpenTrips()
-            if (result.isSuccess) {
-                val openTrips = result.getOrNull()?.data ?: emptyList()
-                val tripsAdapter = TripsAdapter(openTrips)
-                binding.recyclerViewTrips.adapter = tripsAdapter
-            } else {
-                Toast.makeText(requireContext(), "Failed to load open trips", Toast.LENGTH_SHORT).show()
-            }
-
-            // Hide ProgressBar
-            binding.progressBar.visibility = View.GONE
-        }
+    private fun displayTrips(trips: List<TripFilter>) {
+        val tripsAdapter = TripsAdapter(trips)
+        binding.recyclerViewTrips.adapter = tripsAdapter
     }
 
     override fun onDestroyView() {

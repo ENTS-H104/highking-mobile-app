@@ -11,11 +11,11 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
-import com.entsh104.highking.data.model.OpenTrip
+import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.ui.cust.trip.ListTripFragmentDirections
 import com.entsh104.highking.ui.util.NavOptionsUtil
 
-class TripsAdapter(private val trips: List<OpenTrip>, private val isHorizontal: Boolean = false) :
+class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal: Boolean = false) :
     RecyclerView.Adapter<TripsAdapter.TripViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
@@ -40,12 +40,12 @@ class TripsAdapter(private val trips: List<OpenTrip>, private val isHorizontal: 
         private val textViewPrice: TextView = itemView.findViewById(R.id.textViewPrice)
         private val textViewCapacity: TextView = itemView.findViewById(R.id.textViewCapacity)
 
-        fun bind(trip: OpenTrip) {
+        fun bind(trip: TripFilter) {
             Glide.with(itemView.context).load(trip.image_url).into(imageView)
-            textViewTripName.text = trip.open_trip_name
-            textViewMountainName.text = trip.mountain_data.joinToString(", ") { it.name }
+            textViewTripName.text = trip.name
+            textViewMountainName.text = trip.mountain_name
             textViewPrice.text = "Rp ${trip.price}"
-            textViewCapacity.text = "${trip.min_people}-${trip.max_people}"
+            textViewCapacity.text = "${trip.total_participants} Orang"
 
             // Adjust item layout params for horizontal orientation
             if (isHorizontal) {

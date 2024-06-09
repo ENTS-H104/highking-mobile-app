@@ -5,6 +5,7 @@ import com.entsh104.highking.data.model.MountainsResponse
 import com.entsh104.highking.data.model.OpenTripDetailResponse
 import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
+import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.UserApiResponse
 import com.entsh104.highking.data.model.UserResponse
@@ -14,6 +15,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     @POST("users/login")
@@ -39,5 +41,11 @@ interface ApiService {
 
     @GET("open-trips/{open_trip_uuid}")
     suspend fun getOpenTripById(@Path("open_trip_uuid") openTripId: String): Response<OpenTripDetailResponse>
+
+    @GET("search-ot")
+    suspend fun searchOpenTrip(
+        @Query("id") mountainId: String,
+        @Query("date") date: String
+    ): Response<SearchOpenTripResponse>
 
 }

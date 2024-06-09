@@ -1,4 +1,6 @@
 package com.entsh104.highking.data.model
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import com.entsh104.highking.ui.model.Mountain
 import com.google.gson.annotations.SerializedName
 
@@ -71,18 +73,21 @@ data class Weather(
 data class OpenTripResponse(
     val status: Int,
     val message: String,
-    val data: List<OpenTrip>
+    val data: List<TripFilter>
 )
 
-data class OpenTrip(
+@Parcelize
+data class TripFilter(
     val open_trip_uuid: String,
-    val open_trip_name: String,
+    val name: String,
     val image_url: String,
-    val price: Int,
-    val min_people: Int,
-    val max_people: Int,
-    val mountain_data: List<MountainData>
-)
+    val price: Double,
+    val mountain_name: String,
+    val mountain_uuid: String,
+    val total_participants: String?,
+    val min_people: Int?,
+    val max_people: Int?
+) : Parcelable
 
 
 data class OpenTripDetailResponse(
@@ -139,4 +144,10 @@ data class RundownData(
 
 data class FaqData(
     val description: String
+)
+
+data class SearchOpenTripResponse(
+    val status: Int,
+    val message: String,
+    val data: List<TripFilter>
 )
