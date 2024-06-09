@@ -1,6 +1,7 @@
 // TripsAdapter.kt
 package com.entsh104.highking.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,9 @@ class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal
                 val layoutParams = itemView.layoutParams as ViewGroup.MarginLayoutParams
                 layoutParams.width = (itemView.context.resources.displayMetrics.widthPixels / 2) - 24
                 itemView.layoutParams = layoutParams
+            }
+            buttonLove.setOnClickListener{
+                Log.d("AAA", "CLIKCED LOVE")
             }
 
             // Set click listener to navigate to detail trip
