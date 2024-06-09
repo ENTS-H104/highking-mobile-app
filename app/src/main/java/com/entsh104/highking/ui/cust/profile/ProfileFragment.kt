@@ -1,6 +1,7 @@
 package com.entsh104.highking.ui.cust.profile
 
 import UserRepository
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import com.entsh104.highking.R
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustProfileBinding
+import com.entsh104.highking.ui.auth.AuthActivity
+import com.entsh104.highking.ui.cust.CustActivity
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
@@ -43,8 +46,20 @@ class ProfileFragment : Fragment() {
         }
 
         binding.btnLogout.setOnClickListener {
-//            val logout = userRepository.logoutUser()
-            Log.d("LOGOUT", "LOGOUT CLICKED")
+            val token = prefs.getToken().toString()
+            lifecycleScope.launch {
+                val responseLogout = userRepository.logoutUser(token)
+                if(responseLogout.isSuccess){
+                    Toast.makeText(requireContext(), "Logout Berhasil", Toast.LENGTH_SHORT).show()
+                    prefs.clear()
+                    val intent = Intent(activity, AuthActivity::class.java)
+                    startActivity(intent)
+                    activity?.finish()
+                }else{
+                    Toast.makeText(requireContext(), "Logout failed", Toast.LENGTH_SHORT).show()
+                }
+
+            }
         }
 
         binding.headerSettings.setOnClickListener {
