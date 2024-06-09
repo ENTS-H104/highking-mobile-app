@@ -1,25 +1,36 @@
 package com.entsh104.highking.ui.cust.cart
 
+import UserRepository
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.entsh104.highking.R
+import com.entsh104.highking.data.model.CreateTransactionRequest
+import com.entsh104.highking.data.model.Participant
+import com.entsh104.highking.data.model.TripFilter
+import com.entsh104.highking.data.source.local.SharedPreferencesManager
+import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustCartBinding
 import com.entsh104.highking.ui.util.NavOptionsUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
 
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCustCartBinding? = null
     private val binding get() = _binding!!
+    private val args: CartFragmentArgs by navArgs()
+    private lateinit var trip: TripFilter
+    private lateinit var userRepository: UserRepository
+
+    private val participants = mutableListOf<Participant>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,44 +43,67 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Setup click listeners for buttons and other UI elements
+        trip = args.trip
+
+        // Use the trip data
+        Glide.with(this@CartFragment).load(trip.image_url).into(binding.imageViewTrip)
+        binding.tvTripName.text = trip.name
+        binding.tvTripPrice.text = "Rp ${trip.price}"
+        binding.tvTripLocation.text = trip.mountain_name
+
+        // Initialize the UserRepository
+        val prefs = SharedPreferencesManager(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
+
+        setupQuantitySpinner()
         setupClickListeners()
     }
 
-    private fun setupClickListeners() {
-        binding.btnCheckout.setOnClickListener {
-            findNavController().navigate(R.id.action_nav_cart_to_confirmationCheckoutFragment)
-        }
+    private fun setupQuantitySpinner() {
+        binding.spinnerQuantity.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val quantity = parent.getItemAtPosition(position).toString().toInt()
+                updateHikerItems(quantity)
+                updateTotalCost(quantity)
+            }
 
-        binding.llPaymentMethod.setOnClickListener {
-            // Implement navigation to payment method selection
-        }
-
-        binding.llDiscountCode.setOnClickListener {
-            // Implement navigation to discount code entry
-        }
-
-        binding.llHikerDataItem.setOnClickListener {
-            showHikerInfoDialog()
-        }
-        binding.llHikerDataItem2.setOnClickListener {
-            showHikerInfoDialog()
-        }
-
-        binding.ivPaymentMethod.setOnClickListener {
-            showPaymentMethodDialog()
-        }
-
-        binding.ivDiscountCode.setOnClickListener {
-            showDiscountCodeDialog()
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
         }
     }
 
-    private fun showHikerInfoDialog() {
+    private fun updateHikerItems(quantity: Int) {
+        binding.llHikerItem.removeAllViews()
+        participants.clear()
+        for (i in 1..quantity) {
+            val hikerView = layoutInflater.inflate(R.layout.item_hiker, binding.llHikerItem, false) as LinearLayout
+            hikerView.findViewById<TextView>(R.id.tvHikerName).text = "Pendaki $i"
+            hikerView.setOnClickListener {
+                showHikerInfoDialog(i - 1)
+            }
+            binding.llHikerItem.addView(hikerView)
+            participants.add(Participant("", "", ""))
+        }
+    }
+
+    private fun updateTotalCost(quantity: Int) {
+        val ticketPrice = trip.price
+        val totalTicketPrice = ticketPrice * quantity
+        binding.tvTotalTiket.text = "Rp $totalTicketPrice"
+        binding.tvTotalTagihan.text = "Rp $totalTicketPrice"
+    }
+
+    private fun showHikerInfoDialog(position: Int) {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_hiker_info, null)
         val editTextName = dialogView.findViewById<EditText>(R.id.editTextName)
         val editTextKTP = dialogView.findViewById<EditText>(R.id.editTextKTP)
         val editTextPhone = dialogView.findViewById<EditText>(R.id.editTextPhone)
+
+        val participant = participants[position]
+        editTextName.setText(participant.name)
+        editTextKTP.setText(participant.nik)
+        editTextPhone.setText(participant.handphone_number)
 
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setView(dialogView)
@@ -80,9 +114,9 @@ class CartFragment : Fragment() {
             val ktp = editTextKTP.text.toString().trim()
             val phone = editTextPhone.text.toString().trim()
 
-            // Here you can save the hiker info or do something with it
-            Toast.makeText(requireContext(), "Info Saved: $name, $ktp, $phone", Toast.LENGTH_SHORT).show()
+            participants[position] = Participant(name, ktp, phone) // Save the participant info
 
+            Toast.makeText(requireContext(), "Info Saved: $name, $ktp, $phone", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
@@ -134,9 +168,47 @@ class CartFragment : Fragment() {
         dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_background)
     }
 
+    private fun setupClickListeners() {
+        binding.btnCheckout.setOnClickListener {
+            createTransaction()
+        }
+
+        binding.llPaymentMethod.setOnClickListener {
+            showPaymentMethodDialog()
+        }
+
+        binding.llDiscountCode.setOnClickListener {
+            showDiscountCodeDialog()
+        }
+    }
+
+    private fun createTransaction() {
+        val userUid = userRepository.getToken()
+        val paymentGatewayUuid = "7df37da9-3b00-4c32-b604-5279b8586f45"
+
+        val request = CreateTransactionRequest(
+            user_uid = userUid!!,
+            open_trip_uuid = trip.open_trip_uuid,
+            total_participant = participants.size,
+            payment_gateway_uuid = paymentGatewayUuid,
+            participants = participants
+        )
+
+        lifecycleScope.launch {
+            val apiService = RetrofitClient.getInstance()
+            val response = apiService.createTransaction(request)
+            if (response.isSuccessful) {
+                Toast.makeText(requireContext(), "Transaction created successfully", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_nav_cart_to_confirmationCheckoutFragment)
+            } else {
+                Toast.makeText(requireContext(), "Failed to create transaction", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+

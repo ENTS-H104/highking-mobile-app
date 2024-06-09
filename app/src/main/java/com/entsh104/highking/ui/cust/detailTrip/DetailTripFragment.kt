@@ -23,6 +23,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.data.model.OpenTripDetail
+import com.entsh104.highking.data.model.TripFilter
 
 class DetailTripFragment : Fragment() {
 
@@ -80,7 +81,6 @@ class DetailTripFragment : Fragment() {
                 trip.mitra_data?.firstOrNull()?.let { mitra ->
                     Glide.with(this@DetailTripFragment).load(mitra.image_url).into(binding.ivPartnerImage)
                     binding.tvPartnerName.text = mitra.username
-
                 }
 
                 val includeLayout = binding.llIncludeSection
@@ -174,8 +174,22 @@ class DetailTripFragment : Fragment() {
                     faqLayout.addView(faqView)
                 }
 
+                // Convert trip data to TripFilter
+                val tripFilter = TripFilter(
+                    open_trip_uuid = trip.open_trip_uuid,
+                    name = trip.open_trip_name,
+                    image_url = trip.image_url,
+                    price = trip.price,
+                    mountain_name = trip.mountain_data.firstOrNull()?.name ?: "",
+                    mountain_uuid = trip.mountain_data.firstOrNull()?.mountain_uuid ?: "",
+                    total_participants = null,
+                    min_people = trip.min_people,
+                    max_people = trip.max_people
+                )
+
                 binding.fabCheckoutTrip.setOnClickListener {
-                    findNavController().navigate(R.id.action_nav_detailTrip_to_cartFragment, null, NavOptionsUtil.defaultNavOptions)
+                    val action = DetailTripFragmentDirections.actionNavDetailTripToCartFragment(tripFilter)
+                    findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
                 }
 
                 binding.btnPartnerProfile.setOnClickListener {
@@ -224,16 +238,6 @@ class DetailTripFragment : Fragment() {
             startActivity(shareIntent)
         } catch (e: Exception) {
             startActivity(Intent.createChooser(shareIntent, "Share via"))
-        }
-    }
-
-    private fun toggleSection(contentLayout: LinearLayout, arrowView: ImageView) {
-        if (contentLayout.visibility == View.GONE) {
-            contentLayout.visibility = View.VISIBLE
-            arrowView.setImageResource(R.drawable.ic_arrow_up)
-        } else {
-            contentLayout.visibility = View.GONE
-            arrowView.setImageResource(R.drawable.ic_arrow_down)
         }
     }
 

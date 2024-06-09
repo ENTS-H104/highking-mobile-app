@@ -50,9 +50,6 @@ class BerandaFragment : Fragment() {
         binding.gunungTerpopulerLihatSemua.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_listMountain, null, NavOptionsUtil.defaultNavOptions)
         }
-        binding.llTemukanTripTerdekat.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_listTrip, null, NavOptionsUtil.defaultNavOptions)
-        }
 
         fetchData()
     }
@@ -104,6 +101,13 @@ class BerandaFragment : Fragment() {
             binding.recyclerViewTrips.adapter = tripsAdapter
 
             binding.rekomendasiTripLihatSemua.setOnClickListener {
+                val action = BerandaFragmentDirections.actionHomeToListTrip(
+                    searchResults?.toTypedArray() ?: emptyArray()
+                )
+                findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+            }
+
+            binding.llTemukanTripTerdekat.setOnClickListener {
                 val action = BerandaFragmentDirections.actionHomeToListTrip(
                     searchResults?.toTypedArray() ?: emptyArray()
                 )

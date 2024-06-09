@@ -1,4 +1,6 @@
 import com.entsh104.highking.data.model.BasicResponse
+import com.entsh104.highking.data.model.CreateTransactionRequest
+import com.entsh104.highking.data.model.CreateTransactionResponse
 import com.entsh104.highking.data.model.LoginRequest
 import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.model.MountainsResponse
@@ -47,5 +49,9 @@ interface ApiService {
         @Query("id") mountainId: String,
         @Query("date") date: String
     ): Response<SearchOpenTripResponse>
+
+    @POST("transaction/create")
+    suspend fun createTransaction(@Body request: CreateTransactionRequest): Response<CreateTransactionResponse>
+
 
 }

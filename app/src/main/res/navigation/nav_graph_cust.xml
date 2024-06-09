@@ -111,6 +111,9 @@
         <action
             android:id="@+id/action_nav_cart_to_confirmationCheckoutFragment"
             app:destination="@id/nav_confirmation_accepted" />
+        <argument
+            android:name="trip"
+            app:argType="com.entsh104.highking.data.model.TripFilter" />
     </fragment>
     <fragment
         android:id="@+id/nav_confirmation_accepted"

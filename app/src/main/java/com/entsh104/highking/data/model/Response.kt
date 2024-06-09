@@ -151,3 +151,19 @@ data class RundownData(
 data class FaqData(
     val description: String
 )
+
+data class CreateTransactionResponse(
+    val message: String,
+    val data: TransactionData
+)
+
+data class TransactionData(
+    val transaction_logs_uuid: String,
+    val user_uid: String,
+    val open_trip_uuid: String,
+    val status: String,
+    val total_participant: Int,
+    val amount_paid: Int,
+    val participants: List<Participant>
+)
+
