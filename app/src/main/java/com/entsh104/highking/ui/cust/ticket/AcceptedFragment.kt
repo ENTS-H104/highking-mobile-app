@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustTicketListBinding
+import com.entsh104.highking.data.model.TransactionHistory
 import com.entsh104.highking.ui.adapters.OrdersAdapter
-import com.entsh104.highking.ui.model.Order
 
-class WaitingFragment : Fragment() {
+class AcceptedFragment : Fragment() {
 
     private var _binding: FragmentCustTicketListBinding? = null
     private val binding get() = _binding!!
+    private lateinit var acceptedOrders: List<TransactionHistory>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,14 +28,15 @@ class WaitingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
-        binding.recyclerViewOrders.adapter = OrdersAdapter(getWaitingOrders())
+        binding.recyclerViewOrders.adapter = OrdersAdapter(acceptedOrders)
     }
 
-    private fun getWaitingOrders(): List<Order> {
-        return listOf(
-            Order(R.drawable.iv_trip, "Nama Pesanan 1", "Rp 100.000"),
-            Order(R.drawable.iv_trip, "Nama Pesanan 2", "Rp 130.000")
-        )
+    companion object {
+        fun newInstance(orders: List<TransactionHistory>): AcceptedFragment {
+            val fragment = AcceptedFragment()
+            fragment.acceptedOrders = orders
+            return fragment
+        }
     }
 
     override fun onDestroyView() {

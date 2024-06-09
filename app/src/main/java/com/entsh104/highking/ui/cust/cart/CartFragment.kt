@@ -170,7 +170,7 @@ class CartFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnCheckout.setOnClickListener {
-            createTransaction()
+            fetchUserProfileAndCreateTransaction()
         }
 
         binding.llPaymentMethod.setOnClickListener {
@@ -182,29 +182,50 @@ class CartFragment : Fragment() {
         }
     }
 
-    private fun createTransaction() {
-        val userUid = userRepository.getToken()
-        val paymentGatewayUuid = "7df37da9-3b00-4c32-b604-5279b8586f45"
-
-        val request = CreateTransactionRequest(
-            user_uid = userUid!!,
-            open_trip_uuid = trip.open_trip_uuid,
-            total_participant = participants.size,
-            payment_gateway_uuid = paymentGatewayUuid,
-            participants = participants
-        )
-
+    private fun fetchUserProfileAndCreateTransaction() {
         lifecycleScope.launch {
-            val apiService = RetrofitClient.getInstance()
-            val response = apiService.createTransaction(request)
-            if (response.isSuccessful) {
-                Toast.makeText(requireContext(), "Transaction created successfully", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_nav_cart_to_confirmationCheckoutFragment)
+            val result = userRepository.getCurrentUser()
+            if (result.isSuccess) {
+                createTransaction()
             } else {
-                Toast.makeText(requireContext(), "Failed to create transaction", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to fetch user profile", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+    private fun createTransaction() {
+        val userUid = userRepository.getCurrentUserId()
+        val paymentGatewayUuid = "a39e11df-8ba5-496c-a924-21918053acd0"
+
+        if (userUid != null) {
+            val request = CreateTransactionRequest(
+                user_uid = userUid,
+                open_trip_uuid = trip.open_trip_uuid,
+                total_participant = participants.size,
+                payment_gateway_uuid = paymentGatewayUuid,
+                participants = participants
+            )
+
+            lifecycleScope.launch {
+                try {
+                    val apiService = RetrofitClient.getInstance()
+                    val response = apiService.createTransaction(request)
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "Transaction created successfully", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_nav_cart_to_confirmationCheckoutFragment)
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to create transaction", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    // Handle error
+                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(requireContext(), "User ID is null", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

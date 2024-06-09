@@ -134,6 +134,27 @@ data class MitraData(
     val image_url: String
 )
 
+data class MitraProfileResponse(
+    val status: Int,
+    val message: String,
+    val data: List<MitraProfile>
+)
+
+@Parcelize
+data class MitraProfile(
+    val partner_uid: String,
+    val partner_role_uuid: String,
+    val verified_status_uuid: String,
+    val email: String,
+    val phone_number: String,
+    val domicile_address: String,
+    val username: String,
+    val image_url: String,
+    val created_at: String,
+    val updated_at: String,
+    val open_trip_data: List<TripFilter>
+) : Parcelable
+
 data class ScheduleData(
     val open_trip_schedule_uuid: String,
     val start_date: String,
@@ -167,3 +188,22 @@ data class TransactionData(
     val participants: List<Participant>
 )
 
+data class TransactionHistoryResponse(
+    val status: Int,
+    val message: String,
+    val data: List<TransactionHistory>
+)
+
+data class TransactionHistory(
+    val transaction_logs_uuid: String,
+    val user_uid: String,
+    val open_trip_uuid: String,
+    val payment_gateway_uuid: String,
+    val status_accepted: String,
+    val token: String?,
+    val total_participant: Int,
+    val amount_paid: Int,
+    val status_payment: String,
+    val updated_at: String,
+    val created_at: String
+)

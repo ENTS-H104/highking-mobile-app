@@ -193,7 +193,12 @@ class DetailTripFragment : Fragment() {
                 }
 
                 binding.btnPartnerProfile.setOnClickListener {
-                    findNavController().navigate(R.id.action_nav_detailTrip_to_profileMitraFragment, null, NavOptionsUtil.defaultNavOptions)
+                    trip.mitra_data.firstOrNull()?.partner_uid?.let { partnerUid ->
+                        val action = DetailTripFragmentDirections.actionNavDetailTripToProfileMitraFragment(partnerUid)
+                        findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                    } ?: run {
+                        Toast.makeText(requireContext(), "Mitra ID not found", Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 // Share information

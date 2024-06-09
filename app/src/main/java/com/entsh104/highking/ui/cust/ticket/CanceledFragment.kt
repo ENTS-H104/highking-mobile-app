@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.entsh104.highking.R
 import com.entsh104.highking.databinding.FragmentCustTicketListBinding
+import com.entsh104.highking.data.model.TransactionHistory
 import com.entsh104.highking.ui.adapters.OrdersAdapter
-import com.entsh104.highking.ui.model.Order
 
-class CompletedFragment : Fragment() {
+class CanceledFragment : Fragment() {
 
     private var _binding: FragmentCustTicketListBinding? = null
     private val binding get() = _binding!!
+    private lateinit var canceledOrders: List<TransactionHistory>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,16 +28,15 @@ class CompletedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
-        binding.recyclerViewOrders.adapter = OrdersAdapter(getCompleteOrders())
+        binding.recyclerViewOrders.adapter = OrdersAdapter(canceledOrders)
     }
 
-    private fun getCompleteOrders(): List<Order> {
-        return listOf(
-            Order(R.drawable.iv_trip, "Nama Pesanan 9", "Rp 10.000"),
-            Order(R.drawable.iv_trip, "Nama Pesanan 10", "Rp 30.000"),
-            Order(R.drawable.iv_trip, "Nama Pesanan 11", "Rp 20.000"),
-            Order(R.drawable.iv_trip, "Nama Pesanan 12", "Rp 90.000")
-        )
+    companion object {
+        fun newInstance(orders: List<TransactionHistory>): CanceledFragment {
+            val fragment = CanceledFragment()
+            fragment.canceledOrders = orders
+            return fragment
+        }
     }
 
     override fun onDestroyView() {

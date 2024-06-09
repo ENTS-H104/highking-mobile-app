@@ -146,6 +146,9 @@
         <action
             android:id="@+id/action_orderDetailsFragment_to_nav_orders"
             app:destination="@id/nav_orders" />
+        <argument
+            android:name="transaction_logs_uuid"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/profileMitraFragment"
@@ -155,6 +158,12 @@
         <action
             android:id="@+id/action_profileMitraFragment_to_fragmentCustReview"
             app:destination="@id/fragmentCustReview" />
+        <argument
+            android:name="mitraId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCustReview"

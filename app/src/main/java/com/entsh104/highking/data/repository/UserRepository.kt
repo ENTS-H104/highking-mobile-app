@@ -1,5 +1,6 @@
 import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
+import com.entsh104.highking.data.model.MitraProfileResponse
 import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.model.MountainResponse
 import com.entsh104.highking.data.model.OpenTripDetailResponse
@@ -7,6 +8,7 @@ import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
+import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.model.UserResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +42,7 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
         }
     }
 
+    private var currentUser: UserResponse? = null
     suspend fun getCurrentUser(): Result<UserResponse> {
         val token = prefs.getToken()
         return if (token != null) {
@@ -48,6 +51,7 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
                 if (response.isSuccessful) {
                     val userApiResponse = response.body()
                     if (userApiResponse != null && userApiResponse.data.isNotEmpty()) {
+                        currentUser = userApiResponse.data[0]
                         Result.success(userApiResponse.data[0])
                     } else {
                         Result.failure(Exception("No user data found"))
@@ -61,6 +65,10 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
         } else {
             Result.failure(Exception("Token not found"))
         }
+    }
+
+    fun getCurrentUserId(): String? {
+        return currentUser?.user_uid
     }
 
     suspend fun logoutUser(token: String): Result<BasicResponse> {
@@ -142,6 +150,33 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
             } catch (e: Exception) {
                 Result.failure(e)
             }
+        }
+    }
+
+    suspend fun getMitraProfile(mitraId: String): Result<MitraProfileResponse> {
+        return try {
+            val response = apiService.getMitraProfile(mitraId)
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getMitraTrips(mitraId: String): Result<List<TripFilter>> {
+        return try {
+            val response = apiService.getMitraProfile(mitraId)
+            if (response.isSuccessful) {
+                val trips = response.body()?.data?.firstOrNull()?.open_trip_data ?: emptyList()
+                Result.success(trips)
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 

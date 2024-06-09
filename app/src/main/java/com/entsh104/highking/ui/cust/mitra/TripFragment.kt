@@ -20,6 +20,26 @@ class TripFragment : Fragment() {
     private var _binding: FragmentCustMitraProfileTripBinding? = null
     private val binding get() = _binding!!
     private lateinit var userRepository: UserRepository
+    private lateinit var mitraId: String
+
+    companion object {
+        private const val ARG_MITRA_ID = "mitra_id"
+
+        fun newInstance(mitraId: String): TripFragment {
+            val fragment = TripFragment()
+            val args = Bundle()
+            args.putString(ARG_MITRA_ID, mitraId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            mitraId = it.getString(ARG_MITRA_ID) ?: ""
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +53,8 @@ class TripFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = SharedPreferencesManager(requireContext())
-            RetrofitClient.createInstance(requireContext()) 
-    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         setupRecyclerView()
         fetchTrips()
@@ -51,9 +71,9 @@ class TripFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
-            val result = userRepository.getOpenTrips()
+            val result = userRepository.getMitraTrips(mitraId)
             if (result.isSuccess) {
-                val openTrips = result.getOrNull()?.data ?: emptyList()
+                val openTrips = result.getOrNull() ?: emptyList()
                 val tripsAdapter = TripsAdapter(openTrips)
                 binding.recyclerViewTrip.adapter = tripsAdapter
             } else {
