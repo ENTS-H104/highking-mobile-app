@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -22,7 +24,9 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.model.MountainDetailResponse
+import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 
 class DetailMountainFragment : Fragment() {
 
@@ -112,7 +116,9 @@ class DetailMountainFragment : Fragment() {
         val result = apiService.searchOpenTrip(mountainId, "2024")
         if (result.isSuccessful && result.body() != null) {
             val searchResults = result.body()?.data ?: emptyList()
-            val tripsAdapter = TripsAdapter(searchResults, true)
+            val favoriteViewModel = obtainViewModel(requireActivity())
+
+            val tripsAdapter = TripsAdapter(searchResults, true, favoriteViewModel)
             binding.rvSimilarTrips.adapter = tripsAdapter
 
             binding.fabSearchTrips.setOnClickListener {
@@ -131,6 +137,10 @@ class DetailMountainFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
         }
+    }
+    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
     }
 
     fun shareInformation(platform: String, detail: MountainDetailResponse) {

@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.databinding.FragmentCustListTripBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
 
@@ -45,10 +49,15 @@ class ListTripFragment : Fragment() {
     }
 
     private fun displayTrips(trips: List<TripFilter>) {
-        val tripsAdapter = TripsAdapter(trips)
+        val favoriteViewModel = obtainViewModel(requireActivity())
+
+        val tripsAdapter = TripsAdapter(trips, true, favoriteViewModel)
         binding.recyclerViewTrips.adapter = tripsAdapter
     }
-
+    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

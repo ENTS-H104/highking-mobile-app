@@ -7,10 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.databinding.FragmentCustMitraProfileTripBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
 import kotlinx.coroutines.launch
@@ -74,7 +78,9 @@ class TripFragment : Fragment() {
             val result = userRepository.getMitraTrips(mitraId)
             if (result.isSuccess) {
                 val openTrips = result.getOrNull() ?: emptyList()
-                val tripsAdapter = TripsAdapter(openTrips)
+                val favoriteViewModel = obtainViewModel(requireActivity())
+
+                val tripsAdapter = TripsAdapter(openTrips, true, favoriteViewModel)
                 binding.recyclerViewTrip.adapter = tripsAdapter
             } else {
                 Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
@@ -82,6 +88,10 @@ class TripFragment : Fragment() {
 
             binding.progressBar.visibility = View.GONE
         }
+    }
+    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
     }
 
     override fun onDestroyView() {

@@ -2,19 +2,23 @@ package com.entsh104.highking.ui.cust.beranda
 
 import UserRepository
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.entsh104.highking.R
+import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.databinding.FragmentCustBerandaBinding
 import com.entsh104.highking.ui.adapters.BannerAdapter
 import com.entsh104.highking.ui.adapters.MountainAdapter
@@ -52,6 +56,24 @@ class BerandaFragment : Fragment() {
         }
 
         fetchData()
+
+//        Favorite
+//        val favoriteCheck = obtainViewModel(requireActivity())
+//        favoriteCheck.getUserFavorite(mountainUuid.toString()).observe(viewLifecycleOwner) { favUser ->
+//            if (favUser != null) {
+//                isFavorite = true
+//                binding..setImageResource(R.drawable.ic_heart_filled)
+//            } else {
+//                isFavorite = false
+//                binding.fabFav.setImageResource(R.drawable.ic_heart_outline)
+//            }
+//        }
+
+    }
+
+    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
+        val factory = ViewModelFactory.getInstance(activity.application)
+        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
     }
 
     private fun setupRecyclerViews() {
@@ -97,7 +119,8 @@ class BerandaFragment : Fragment() {
         val result = apiService.getOpenTrips()
         if (result.isSuccessful && result.body() != null) {
             val searchResults = result.body()?.data ?: emptyList()
-            val tripsAdapter = TripsAdapter(searchResults, true)
+            val favoriteViewModel = obtainViewModel(requireActivity())
+            val tripsAdapter = TripsAdapter(searchResults, true, favoriteViewModel)
             binding.recyclerViewTrips.adapter = tripsAdapter
 
             binding.rekomendasiTripLihatSemua.setOnClickListener {

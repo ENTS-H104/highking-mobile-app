@@ -12,11 +12,13 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
+import com.entsh104.highking.data.database.Favorite
 import com.entsh104.highking.data.model.TripFilter
+import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.ui.cust.trip.ListTripFragmentDirections
 import com.entsh104.highking.ui.util.NavOptionsUtil
 
-class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal: Boolean = false) :
+class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal: Boolean = false, private val favoritesViewModel: FavoritesViewModel) :
     RecyclerView.Adapter<TripsAdapter.TripViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
@@ -27,6 +29,19 @@ class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal
 
     override fun onBindViewHolder(holder: TripViewHolder, position: Int) {
         holder.bind(trips[position])
+
+        val data = trips[position]
+        val mountainUuid = data.mountain_uuid
+//        favoritesViewModel.getUserFavorite(mountainUuid.toString()).observe(holder.itemView) {
+//            if (it != null) {
+////                holder.bind.recy.setImageResource(R.drawable.ic_heart_filled)
+//                Log.d("STATUS","FAV")
+//            } else {
+//                Log.d("STATUS","FAV")
+//
+////                holder.binding.fabFav.setImageResource(R.drawable.ic_heart_outline)
+//            }
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -54,8 +69,14 @@ class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal
                 layoutParams.width = (itemView.context.resources.displayMetrics.widthPixels / 2) - 24
                 itemView.layoutParams = layoutParams
             }
+
             buttonLove.setOnClickListener{
-                Log.d("AAA", "CLIKCED LOVE")
+                val item = trips[absoluteAdapterPosition]
+                val name = item.name
+                val mountainUuid = item.mountain_uuid
+                val imageUrl = item.image_url
+//                favorite = Favorite(name, mountainUuid, imageUrl)
+                Log.d("AAA", "$name")
             }
 
             // Set click listener to navigate to detail trip
