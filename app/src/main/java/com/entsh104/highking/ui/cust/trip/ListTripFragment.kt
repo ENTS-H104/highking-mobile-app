@@ -52,7 +52,15 @@ class ListTripFragment : Fragment() {
         val favoriteViewModel = obtainViewModel(requireActivity())
 
         val tripsAdapter = TripsAdapter(trips, true, favoriteViewModel)
-        binding.recyclerViewTrips.adapter = tripsAdapter
+        if (tripsAdapter.itemCount <= 0){
+            binding.noTrips.visibility = View.VISIBLE
+            binding.recyclerViewTrips.visibility = View.GONE
+        }else{
+            binding.noTrips.visibility = View.GONE
+            binding.recyclerViewTrips.visibility = View.VISIBLE
+
+            binding.recyclerViewTrips.adapter = tripsAdapter
+        }
     }
     private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
