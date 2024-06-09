@@ -3,6 +3,7 @@ package com.entsh104.highking.ui.cust.detailMountain
 import UserRepository
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.entsh104.highking.ui.util.NavOptionsUtil
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.model.MountainDetailResponse
 
 class DetailMountainFragment : Fragment() {
@@ -43,24 +45,26 @@ class DetailMountainFragment : Fragment() {
         val mountainId = args.mountainId
 
         val prefs = SharedPreferencesManager(requireContext())
-            RetrofitClient.createInstance(requireContext()) 
-    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         fetchData(mountainId)
     }
 
     private fun fetchData(mountainId: String) {
-        // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
+
+            val tripsLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+            binding.rvSimilarTrips.layoutManager = tripsLayoutManager
+
             val fetchMountainDetailDeferred = async { fetchMountainDetail(mountainId) }
             val fetchTripsDeferred = async { fetchTripsForMountain(mountainId) }
 
             fetchMountainDetailDeferred.await()
             fetchTripsDeferred.await()
 
-            // Hide ProgressBar
             binding.progressBar.visibility = View.GONE
         }
     }
@@ -83,19 +87,18 @@ class DetailMountainFragment : Fragment() {
                 binding.textViewTicketPrice.text = "Rp ${it.harga}"
                 binding.tvSimilarTripsHeader.text = "Trip di ${it.name}"
 
-                // Handle "baca selengkapnya" click
                 binding.tvReadMore.setOnClickListener {
-                    // Logic to expand description
+                    // Handle read more click
                 }
 
                 binding.llShareInfo.findViewById<View>(R.id.iv_twitter).setOnClickListener {
-                    mountain?.let { shareInformation("twitter", it) }
+                    shareInformation("twitter", mountain)
                 }
                 binding.llShareInfo.findViewById<View>(R.id.iv_facebook).setOnClickListener {
-                    mountain?.let { shareInformation("facebook", it) }
+                    shareInformation("facebook", mountain)
                 }
                 binding.llShareInfo.findViewById<View>(R.id.iv_instagram).setOnClickListener {
-                    mountain?.let { shareInformation("instagram", it) }
+                    shareInformation("instagram", mountain)
                 }
             }
         } else {
@@ -103,30 +106,37 @@ class DetailMountainFragment : Fragment() {
         }
     }
 
+
     private suspend fun fetchTripsForMountain(mountainId: String) {
-        val result = userRepository.getOpenTrips()
-        if (result.isSuccess) {
-            val openTrips = result.getOrNull()?.data ?: emptyList()
-            val tripsAdapter = TripsAdapter(openTrips, true)
+        val apiService = RetrofitClient.getInstance()
+        val result = apiService.searchOpenTrip(mountainId, "2024")
+        if (result.isSuccessful && result.body() != null) {
+            val searchResults = result.body()?.data ?: emptyList()
+            val tripsAdapter = TripsAdapter(searchResults, true)
             binding.rvSimilarTrips.adapter = tripsAdapter
 
-            // Handle search trips button click
             binding.fabSearchTrips.setOnClickListener {
-                findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
+                val action = DetailMountainFragmentDirections.actionNavDetailMountainToNavListTrip(
+                    searchResults?.toTypedArray() ?: emptyArray()
+                )
+                findNavController().navigate(action)
             }
 
             binding.tvSeeAllTrips.setOnClickListener {
-                findNavController().navigate(R.id.action_nav_detailMountain_to_nav_listTrip, null, NavOptionsUtil.defaultNavOptions)
+                val action = DetailMountainFragmentDirections.actionNavDetailMountainToNavListTrip(
+                    searchResults?.toTypedArray() ?: emptyArray()
+                )
+                findNavController().navigate(action,  NavOptionsUtil.defaultNavOptions)
             }
         } else {
             Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun shareInformation(platform: String, mountain: MountainDetailResponse) {
+    fun shareInformation(platform: String, detail: MountainDetailResponse) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "Check out ${mountain.name} located at ${mountain.province} with an elevation of ${mountain.height} MDPL. Current weather: ${mountain.weather.cuaca}, Temperature: ${mountain.weather.temperature} °C. Entry fee: Rp ${mountain.harga}")
+            putExtra(Intent.EXTRA_TEXT, "Check out ${detail.name} located at ${detail.province} with an elevation of ${detail.height} MDPL. Current weather: ${detail.weather.cuaca}, Temperature: ${detail.weather.temperature} °C. Entry fee: Rp ${detail.harga}")
             type = "text/plain"
         }
 

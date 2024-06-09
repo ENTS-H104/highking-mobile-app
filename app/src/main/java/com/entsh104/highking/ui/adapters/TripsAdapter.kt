@@ -45,7 +45,7 @@ class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal
             textViewTripName.text = trip.name
             textViewMountainName.text = trip.mountain_name
             textViewPrice.text = "Rp ${trip.price}"
-            textViewCapacity.text = "${trip.total_participants} Orang"
+            textViewCapacity.text = "${trip.total_participants}"
 
             // Adjust item layout params for horizontal orientation
             if (isHorizontal) {

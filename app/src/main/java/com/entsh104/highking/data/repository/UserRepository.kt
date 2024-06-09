@@ -5,6 +5,7 @@ import com.entsh104.highking.data.model.MountainResponse
 import com.entsh104.highking.data.model.OpenTripDetailResponse
 import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
+import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.UserResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
@@ -115,6 +116,7 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
         }
     }
 
+
     suspend fun getOpenTripById(tripId: String): Result<OpenTripDetailResponse> {
         return try {
             val response = apiService.getOpenTripById(tripId)
@@ -125,6 +127,21 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
             }
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    suspend fun searchOpenTrip(mountainId: String, date: String): Result<SearchOpenTripResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.searchOpenTrip(mountainId, date)
+                if (response.isSuccessful) {
+                    Result.success(response.body()!!)
+                } else {
+                    Result.failure(Exception(response.message()))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
         }
     }
 

@@ -2,6 +2,7 @@ package com.entsh104.highking.ui.cust.beranda
 
 import UserRepository
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,9 +47,6 @@ class BerandaFragment : Fragment() {
 
         setupRecyclerViews()
 
-        binding.rekomendasiTripLihatSemua.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_listTrip, null, NavOptionsUtil.defaultNavOptions)
-        }
         binding.gunungTerpopulerLihatSemua.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_listMountain, null, NavOptionsUtil.defaultNavOptions)
         }
@@ -98,13 +96,22 @@ class BerandaFragment : Fragment() {
     }
 
     private suspend fun fetchOpenTrips() {
-        val result = userRepository.getOpenTrips()
-        if (result.isSuccess) {
-            val openTrips = result.getOrNull()?.data ?: emptyList()
-            val tripsAdapter = TripsAdapter(openTrips, true)
+        val apiService = RetrofitClient.getInstance()
+        val result = apiService.getOpenTrips()
+        if (result.isSuccessful && result.body() != null) {
+            val searchResults = result.body()?.data ?: emptyList()
+            val tripsAdapter = TripsAdapter(searchResults, true)
             binding.recyclerViewTrips.adapter = tripsAdapter
+
+            binding.rekomendasiTripLihatSemua.setOnClickListener {
+                val action = BerandaFragmentDirections.actionHomeToListTrip(
+                    searchResults?.toTypedArray() ?: emptyArray()
+                )
+                findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+            }
+
         } else {
-            Toast.makeText(requireContext(), "Failed to load open trips", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
         }
     }
 

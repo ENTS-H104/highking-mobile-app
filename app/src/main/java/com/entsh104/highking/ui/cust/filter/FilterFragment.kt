@@ -116,7 +116,7 @@ class FilterFragment : Fragment() {
                 val action = FilterFragmentDirections.actionNavSearchToNavListTrip(
                     searchResults?.toTypedArray() ?: emptyArray()
                 )
-                findNavController().navigate(action)
+                findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
         }
     }

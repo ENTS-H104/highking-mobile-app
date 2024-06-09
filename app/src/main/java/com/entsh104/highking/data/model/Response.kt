@@ -76,12 +76,18 @@ data class OpenTripResponse(
     val data: List<TripFilter>
 )
 
+data class SearchOpenTripResponse(
+    val status: Int,
+    val message: String,
+    val data: List<TripFilter>
+)
+
 @Parcelize
 data class TripFilter(
     val open_trip_uuid: String,
     val name: String,
     val image_url: String,
-    val price: Double,
+    val price: Int,
     val mountain_name: String,
     val mountain_uuid: String,
     val total_participants: String?,
@@ -144,10 +150,4 @@ data class RundownData(
 
 data class FaqData(
     val description: String
-)
-
-data class SearchOpenTripResponse(
-    val status: Int,
-    val message: String,
-    val data: List<TripFilter>
 )
