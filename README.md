@@ -14,8 +14,7 @@
 <a href="#-introduction">Introduction</a> &nbsp;&bull;&nbsp;
 <a href="#-tech-stack">Tech Stack</a> &nbsp;&bull;&nbsp;
 <a href="#-reference">Reference</a>&nbsp;&bull;&nbsp;
-<a href="#-issue">Todo</a>&nbsp;&bull;&nbsp;
-<a href="#-license">License</a>
+<a href="#-issue">Issue</a>
 </p>
 
 ## 📄 Introduction
