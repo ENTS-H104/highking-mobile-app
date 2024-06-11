@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">HighKing</string>
+    <string name="logo_desc">logo desc</string>
+    <string name="illustration_desc">illustration desc</string>
+    <string name="onboarding_2">Onboarding 2</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce faucibus eleifend erat, ac egestas massa mattis id.</string>
+    <string name="create_account">Create Account</string>
+    <string name="your_username">Your username</string>
+    <string name="your_email">Your email</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="your_no_handphone">Your no handphone</string>
+    <string name="re_type_password">Re-type Password</string>
+    <string name="register">Register</string>
+    <string name="already_register_login">Already register? Login</string>
+    <string name="home">Home</string>
+    <string name="chat">Chat</string>
+    <string name="orders">Orders</string>
+    <string name="profile">Profile</string>
+    <string name="gunung_terpopuler">Gunung Terpopuler</string>
+    <string name="rekomendasi_trip">Rekomendasi Trip</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lokasi">lokasi</string>
+    <string name="tanggal_berangkat">Tanggal Berangkat</string>
+    <string name="cari_trip">Cari Trip</string>
+    <string name="mitra_trip">Mitra Trip</string>
+    <string name="profil">Profil</string>
+    <string name="loremipsum">lorem lorem lorem ipsum sit amet dolor, lorem ipsum sit amet dolor, lorem ipsum sit amet dolor,lorem ipsum sit amet dolor, lorem ipsum sit amet dolor</string>
+    <string name="txt_imagetrip">gambar foto trip</string>
+    <string name="white_secondary">E2E2E2</string>
+    <string name="payment_accepted">Payment Accepted</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="not_register_yet_register">Not register yet? Register</string>
+    <string name="enter_username">Enter username</string>
+    <string name="sign_in">Sign in</string>
+    <string name="lorem_ipsum_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce faucibus eleifend erat, ac egestas massa mattis id.</string>
+    <string name="onboarding_1">Onboarding 1</string>
+    <string name="mountain_name">Mountain Name</string>
+    <string name="welcome_back_daffa">Welcome Back, Daffa!</string>
+    <string name="cari">Cari</string>
+    <string name="pencarian">Telusuri</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="no_item">Tidak ada data</string>
 </resources>
