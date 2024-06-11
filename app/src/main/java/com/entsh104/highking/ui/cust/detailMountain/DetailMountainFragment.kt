@@ -82,7 +82,29 @@ class DetailMountainFragment : Fragment() {
                 binding.textViewCityName.text = it.province
                 binding.textViewMountainName.text = it.name
                 binding.textViewElevation.text = "${it.height} MDPL"
-                binding.textViewDescription.text = it.description
+
+                val fullDescription = it.description
+                val shortDescription = if (fullDescription.length > 200) fullDescription.substring(0, 200) + "..." else fullDescription
+
+                binding.textViewDescription.text = shortDescription
+
+                binding.tvReadMore.visibility = View.VISIBLE
+                binding.tvShowLess.visibility = View.GONE
+
+                // Handle "baca selengkapnya" click
+                binding.tvReadMore.setOnClickListener {
+                    binding.textViewDescription.text = fullDescription
+                    binding.tvReadMore.visibility = View.GONE
+                    binding.tvShowLess.visibility = View.VISIBLE
+                }
+
+                // Handle "tampilkan sedikit" click
+                binding.tvShowLess.setOnClickListener {
+                    binding.textViewDescription.text = shortDescription
+                    binding.tvReadMore.visibility = View.VISIBLE
+                    binding.tvShowLess.visibility = View.GONE
+                }
+
                 binding.textViewWeather.text = "Cuaca Hari ini"
                 binding.textViewWeatherDetail.text = it.weather.cuaca
                 binding.textViewTemperatureLabel.text = "Suhu Derajat"
@@ -90,10 +112,6 @@ class DetailMountainFragment : Fragment() {
                 binding.textViewFeeLabel.text = "Harga Masuk"
                 binding.textViewTicketPrice.text = "Rp ${it.harga}"
                 binding.tvSimilarTripsHeader.text = "Trip di ${it.name}"
-
-                binding.tvReadMore.setOnClickListener {
-                    // Handle read more click
-                }
 
                 binding.llShareInfo.findViewById<View>(R.id.iv_twitter).setOnClickListener {
                     shareInformation("twitter", mountain)

@@ -127,6 +127,19 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewDescription"
                 app:layout_constraintStart_toStartOf="parent" />
 
+
+                <!-- Show Less Link -->
+                <TextView
+                    android:id="@+id/tv_show_less"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="tampilkan sedikit"
+                    android:textColor="@android:color/holo_blue_dark"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:visibility="gone"/>
+
             <!-- Mountain Info -->
             <TextView
                 android:id="@+id/tv_mountain_info_header"

@@ -80,7 +80,28 @@ class DetailTripFragment : Fragment() {
                 binding.tvTripPrice.text = "Rp ${myFormattedPrice}"
                 binding.tvTripAvailability.text = "${trip.min_people}-${trip.max_people}"
                 binding.tvTripLocation.text = trip.mountain_data.joinToString(", ") { mountain -> mountain.name }
-                binding.tvTripDescription.text = trip.description
+
+                val fullDescription = trip.description
+                val shortDescription = if (fullDescription.length > 200) fullDescription.substring(0, 200) + "..." else fullDescription
+
+                binding.tvTripDescription.text = shortDescription
+
+                binding.tvReadMore.visibility = View.VISIBLE
+                binding.tvShowLess.visibility = View.GONE
+
+                // Handle "baca selengkapnya" click
+                binding.tvReadMore.setOnClickListener {
+                    binding.tvTripDescription.text = fullDescription
+                    binding.tvReadMore.visibility = View.GONE
+                    binding.tvShowLess.visibility = View.VISIBLE
+                }
+
+                // Handle "tampilkan sedikit" click
+                binding.tvShowLess.setOnClickListener {
+                    binding.tvTripDescription.text = shortDescription
+                    binding.tvReadMore.visibility = View.VISIBLE
+                    binding.tvShowLess.visibility = View.GONE
+                }
 
                 trip.mitra_data?.firstOrNull()?.let { mitra ->
                     Glide.with(this@DetailTripFragment).load(mitra.image_url).into(binding.ivPartnerImage)
@@ -178,7 +199,6 @@ class DetailTripFragment : Fragment() {
                     faqLayout.addView(faqView)
                 }
 
-                // Convert trip data to TripFilter
                 val tripFilter = TripFilter(
                     open_trip_uuid = trip.open_trip_uuid,
                     name = trip.open_trip_name,
@@ -214,11 +234,6 @@ class DetailTripFragment : Fragment() {
                 }
                 binding.llShareInfo.findViewById<View>(R.id.iv_instagram).setOnClickListener {
                     shareInformation("instagram", trip)
-                }
-
-                // Handle "baca selengkapnya" click
-                binding.tvReadMore.setOnClickListener {
-                    // Logic to expand description
                 }
             }
         } else {
