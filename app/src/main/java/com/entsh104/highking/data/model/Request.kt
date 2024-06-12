@@ -18,3 +18,10 @@ data class Participant(
     val handphone_number: String
 )
 
+data class PaymentLinkRequest(
+    val id: String,
+    val productName: String,
+    val price: Int,
+    val quantity: Int
+)
+

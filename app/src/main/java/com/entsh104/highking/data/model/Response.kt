@@ -207,3 +207,7 @@ data class TransactionHistory(
     val updated_at: String,
     val created_at: String
 )
+
+data class PaymentLinkResponse(
+    val url: String
+)
