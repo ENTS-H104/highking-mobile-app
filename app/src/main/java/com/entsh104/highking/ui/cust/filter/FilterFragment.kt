@@ -23,7 +23,7 @@ class FilterFragment : Fragment() {
     private lateinit var actvLocation: AutoCompleteTextView
     private lateinit var tvDate: TextView
     private lateinit var btnSearch: Button
-    private val mountainList = mutableListOf<String>()
+    private val mountainMap = mutableMapOf<String, String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +42,7 @@ class FilterFragment : Fragment() {
     }
 
     private fun setupAutoCompleteTextView() {
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, mountainList)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, mountainMap.keys.toList())
         actvLocation.setAdapter(adapter)
 
         actvLocation.setOnFocusChangeListener { _, hasFocus ->
@@ -53,7 +53,7 @@ class FilterFragment : Fragment() {
 
         actvLocation.setOnDismissListener {
             val inputText = actvLocation.text.toString()
-            if (!mountainList.contains(inputText)) {
+            if (!mountainMap.containsKey(inputText)) {
                 actvLocation.error = "Mountain not found"
             }
         }
@@ -80,7 +80,7 @@ class FilterFragment : Fragment() {
             val selectedMountain = actvLocation.text.toString()
             val selectedDate = tvDate.text.toString()
 
-            if (!mountainList.contains(selectedMountain)) {
+            if (!mountainMap.containsKey(selectedMountain)) {
                 actvLocation.error = "Mountain not found"
                 return@setOnClickListener
             }
@@ -90,7 +90,8 @@ class FilterFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            performSearch(selectedMountain, selectedDate)
+            val mountainUuid = mountainMap[selectedMountain] ?: return@setOnClickListener
+            performSearch(mountainUuid, selectedDate)
         }
     }
 
@@ -100,17 +101,17 @@ class FilterFragment : Fragment() {
             val response = apiService.getMountains()
             if (response.isSuccessful && response.body() != null) {
                 response.body()?.data?.forEach {
-                    mountainList.add(it.name)
+                    mountainMap[it.name] = it.mountainId
                 }
                 setupAutoCompleteTextView()
             }
         }
     }
 
-    private fun performSearch(mountainName: String, date: String) {
+    private fun performSearch(mountainUuid: String, date: String) {
         lifecycleScope.launch {
             val apiService = RetrofitClient.getInstance()
-            val response = apiService.searchOpenTrip(mountainName, date)
+            val response = apiService.searchOpenTrip(mountainUuid, date)
             if (response.isSuccessful && response.body() != null) {
                 val searchResults = response.body()?.data
                 val action = FilterFragmentDirections.actionNavSearchToNavListTrip(
@@ -121,3 +122,4 @@ class FilterFragment : Fragment() {
         }
     }
 }
+
