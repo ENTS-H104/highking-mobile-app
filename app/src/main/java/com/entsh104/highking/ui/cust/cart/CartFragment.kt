@@ -1,8 +1,9 @@
 package com.entsh104.highking.ui.cust.cart
 
 import UserRepository
+import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,37 +11,55 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.data.model.CreateTransactionRequest
 import com.entsh104.highking.data.model.Participant
-import com.entsh104.highking.data.model.PaymentLinkRequest
 import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
-import com.entsh104.highking.data.source.remote.RetrofitClientPayment
 import com.entsh104.highking.databinding.FragmentCustCartBinding
+import com.entsh104.highking.ui.util.NavOptionsUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.midtrans.sdk.uikit.external.UiKitApi
+import com.midtrans.sdk.uikit.internal.util.UiKitConstants
 import kotlinx.coroutines.launch
 
 class CartFragment : Fragment() {
+
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     private var _binding: FragmentCustCartBinding? = null
     private val binding get() = _binding!!
     private val args: CartFragmentArgs by navArgs()
     private lateinit var trip: TripFilter
     private lateinit var userRepository: UserRepository
-
-
     private val participants = mutableListOf<Participant>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                val response = data?.getStringExtra(UiKitConstants.KEY_TRANSACTION_RESULT)
+                if (response != null) {
+                    val message = "Transaction Result: $response"
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
+
     ): View {
         _binding = FragmentCustCartBinding.inflate(inflater, container, false)
         return binding.root
@@ -61,7 +80,6 @@ class CartFragment : Fragment() {
         val prefs = SharedPreferencesManager(requireContext())
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
-        RetrofitClientPayment.createInstance(requireContext())
         setupQuantitySpinner()
         setupClickListeners()
     }
@@ -121,7 +139,7 @@ class CartFragment : Fragment() {
             val ktp = editTextKTP.text.toString().trim()
             val phone = editTextPhone.text.toString().trim()
 
-            participants[position] = Participant(name, ktp, phone)
+            participants[position] = Participant(name, ktp, phone) // Save the participant info
 
             Toast.makeText(requireContext(), "Info Saved: $name, $ktp, $phone", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
@@ -218,11 +236,20 @@ class CartFragment : Fragment() {
                     val apiService = RetrofitClient.getInstance()
                     val response = apiService.createTransaction(request)
                     if (response.isSuccessful) {
-                        fetchPaymentLinkAndRedirect()
+                        val transactionToken = response.body()?.data?.transaction_token
+                        if (!transactionToken.isNullOrEmpty()) {
+                            startSnapPaymentUiFlow(transactionToken)
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                findNavController().navigate(R.id.action_nav_cart_to_nav_orders)
+                            }, 2000)
+                        } else {
+                            Toast.makeText(requireContext(), "Failed to get transaction token", Toast.LENGTH_SHORT).show()
+                        }
                     } else {
                         Toast.makeText(requireContext(), "Failed to create transaction", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
+                    // Handle error
                     Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -231,40 +258,15 @@ class CartFragment : Fragment() {
         }
     }
 
-    private suspend fun fetchPaymentLinkAndRedirect() {
-        val paymentRequest = PaymentLinkRequest(
-            id = trip.open_trip_uuid.split("-")[0],
-            productName = trip.name,
-            price = trip.price,
-            quantity = participants.size
+    private fun startSnapPaymentUiFlow(transactionToken: String) {
+        UiKitApi.getDefaultInstance().startPaymentUiFlow(
+            requireActivity(),
+            launcher,
+            transactionToken
         )
-
-        try {
-
-            val apiService = RetrofitClientPayment.getInstance()
-            val response = apiService.createPaymentLink(paymentRequest)
-            if (response.isSuccessful) {
-                val paymentLink = response.body()?.url
-                if (paymentLink != null) {
-                    openPaymentLink(paymentLink)
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        findNavController().navigate(R.id.action_nav_cart_to_nav_orders)
-                    }, 2000)
-                } else {
-                    Toast.makeText(requireContext(), "Failed to fetch payment link", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(requireContext(), "Failed to fetch payment link", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
     }
 
-    private fun openPaymentLink(paymentLink: String) {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(paymentLink))
-        startActivity(intent)
-    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

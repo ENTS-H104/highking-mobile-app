@@ -7,8 +7,6 @@ import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.model.MountainsResponse
 import com.entsh104.highking.data.model.OpenTripDetailResponse
 import com.entsh104.highking.data.model.OpenTripResponse
-import com.entsh104.highking.data.model.PaymentLinkRequest
-import com.entsh104.highking.data.model.PaymentLinkResponse
 import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
@@ -69,6 +67,4 @@ interface ApiService {
     @GET("open-trips/partners/{partner_uid}")
     suspend fun getMitraTrips(@Path("partner_uid") partnerUid: String): Response<MitraProfileResponse>
 
-    @POST("tokenizer")
-    suspend fun createPaymentLink(@Body request: PaymentLinkRequest): Response<PaymentLinkResponse>
 }

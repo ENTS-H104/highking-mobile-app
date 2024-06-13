@@ -78,4 +78,11 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.androidx.room.runtime)
     ksp(libs.room.compiler)
+
+
+    // Midtrans Sandbox
+    implementation("com.midtrans:uikit:2.0.0-SANDBOX")
+    // Midtrans Production
+    // implementation("com.midtrans:uikit:2.0.0")
+
 }
