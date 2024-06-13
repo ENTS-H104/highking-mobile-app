@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.ActivityCustBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.midtrans.sdk.uikit.external.UiKitApi
 
 class CustActivity : AppCompatActivity() {
 
@@ -37,6 +38,14 @@ class CustActivity : AppCompatActivity() {
 
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
         bottomNavigationView.setupWithNavController(navController)
+
+        // Inisialisasi Midtrans SDK
+        UiKitApi.Builder()
+            .withMerchantClientKey("SB-Mid-client-0euqacxFYGhkN5uu")
+            .withContext(applicationContext)
+            .withMerchantUrl("https://api.sandbox.midtrans.com/")
+            .enableLog(true)
+            .build()
     }
 
     fun hideToolbarAndNavbar() {

@@ -1,20 +1,28 @@
 package com.entsh104.highking.ui.cust.ticket
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.databinding.FragmentCustTicketListBinding
 import com.entsh104.highking.data.model.TransactionHistory
 import com.entsh104.highking.ui.adapters.OrdersAdapter
+import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.launch
 
 class AcceptedFragment : Fragment() {
 
     private var _binding: FragmentCustTicketListBinding? = null
     private val binding get() = _binding!!
-    private lateinit var acceptedOrders: List<TransactionHistory>
+    private var acceptedOrders: List<TransactionHistory> = emptyList()
+    private lateinit var adapter: OrdersAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,14 +35,56 @@ class AcceptedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
-        binding.recyclerViewOrders.adapter = OrdersAdapter(acceptedOrders)
+        arguments?.let {
+            val jsonString = it.getString(ARG_ORDERS)
+            val type = object : TypeToken<List<TransactionHistory>>() {}.type
+            acceptedOrders = Gson().fromJson(jsonString, type)
+        }
+
+        lifecycleScope.launch {
+            val tripDetails = fetchTripDetailsForOrders(acceptedOrders)
+            adapter = OrdersAdapter(tripDetails, acceptedOrders)
+            binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
+            Log.d("AcceptedFragmentTT", "onViewCreated: $acceptedOrders")
+            binding.recyclerViewOrders.adapter = adapter
+        }
+    }
+
+    private suspend fun fetchTripDetailsForOrders(orders: List<TransactionHistory>): Map<String, OpenTripDetail> {
+        val tripDetailsMap = mutableMapOf<String, OpenTripDetail>()
+        val apiService = RetrofitClient.getInstance()
+
+        for (order in orders) {
+            val result = apiService.getOpenTripById(order.open_trip_uuid)
+            if (result.isSuccessful) {
+                result.body()?.data?.get(0)?.let { tripDetail ->
+                    tripDetailsMap[order.open_trip_uuid] = tripDetail
+                }
+            }
+        }
+
+        return tripDetailsMap
+    }
+
+    fun updateData(newOrders: List<TransactionHistory>) {
+        lifecycleScope.launch {
+            val tripDetails = fetchTripDetailsForOrders(newOrders)
+            acceptedOrders = newOrders
+            Log.d("AcceptedFragmentTT", "updateData: $acceptedOrders")
+            adapter = OrdersAdapter(tripDetails, acceptedOrders)
+            binding.recyclerViewOrders.adapter = adapter
+        }
     }
 
     companion object {
+        private const val ARG_ORDERS = "orders"
+
         fun newInstance(orders: List<TransactionHistory>): AcceptedFragment {
             val fragment = AcceptedFragment()
-            fragment.acceptedOrders = orders
+            val args = Bundle()
+            val jsonString = Gson().toJson(orders)
+            args.putString(ARG_ORDERS, jsonString)
+            fragment.arguments = args
             return fragment
         }
     }

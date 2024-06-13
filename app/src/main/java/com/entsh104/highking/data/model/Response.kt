@@ -185,7 +185,9 @@ data class TransactionData(
     val status: String,
     val total_participant: Int,
     val amount_paid: Int,
-    val participants: List<Participant>
+    val participants: List<Participant>,
+    val payment_gateway: String,
+    val transaction_token: String,
 )
 
 data class TransactionHistoryResponse(
