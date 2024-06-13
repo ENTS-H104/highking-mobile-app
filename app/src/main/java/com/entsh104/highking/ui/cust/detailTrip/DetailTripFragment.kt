@@ -199,20 +199,8 @@ class DetailTripFragment : Fragment() {
                     faqLayout.addView(faqView)
                 }
 
-                val tripFilter = TripFilter(
-                    open_trip_uuid = trip.open_trip_uuid,
-                    name = trip.open_trip_name,
-                    image_url = trip.image_url,
-                    price = trip.price,
-                    mountain_name = trip.mountain_data.firstOrNull()?.name ?: "",
-                    mountain_uuid = trip.mountain_data.firstOrNull()?.mountain_uuid ?: "",
-                    total_participants = null,
-                    min_people = trip.min_people,
-                    max_people = trip.max_people
-                )
-
                 binding.fabCheckoutTrip.setOnClickListener {
-                    val action = DetailTripFragmentDirections.actionNavDetailTripToCartFragment(tripFilter)
+                    val action = DetailTripFragmentDirections.actionNavDetailTripToCartFragment(trip)
                     findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
                 }
 

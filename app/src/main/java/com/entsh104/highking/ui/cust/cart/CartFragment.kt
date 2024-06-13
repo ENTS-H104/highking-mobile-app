@@ -20,8 +20,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
 import com.entsh104.highking.data.model.CreateTransactionRequest
+import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.Participant
-import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustCartBinding
@@ -38,7 +38,7 @@ class CartFragment : Fragment() {
     private var _binding: FragmentCustCartBinding? = null
     private val binding get() = _binding!!
     private val args: CartFragmentArgs by navArgs()
-    private lateinit var trip: TripFilter
+    private lateinit var trip: OpenTripDetail
     private lateinit var userRepository: UserRepository
     private val participants = mutableListOf<Participant>()
 
@@ -72,9 +72,9 @@ class CartFragment : Fragment() {
 
         // Use the trip data
         Glide.with(this@CartFragment).load(trip.image_url).into(binding.imageViewTrip)
-        binding.tvTripName.text = trip.name
+        binding.tvTripName.text = trip.open_trip_name
         binding.tvTripPrice.text = "Rp ${trip.price}"
-        binding.tvTripLocation.text = trip.mountain_name
+        binding.tvTripLocation.text = trip.mountain_data[0].name
 
         // Initialize the UserRepository
         val prefs = SharedPreferencesManager(requireContext())
@@ -225,6 +225,7 @@ class CartFragment : Fragment() {
         if (userUid != null) {
             val request = CreateTransactionRequest(
                 user_uid = userUid,
+                partner_uid = trip.mitra_data[0].partner_uid,
                 open_trip_uuid = trip.open_trip_uuid,
                 total_participant = participants.size,
                 payment_gateway_uuid = paymentGatewayUuid,
