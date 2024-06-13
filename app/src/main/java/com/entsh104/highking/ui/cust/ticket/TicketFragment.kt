@@ -58,6 +58,24 @@ class TicketFragment : Fragment() {
         fetchAllTransactionHistories()
     }
 
+    override fun onResume() {
+        super.onResume()
+        ticketPagerAdapter = TicketPagerAdapter(this)
+        binding.viewPager.adapter = ticketPagerAdapter
+
+        val tabLayout: TabLayout = binding.tabLayout
+        TabLayoutMediator(tabLayout, binding.viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "Pending"
+                1 -> "Accepted"
+                2 -> "Canceled"
+                else -> null
+            }
+        }.attach()
+
+        fetchAllTransactionHistories()
+    }
+
     private fun fetchAllTransactionHistories() {
         fetchTransactionHistories("PENDING") { pendingTransactions ->
             ticketPagerAdapter.setPendingTransactions(pendingTransactions)
@@ -83,12 +101,16 @@ class TicketFragment : Fragment() {
                             val transactionHistories = response.body()?.data ?: emptyList()
                             callback(transactionHistories)
                         } else {
+                            // Handle the error
                         }
                     } catch (e: Exception) {
+                        // Handle the error
                     }
                 } else {
+                    // Handle the case when userId is null
                 }
             } else {
+                // Handle the case when fetching current user fails
             }
         }
     }
