@@ -102,6 +102,7 @@ data class OpenTripDetailResponse(
     val data: List<OpenTripDetail>?
 )
 
+@Parcelize
 data class OpenTripDetail(
     val open_trip_uuid: String,
     val open_trip_name: String,
@@ -119,20 +120,22 @@ data class OpenTripDetail(
     val schedule_data: List<ScheduleData>,
     val rundown_data: List<RundownData>,
     val faq_data: List<FaqData>
-)
+) : Parcelable
 
+@Parcelize
 data class MountainData(
     val mountain_uuid: String,
     val name: String,
     val image_url: String,
     val gmaps: String
-)
+) : Parcelable
 
+@Parcelize
 data class MitraData(
     val partner_uid: String,
     val username: String,
     val image_url: String
-)
+) : Parcelable
 
 data class MitraProfileResponse(
     val status: Int,
@@ -155,6 +158,7 @@ data class MitraProfile(
     val open_trip_data: List<TripFilter>
 ) : Parcelable
 
+@Parcelize
 data class ScheduleData(
     val open_trip_schedule_uuid: String,
     val start_date: String,
@@ -162,16 +166,18 @@ data class ScheduleData(
     val start_time: String,
     val end_time: String,
     val total_day: Int
-)
+) : Parcelable
 
+@Parcelize
 data class RundownData(
     val day: Int,
     val description: String
-)
+) : Parcelable
 
+@Parcelize
 data class FaqData(
     val description: String
-)
+) : Parcelable
 
 data class CreateTransactionResponse(
     val message: String,
