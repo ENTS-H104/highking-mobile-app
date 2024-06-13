@@ -113,7 +113,7 @@
             app:destination="@id/nav_confirmation_accepted" />
         <argument
             android:name="trip"
-            app:argType="com.entsh104.highking.data.model.TripFilter" />
+            app:argType="com.entsh104.highking.data.model.OpenTripDetail" />
         <action
             android:id="@+id/action_nav_cart_to_nav_orders"
             app:destination="@id/nav_orders" />
