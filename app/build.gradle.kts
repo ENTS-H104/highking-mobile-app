@@ -88,4 +88,7 @@ dependencies {
     // Barcode
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    //maps
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
 }

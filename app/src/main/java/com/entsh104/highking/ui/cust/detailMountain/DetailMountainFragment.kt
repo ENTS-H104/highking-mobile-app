@@ -27,13 +27,24 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.viewmodel.FavoritesViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
-class DetailMountainFragment : Fragment() {
+class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentCustDetailMountainBinding? = null
     private val binding get() = _binding!!
     private lateinit var userRepository: UserRepository
     private val args: DetailMountainFragmentArgs by navArgs()
+
+    private lateinit var mapView: MapView
+    private lateinit var googleMap: GoogleMap
+    private val lat: Double = -6.200000
+    private val lon: Double = 106.816666
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +64,17 @@ class DetailMountainFragment : Fragment() {
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         fetchData(mountainId)
+
+        mapView = binding.mapView
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
+        val location = LatLng(lat, lon)
+        googleMap.addMarker(MarkerOptions().position(location).title("Lokasi"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
     }
 
     private fun fetchData(mountainId: String) {
@@ -128,7 +150,6 @@ class DetailMountainFragment : Fragment() {
         }
     }
 
-
     private suspend fun fetchTripsForMountain(mountainId: String) {
         val apiService = RetrofitClient.getInstance()
         val result = apiService.searchOpenTrip(mountainId, "2024")
@@ -156,6 +177,7 @@ class DetailMountainFragment : Fragment() {
             Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
         val factory = ViewModelFactory.getInstance(activity.application)
         return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
@@ -181,8 +203,24 @@ class DetailMountainFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
         _binding = null
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
     }
 }
