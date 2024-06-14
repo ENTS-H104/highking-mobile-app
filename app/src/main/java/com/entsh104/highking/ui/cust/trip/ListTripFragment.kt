@@ -35,8 +35,8 @@ class ListTripFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = SharedPreferencesManager(requireContext())
-            RetrofitClient.createInstance(requireContext()) 
-    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         val gridLayoutManager = GridLayoutManager(context, 2)
         binding.recyclerViewTrips.layoutManager = gridLayoutManager

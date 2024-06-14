@@ -239,12 +239,6 @@
                         tools:visibility="visible">
 
                         <!-- Add settings items here -->
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Logout"
-                            android:textColor="@android:color/darker_gray"
-                            android:textSize="14sp" />
 
                         <Button
                             android:id="@+id/btnLogout"

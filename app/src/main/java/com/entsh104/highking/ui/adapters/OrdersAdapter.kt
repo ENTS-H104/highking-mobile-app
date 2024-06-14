@@ -48,8 +48,10 @@ class OrdersAdapter(
             textViewPrice.text = "Rp ${order?.price}"
 
             itemView.setOnClickListener {
-                val action = TicketFragmentDirections.actionNavOrdersToOrderDetailsFragment(order?.open_trip_uuid ?: "")
-                it.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                if (order != null) {
+                    val action = TicketFragmentDirections.actionNavOrdersToOrderDetailsFragment(order)
+                    it.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                }
             }
         }
     }

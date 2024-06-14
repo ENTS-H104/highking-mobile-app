@@ -76,6 +76,7 @@ class CartFragment : Fragment() {
         binding.tvTripName.text = trip.open_trip_name
         binding.tvTripPrice.text = "Rp ${trip.price}"
         binding.tvTripLocation.text = trip.mountain_data[0].name
+        binding.tvDateTrip.text = trip.schedule_data[0].start_date
 
         // Initialize the UserRepository
         val prefs = SharedPreferencesManager(requireContext())

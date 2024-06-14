@@ -149,9 +149,29 @@
                     android:layout_marginTop="2dp"
                     android:textColor="@color/green_primary"
                     app:layout_constraintStart_toEndOf="@id/iv_person_outline"
-                    android:layout_marginStart="8dp" />
+                    android:layout_marginStart="4dp" />
+
+                <ImageView
+                    android:id="@+id/iv_calendar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toEndOf="@id/tv_trip_location"
+                    android:src="@drawable/ic_calendar_24_black" />
+
+                <TextView
+                    android:id="@+id/tv_date_trip"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="DD/MM/YYYY"
+                    android:layout_marginStart="4dp"
+                    app:layout_constraintStart_toEndOf="@id/tv_trip_availability"
+                    android:textColor="@color/green_primary" />
 
             </LinearLayout>
+
 
             <!-- Trip Description -->
             <TextView

@@ -150,8 +150,8 @@
             android:id="@+id/action_orderDetailsFragment_to_nav_orders"
             app:destination="@id/nav_orders" />
         <argument
-            android:name="transaction_logs_uuid"
-            app:argType="string" />
+            android:name="trip"
+            app:argType="com.entsh104.highking.data.model.OpenTripDetail" />
     </fragment>
     <fragment
         android:id="@+id/profileMitraFragment"
