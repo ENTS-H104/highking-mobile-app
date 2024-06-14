@@ -36,7 +36,7 @@
         android:layout_below="@id/illustration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="Email Verification"
+        android:text="@string/txt_register_label"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black" />
@@ -48,7 +48,7 @@
         android:layout_below="@id/verification_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
-        android:text="A verification email has been sent to your email address. Please check your email and follow the instructions to verify your account."
+        android:text="@string/txt_register_desc"
         android:textSize="14sp"
         android:textColor="@android:color/black"
         android:gravity="center"

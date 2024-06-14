@@ -2,7 +2,14 @@ package com.entsh104.highking.data.model
 
 data class LoginRequest(val email: String, val password: String)
 
+data class ResetPasswordRequest(val email: String)
+
 data class RegisterRequest(val email: String, val username: String, val phone_number: String, val password: String)
+
+data class  UpdateUserRequest(val username: String, val phoneNumber: String)
+
+data class  UpdatePhotoUserRequest(val imageUrl: String)
+
 
 data class CreateTransactionRequest(
     val user_uid: String,
