@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_nav_detailTrip_to_profileMitraFragment"
             app:destination="@id/profileMitraFragment" />
+        <action
+            android:id="@+id/action_nav_detailTrip_to_nav_detailMountain"
+            app:destination="@id/nav_detailMountain" />
     </fragment>
 
     <fragment

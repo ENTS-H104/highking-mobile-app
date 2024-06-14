@@ -43,8 +43,8 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
-    private val lat: Double = -6.200000
-    private val lon: Double = 106.816666
+    private var lat: Double = -6.200000
+    private var lon: Double = 106.816666
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,9 +72,7 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         this.googleMap = googleMap
-        val location = LatLng(lat, lon)
-        googleMap.addMarker(MarkerOptions().position(location).title("Lokasi"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+        updateMapLocation()
     }
 
     private fun fetchData(mountainId: String) {
@@ -95,11 +93,23 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    private fun updateMapLocation() {
+        if (::googleMap.isInitialized) {
+            val location = LatLng(lat, lon)
+            googleMap.clear() // Hapus marker sebelumnya
+            googleMap.addMarker(MarkerOptions().position(location).title("Lokasi"))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+        }
+    }
+
     private suspend fun fetchMountainDetail(mountainId: String) {
         val result = userRepository.getMountainById(mountainId)
         if (result.isSuccess) {
             val mountain = result.getOrNull()
             mountain?.let {
+                lat = it.lat
+                lon = it.lon
+
                 Glide.with(this@DetailMountainFragment).load(it.imageUrl).into(binding.imageViewMountain)
                 binding.textViewCityName.text = it.province
                 binding.textViewMountainName.text = it.name
@@ -144,6 +154,7 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
                 binding.llShareInfo.findViewById<View>(R.id.iv_instagram).setOnClickListener {
                     shareInformation("instagram", mountain)
                 }
+                updateMapLocation()
             }
         } else {
             Toast.makeText(requireContext(), "Failed to load mountain details", Toast.LENGTH_SHORT).show()

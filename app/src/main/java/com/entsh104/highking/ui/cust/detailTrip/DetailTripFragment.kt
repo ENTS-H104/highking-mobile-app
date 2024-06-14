@@ -206,6 +206,11 @@ class DetailTripFragment : Fragment() {
                     findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
                 }
 
+                binding.tvTripLocation.setOnClickListener {
+                    val action = DetailTripFragmentDirections.actionNavDetailTripToNavDetailMountain(trip.mountain_data[0].mountain_uuid)
+                    findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                }
+
                 binding.btnPartnerProfile.setOnClickListener {
                     trip.mitra_data.firstOrNull()?.partner_uid?.let { partnerUid ->
                         val action = DetailTripFragmentDirections.actionNavDetailTripToProfileMitraFragment(partnerUid)
