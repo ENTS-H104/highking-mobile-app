@@ -12,13 +12,20 @@ import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TransactionHistoryResponse
+import com.entsh104.highking.data.model.UpdatePhotoUserRequest
+import com.entsh104.highking.data.model.UpdateUserRequest
 import com.entsh104.highking.data.model.UserApiResponse
 import com.entsh104.highking.data.model.UserResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -31,6 +38,19 @@ interface ApiService {
 
     @POST("users/forgot-password")
     suspend fun forgotPassword(@Body request: ResetPasswordRequest): Response<BasicResponse>
+
+    @PUT("users/update")
+    suspend fun updateUser(
+        @Header("Authorization") token: String,
+        @Body request: UpdateUserRequest
+    ): Response<UserApiResponse>
+
+    @PUT("users/update/photo")
+    suspend fun updatePhotoUser(
+        @Header("Authorization") token: String,
+        @Part("image_url") imageUrl: MultipartBody.Part
+    ): Response<UserApiResponse>
+
 
     @GET("users/get-current-user")
     suspend fun getCurrentUser(@Header("Authorization") token: String): Response<UserApiResponse>
