@@ -12,6 +12,10 @@ import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class VerificationFragment : Fragment() {
 
+    companion object {
+        const val KEY_STATUS_VERIFICATION = "key_nina";
+    }
+
     private var _binding: FragmentAuthRegisterVerificationBinding? = null
     private val binding get() = _binding!!
 
@@ -25,6 +29,10 @@ class VerificationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (KEY_STATUS_VERIFICATION == "reset") {
+            binding.verificationTitle.text = "Reset Password"
+            binding.verificationInstruction.text = "AA"
+        }
 
         binding.goToLoginButton.setOnClickListener {
             findNavController().navigate(R.id.action_verificationFragment_to_loginFragment,null, NavOptionsUtil.defaultNavOptions)
