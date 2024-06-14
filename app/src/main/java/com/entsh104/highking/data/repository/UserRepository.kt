@@ -6,6 +6,7 @@ import com.entsh104.highking.data.model.MountainResponse
 import com.entsh104.highking.data.model.OpenTripDetailResponse
 import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
+import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TripFilter
@@ -25,6 +26,19 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
                 Result.failure(Exception(response.message()))
             }
         } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun resetPasswordUser(email: String): Result<BasicResponse> {
+        return try {
+            val response = apiService.forgotPassword(ResetPasswordRequest(email))
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            }else{
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception){
             Result.failure(e)
         }
     }

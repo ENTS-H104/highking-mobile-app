@@ -29,9 +29,9 @@ class VerificationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (KEY_STATUS_VERIFICATION == "reset") {
-            binding.verificationTitle.text = "Reset Password"
-            binding.verificationInstruction.text = "AA"
+        if (arguments?.getString("KEY_STATUS_VERIFICATION") == "reset") {
+            binding.verificationTitle.text = getString(R.string.txt_password_label)
+            binding.verificationInstruction.text = getString(R.string.txt_password_desc)
         }
 
         binding.goToLoginButton.setOnClickListener {

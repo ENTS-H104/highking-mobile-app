@@ -68,7 +68,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.forgotPassword.setOnClickListener{
-            Log.e("FORGOT", "LUPA PASSWORD")
+            findNavController().navigate(R.id.action_loginFragment_to_resetPasswordFragment)
         }
     }
 

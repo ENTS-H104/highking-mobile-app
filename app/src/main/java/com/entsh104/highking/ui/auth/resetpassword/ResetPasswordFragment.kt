@@ -1,60 +1,66 @@
 package com.entsh104.highking.ui.auth.resetpassword
 
+import UserRepository
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
+import com.entsh104.highking.data.source.local.SharedPreferencesManager
+import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.entsh104.highking.databinding.FragmentResetPasswordBinding
+import com.entsh104.highking.ui.util.NavOptionsUtil
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ResetPasswordFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ResetPasswordFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentResetPasswordBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var userRepository: UserRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reset_password, container, false)
+    ): View {
+        _binding = com.entsh104.highking.databinding.FragmentResetPasswordBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ResetPasswordFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ResetPasswordFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), SharedPreferencesManager(requireContext()))
+
+        binding.resetButton.setOnClickListener {
+            val email = binding.fpEmail.text.toString().trim()
+
+            if (email.isEmpty()) {
+                Toast.makeText(requireContext(), "Email are required", Toast.LENGTH_SHORT).show()
+            } else {
+                lifecycleScope.launch {
+                    val result = userRepository.resetPasswordUser(email)
+                    if (result.isSuccess) {
+                        val bundle = Bundle().apply {
+                            putString("KEY_STATUS_VERIFICATION", "reset")
+                        }
+                        findNavController().navigate(R.id.action_resetPasswordFragment_to_verificationFragment, bundle, NavOptionsUtil.defaultNavOptions)
+                    } else {
+                        Toast.makeText(requireContext(), "Registration failed", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+        }
+
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 }

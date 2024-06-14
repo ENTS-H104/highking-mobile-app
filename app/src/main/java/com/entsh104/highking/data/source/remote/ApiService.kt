@@ -8,6 +8,7 @@ import com.entsh104.highking.data.model.MountainsResponse
 import com.entsh104.highking.data.model.OpenTripDetailResponse
 import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
+import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TransactionHistoryResponse
@@ -27,6 +28,9 @@ interface ApiService {
 
     @POST("users/register")
     suspend fun registerUser(@Body request: RegisterRequest): Response<BasicResponse>
+
+    @POST("users/forgot-password")
+    suspend fun forgotPassword(@Body request: ResetPasswordRequest): Response<BasicResponse>
 
     @GET("users/get-current-user")
     suspend fun getCurrentUser(@Header("Authorization") token: String): Response<UserApiResponse>
