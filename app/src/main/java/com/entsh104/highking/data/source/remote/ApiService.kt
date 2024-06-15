@@ -59,7 +59,10 @@ interface ApiService {
     suspend fun logoutUser(@Header("Authorization") token: String): Response<BasicResponse>
 
     @GET("mountains")
-    suspend fun getMountains(): Response<MountainsResponse>
+    suspend fun getMountains(
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 0
+    ): Response<MountainsResponse>
 
     @GET("mountains/{id}")
     suspend fun getMountainById(@Path("id") id: String): Response<MountainDetailResponse>

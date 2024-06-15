@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
@@ -60,6 +61,10 @@ class ProfileFragment : Fragment() {
                 }
 
             }
+        }
+
+        binding.buttonEditProfile.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_profile_to_fragmentCustProfileEdit)
         }
 
         binding.headerSettings.setOnClickListener {
