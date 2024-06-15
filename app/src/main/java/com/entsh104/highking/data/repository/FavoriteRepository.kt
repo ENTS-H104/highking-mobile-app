@@ -18,6 +18,7 @@ class FavoriteRepository(application: Application) {
     }
 
     fun getAllFavorites(): LiveData<List<Favorite>> = mFavoriteDao.getAllFavorites()
+
     fun getUserFavorite(mountainUuid: String): LiveData<Favorite> =
         mFavoriteDao.getFavoriteUserByUsername(mountainUuid)
 

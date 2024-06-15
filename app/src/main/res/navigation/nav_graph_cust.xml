@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_listMountain_to_detailMountain"
             app:destination="@id/nav_detailMountain" />
+        <action
+            android:id="@+id/action_home_to_all_listTrip"
+            app:destination="@id/listAllTripFragment" />
     </fragment>
 
     <fragment
@@ -176,4 +179,13 @@
         android:name="com.entsh104.highking.ui.cust.review.FragmentCustReview"
         android:label="Ulasan"
         tools:layout="@layout/fragment_cust_review" />
+    <fragment
+        android:id="@+id/listAllTripFragment"
+        android:name="com.entsh104.highking.ui.cust.trip.ListAllTripFragment"
+        android:label="List All Trip"
+        tools:layout="@layout/fragment_cust_list_all_trip" >
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+    </fragment>
 </navigation>

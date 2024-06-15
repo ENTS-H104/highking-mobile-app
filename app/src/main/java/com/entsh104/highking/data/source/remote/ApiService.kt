@@ -91,4 +91,9 @@ interface ApiService {
     @GET("open-trips/partners/{partner_uid}")
     suspend fun getMitraTrips(@Path("partner_uid") partnerUid: String): Response<MitraProfileResponse>
 
+    @GET("open-trips")
+    suspend fun getOpenTripsPaging(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): Response<OpenTripResponse>
 }

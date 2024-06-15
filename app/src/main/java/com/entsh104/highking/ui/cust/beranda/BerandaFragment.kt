@@ -131,9 +131,7 @@ class BerandaFragment : Fragment() {
             }
 
             binding.llTemukanTripTerdekat.setOnClickListener {
-                val action = BerandaFragmentDirections.actionHomeToListTrip(
-                    searchResults?.toTypedArray() ?: emptyArray()
-                )
+                val action = BerandaFragmentDirections.actionHomeToAllListTrip()
                 findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
 

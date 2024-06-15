@@ -34,6 +34,7 @@ Key features include detailed mountain information, secure guide and partner boo
 ![ViewPager](https://img.shields.io/badge/ViewPager-FF4081?style=for-the-badge&logo=android&logoColor=white)
 ![DataStore](https://img.shields.io/badge/DataStore-FF6F00?style=for-the-badge&logo=android&logoColor=white)
 ![Room](https://img.shields.io/badge/Room-007FFF?style=for-the-badge&logo=room&logoColor=white)
+![Paging 3](https://img.shields.io/badge/Paging%203-FF6F00?style=for-the-badge&logo=android&logoColor=white)
 
 
 ## 📚 Reference
@@ -43,6 +44,8 @@ Key features include detailed mountain information, secure guide and partner boo
 - [ViewPager](https://developer.android.com/training/animation/screen-slide)
 - [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
 - [Room](https://developer.android.com/training/data-storage/room/)
+- [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
+
   
 ## 🚩 Issue
 
