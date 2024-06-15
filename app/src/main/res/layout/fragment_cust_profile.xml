@@ -247,6 +247,20 @@
                             android:layout_marginBottom="16dp"
                             android:text="Logout" />
 
+                        <Button
+                            android:id="@+id/btnFavoriteMountain"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:text="Mountain Favorite" />
+
+                        <Button
+                            android:id="@+id/btnFavoriteTrip"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:text="Trip Favorite" />
+
                     </LinearLayout>
                 </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,6 +16,7 @@ import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.data.viewmodel.FavoritesViewModel
+import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.databinding.FragmentCustMitraProfileTripBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
 import kotlinx.coroutines.launch
@@ -25,6 +27,7 @@ class TripFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var userRepository: UserRepository
     private lateinit var mitraId: String
+    private val tripViewModel: TripViewModel by viewModels()
 
     companion object {
         private const val ARG_MITRA_ID = "mitra_id"
@@ -78,9 +81,8 @@ class TripFragment : Fragment() {
             val result = userRepository.getMitraTrips(mitraId)
             if (result.isSuccess) {
                 val openTrips = result.getOrNull() ?: emptyList()
-                val favoriteViewModel = obtainViewModel(requireActivity())
 
-                val tripsAdapter = TripsAdapter(openTrips, true, favoriteViewModel)
+                val tripsAdapter = TripsAdapter(openTrips, true, tripViewModel)
                 binding.recyclerViewTrip.adapter = tripsAdapter
             } else {
                 Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()

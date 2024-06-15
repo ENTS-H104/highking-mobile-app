@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.androidx.room.runtime)
     ksp(libs.room.compiler)
+    implementation("androidx.room:room-ktx:2.5.2")
 
 
     // Midtrans Sandbox

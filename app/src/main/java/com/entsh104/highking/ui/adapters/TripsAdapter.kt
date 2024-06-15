@@ -1,7 +1,6 @@
-// TripsAdapter.kt
+// ui/adapters/TripsAdapter.kt
 package com.entsh104.highking.ui.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +11,14 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
-import com.entsh104.highking.data.database.Favorite
+import com.entsh104.highking.data.mapper.TripMapper
 import com.entsh104.highking.data.model.TripFilter
-import com.entsh104.highking.data.viewmodel.FavoritesViewModel
+import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.ui.cust.trip.ListTripFragmentDirections
-import com.entsh104.highking.ui.util.NavOptionsUtil
 import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.Locale
 
-class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal: Boolean = false, private val favoritesViewModel: FavoritesViewModel) :
+
+class TripsAdapter(var trips: List<TripFilter>, private val isHorizontal: Boolean = false, private val viewModel: TripViewModel) :
     RecyclerView.Adapter<TripsAdapter.TripViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
@@ -32,19 +29,6 @@ class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal
 
     override fun onBindViewHolder(holder: TripViewHolder, position: Int) {
         holder.bind(trips[position])
-
-        val data = trips[position]
-        val mountainUuid = data.mountain_uuid
-//        favoritesViewModel.getUserFavorite(mountainUuid.toString()).observe(holder.itemView) {
-//            if (it != null) {
-////                holder.bind.recy.setImageResource(R.drawable.ic_heart_filled)
-//                Log.d("STATUS","FAV")
-//            } else {
-//                Log.d("STATUS","FAV")
-//
-////                holder.binding.fabFav.setImageResource(R.drawable.ic_heart_outline)
-//            }
-//        }
     }
 
     override fun getItemCount(): Int {
@@ -68,8 +52,7 @@ class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal
             textViewTripName.text = trip.name
             textViewMountainName.text = trip.mountain_name
             textViewPrice.text = "Rp $myFormattedPrice"
-            textViewCapacity.text = "${trip.total_participants}"
-            textViewCapacity.text = "${trip.total_participants}"
+            textViewCapacity.text = trip.total_participants ?: "0"
 
             // Adjust item layout params for horizontal orientation
             if (isHorizontal) {
@@ -78,19 +61,28 @@ class TripsAdapter(private val trips: List<TripFilter>, private val isHorizontal
                 itemView.layoutParams = layoutParams
             }
 
-            buttonLove.setOnClickListener{
-                val item = trips[absoluteAdapterPosition]
-                val name = item.name
-                val mountainUuid = item.mountain_uuid
-                val imageUrl = item.image_url
-//                favorite = Favorite(name, mountainUuid, imageUrl)
-                Log.d("AAA", "$name")
+            viewModel.favoriteTrips.observeForever { favoriteTrips ->
+                val isLoved = favoriteTrips.any { it.openTripUuid == trip.open_trip_uuid }
+                buttonLove.setImageResource(
+                    if (isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
+                )
             }
 
-            // Set click listener to navigate to detail trip
+            buttonLove.setOnClickListener {
+                val tripEntity = TripMapper.mapFilterToEntity(trip)
+
+                if (viewModel.favoriteTrips.value?.any { it.openTripUuid == trip.open_trip_uuid } == true) {
+                    viewModel.deleteTrip(tripEntity)
+                    buttonLove.setImageResource(R.drawable.ic_heart_outline)
+                } else {
+                    viewModel.insertTrip(tripEntity)
+                    buttonLove.setImageResource(R.drawable.ic_heart_filled)
+                }
+            }
+
             itemView.setOnClickListener {
                 val action = ListTripFragmentDirections.actionListTripToDetailTrip(trip.open_trip_uuid)
-                itemView.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                itemView.findNavController().navigate(action)
             }
         }
     }

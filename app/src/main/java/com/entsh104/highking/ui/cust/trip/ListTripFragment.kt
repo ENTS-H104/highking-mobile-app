@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.helper.ViewModelFactory
@@ -14,6 +15,7 @@ import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.data.viewmodel.FavoritesViewModel
+import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.databinding.FragmentCustListTripBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
 
@@ -22,6 +24,7 @@ class ListTripFragment : Fragment() {
     private var _binding: FragmentCustListTripBinding? = null
     private val binding get() = _binding!!
     private lateinit var userRepository: UserRepository
+    private val tripViewModel: TripViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +52,7 @@ class ListTripFragment : Fragment() {
     }
 
     private fun displayTrips(trips: List<TripFilter>) {
-        val favoriteViewModel = obtainViewModel(requireActivity())
-
-        val tripsAdapter = TripsAdapter(trips, true, favoriteViewModel)
+        val tripsAdapter = TripsAdapter(trips, true, tripViewModel)
         if (tripsAdapter.itemCount <= 0){
             binding.noTrips.visibility = View.VISIBLE
             binding.recyclerViewTrips.visibility = View.GONE

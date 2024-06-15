@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.viewmodel.FavoritesViewModel
+import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -40,6 +42,7 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
     private val binding get() = _binding!!
     private lateinit var userRepository: UserRepository
     private val args: DetailMountainFragmentArgs by navArgs()
+    private val tripViewModel: TripViewModel by viewModels()
 
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
@@ -168,7 +171,7 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
             val searchResults = result.body()?.data ?: emptyList()
             val favoriteViewModel = obtainViewModel(requireActivity())
 
-            val tripsAdapter = TripsAdapter(searchResults, true, favoriteViewModel)
+            val tripsAdapter = TripsAdapter(searchResults, true, tripViewModel)
             binding.rvSimilarTrips.adapter = tripsAdapter
 
             binding.fabSearchTrips.setOnClickListener {

@@ -1,7 +1,6 @@
 package com.entsh104.highking.data.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import com.entsh104.highking.ui.model.Mountain
 import com.google.gson.annotations.SerializedName
 
 data class TokenResponse(val token: String)
