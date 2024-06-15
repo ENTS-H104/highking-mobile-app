@@ -95,6 +95,7 @@ class FilterFragment : Fragment() {
         btnSearch.setOnClickListener {
             val selectedMountain = actvLocation.text.toString()
             val selectedDate = tvDate.text.toString()
+            val selectedDate2 = tvDate2.text.toString()
 
             if (!mountainMap.containsKey(selectedMountain)) {
                 actvLocation.error = "Mountain not found"
@@ -106,8 +107,13 @@ class FilterFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            if (selectedDate2.isEmpty()) {
+                tvDate2.error = "Please select a date 2"
+                return@setOnClickListener
+            }
+
             val mountainUuid = mountainMap[selectedMountain] ?: return@setOnClickListener
-            performSearch(mountainUuid, selectedDate)
+            performSearch(mountainUuid, selectedDate, selectedDate2)
         }
     }
 
@@ -124,10 +130,10 @@ class FilterFragment : Fragment() {
         }
     }
 
-    private fun performSearch(mountainUuid: String, date: String) {
+    private fun performSearch(mountainUuid: String, date: String, date2: String) {
         lifecycleScope.launch {
             val apiService = RetrofitClient.getInstance()
-            val response = apiService.searchOpenTrip(mountainUuid, date)
+            val response = apiService.searchOpenTrip(mountainUuid, date, date2)
             if (response.isSuccessful && response.body() != null) {
                 val searchResults = response.body()?.data
                 val action = FilterFragmentDirections.actionNavSearchToNavListTrip(

@@ -13,7 +13,7 @@ class TripPagingSource(private val apiService: ApiService) : PagingSource<Int, T
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TripFilter> {
         val page = params.key ?: 1
         return try {
-            val response = apiService.getOpenTripsPaging(page, params.loadSize)
+            val response = apiService.getOpenTripsPaging(page, 8)
             val trips = response.body()?.data ?: emptyList()
 
             Log.d("PagingSource", "Loaded page $page with ${trips.size} items")

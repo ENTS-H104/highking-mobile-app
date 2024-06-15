@@ -61,22 +61,23 @@ interface ApiService {
     @GET("mountains")
     suspend fun getMountains(
         @Query("page") page: Int = 1,
-        @Query("size") size: Int = 0
+        @Query("limit") size: Int = 100
     ): Response<MountainsResponse>
 
     @GET("mountains/{id}")
-    suspend fun getMountainById(@Path("id") id: String): Response<MountainDetailResponse>
+    suspend fun getMountainById(@Header("Authorization") token: String, @Path("id") id: String): Response<MountainDetailResponse>
 
     @GET("open-trips")
     suspend fun getOpenTrips(): Response<OpenTripResponse>
 
     @GET("open-trips/{open_trip_uuid}")
-    suspend fun getOpenTripById(@Path("open_trip_uuid") openTripId: String): Response<OpenTripDetailResponse>
+    suspend fun getOpenTripById(@Header("Authorization") token: String, @Path("open_trip_uuid") openTripId: String): Response<OpenTripDetailResponse>
 
     @GET("search-ot")
     suspend fun searchOpenTrip(
         @Query("id") mountainId: String,
-        @Query("date") date: String
+        @Query("from_date") date: String,
+        @Query("to_date") date2: String
     ): Response<SearchOpenTripResponse>
 
     @POST("transaction/create")
@@ -91,12 +92,9 @@ interface ApiService {
     @GET("open-trips/partners/{partner_uid}")
     suspend fun getMitraProfile(@Path("partner_uid") partnerUid: String): Response<MitraProfileResponse>
 
-    @GET("open-trips/partners/{partner_uid}")
-    suspend fun getMitraTrips(@Path("partner_uid") partnerUid: String): Response<MitraProfileResponse>
-
     @GET("open-trips")
     suspend fun getOpenTripsPaging(
         @Query("page") page: Int,
-        @Query("size") size: Int
+        @Query("limit") size: Int
     ): Response<OpenTripResponse>
 }

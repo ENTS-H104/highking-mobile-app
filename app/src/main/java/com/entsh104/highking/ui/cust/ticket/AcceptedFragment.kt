@@ -1,5 +1,6 @@
 package com.entsh104.highking.ui.cust.ticket
 
+import UserRepository
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.databinding.FragmentCustTicketListBinding
 import com.entsh104.highking.data.model.TransactionHistory
+import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.ui.adapters.OrdersAdapter
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.google.gson.Gson
@@ -24,6 +26,9 @@ class AcceptedFragment : Fragment() {
     private var acceptedOrders: List<TransactionHistory> = emptyList()
     private lateinit var adapter: OrdersAdapter
 
+    private lateinit var userRepository: UserRepository
+    private lateinit var prefs: SharedPreferencesManager
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +39,9 @@ class AcceptedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefs = SharedPreferencesManager(requireContext())
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         arguments?.let {
             val jsonString = it.getString(ARG_ORDERS)
@@ -55,10 +63,13 @@ class AcceptedFragment : Fragment() {
         val apiService = RetrofitClient.getInstance()
 
         for (order in orders) {
-            val result = apiService.getOpenTripById(order.open_trip_uuid)
-            if (result.isSuccessful) {
-                result.body()?.data?.get(0)?.let { tripDetail ->
-                    tripDetailsMap[order.open_trip_uuid] = tripDetail
+            val openTripId = order.open_trip_uuid
+            val userRepository = UserRepository(apiService, prefs)
+            val result = userRepository.getOpenTripById(openTripId)
+            if (result.isSuccess) {
+                val tripList = result.getOrNull()?.data
+                tripList?.firstOrNull()?.let { trip ->
+                    tripDetailsMap[order.open_trip_uuid] = trip
                 }
             }
         }

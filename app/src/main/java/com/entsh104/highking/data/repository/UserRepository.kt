@@ -139,8 +139,9 @@ class UserRepository(
 //    }
 
     suspend fun getMountainById(id: String): Result<MountainDetailResponse> {
+        val token = prefs.getToken()
         return try {
-            val response = apiService.getMountainById(id)
+            val response = apiService.getMountainById("Bearer $token", id)
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
@@ -166,8 +167,9 @@ class UserRepository(
 
 
     suspend fun getOpenTripById(tripId: String): Result<OpenTripDetailResponse> {
+        val token = prefs.getToken()
         return try {
-            val response = apiService.getOpenTripById(tripId)
+            val response = apiService.getOpenTripById("Bearer $token", tripId)
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
@@ -178,10 +180,10 @@ class UserRepository(
         }
     }
 
-    suspend fun searchOpenTrip(mountainId: String, date: String): Result<SearchOpenTripResponse> {
+    suspend fun searchOpenTrip(mountainId: String, date: String, date2: String): Result<SearchOpenTripResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = apiService.searchOpenTrip(mountainId, date)
+                val response = apiService.searchOpenTrip(mountainId, date, date2)
                 if (response.isSuccessful) {
                     Result.success(response.body()!!)
                 } else {
