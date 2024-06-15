@@ -85,4 +85,6 @@ dependencies {
     // Midtrans Production
     // implementation("com.midtrans:uikit:2.0.0")
 
+    implementation("androidx.paging:paging-runtime-ktx:3.3.0") //Paging
+
 }

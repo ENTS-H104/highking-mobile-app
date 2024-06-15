@@ -1,3 +1,9 @@
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.PagingSourceFactory
 import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
 import com.entsh104.highking.data.model.MitraProfileResponse
@@ -12,10 +18,14 @@ import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.model.UserResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
+import com.entsh104.highking.ui.cust.mountain.MountainPagingSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class UserRepository(private val apiService: ApiService, private val prefs: SharedPreferencesManager) {
+class UserRepository(
+    private val apiService: ApiService,
+    private val prefs: SharedPreferencesManager
+) {
 
     suspend fun loginUser(email: String, password: String): Result<TokenResponse> {
         return try {
@@ -35,17 +45,23 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
             val response = apiService.forgotPassword(ResetPasswordRequest(email))
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
-            }else{
+            } else {
                 Result.failure(Exception(response.message()))
             }
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    suspend fun registerUser(email: String, username: String, phone_number: String, password: String): Result<BasicResponse> {
+    suspend fun registerUser(
+        email: String,
+        username: String,
+        phone_number: String,
+        password: String
+    ): Result<BasicResponse> {
         return try {
-            val response = apiService.registerUser(RegisterRequest(email, username, phone_number, password))
+            val response =
+                apiService.registerUser(RegisterRequest(email, username, phone_number, password))
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
@@ -99,7 +115,7 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
         }
     }
 
-    suspend fun getMountains(): Result<List<MountainResponse>> {
+        suspend fun getMountains(): Result<List<MountainResponse>> {
         return try {
             val response = apiService.getMountains()
             if (response.isSuccessful) {
@@ -111,6 +127,16 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
             Result.failure(e)
         }
     }
+//    suspend fun getMountains(): LiveData<PagingData<List<MountainResponse>>> {
+//        return Pager(
+//            config = PagingConfig(
+//                pageSize = 5
+//            ),
+//            PagingSourceFactory = {
+//                MountainPagingSource(apiService)
+//            }
+//        ).livedata
+//    }
 
     suspend fun getMountainById(id: String): Result<MountainDetailResponse> {
         return try {
