@@ -163,7 +163,7 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
     private suspend fun fetchTripsForMountain(mountainId: String) {
         val apiService = RetrofitClient.getInstance()
-        val result = apiService.searchOpenTrip(mountainId, "2024-01-01", "2024-12-31")
+        val result = apiService.searchOpenTripByMountain(mountainId)
         if (result.isSuccessful && result.body() != null) {
             val searchResults = result.body()?.data ?: emptyList()
             val favoriteViewModel = obtainViewModel(requireActivity())

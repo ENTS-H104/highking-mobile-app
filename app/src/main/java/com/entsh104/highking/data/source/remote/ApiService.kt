@@ -80,6 +80,11 @@ interface ApiService {
         @Query("to_date") date2: String
     ): Response<SearchOpenTripResponse>
 
+    @GET("search-ot/ot-by-mountain")
+    suspend fun searchOpenTripByMountain(
+        @Query("id") mountainId: String
+    ): Response<SearchOpenTripResponse>
+
     @POST("transaction/create")
     suspend fun createTransaction(@Body request: CreateTransactionRequest): Response<CreateTransactionResponse>
 
