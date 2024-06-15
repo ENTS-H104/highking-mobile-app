@@ -1,7 +1,6 @@
 package com.entsh104.highking.data.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import com.entsh104.highking.ui.model.Mountain
 import com.google.gson.annotations.SerializedName
 
 data class TokenResponse(val token: String)
@@ -12,6 +11,16 @@ data class UserApiResponse(
     val status: Int,
     val message: String,
     val data: List<UserResponse>
+)
+data class UserUpdateApiResponse(
+    val status: Int,
+    val message: String,
+    val data: List<UserUpdateResponse>
+)
+
+data class UserUpdateResponse(
+    val username: String?,
+    val phone_number: String?
 )
 
 data class UserResponse(

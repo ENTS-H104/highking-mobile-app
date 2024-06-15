@@ -24,6 +24,7 @@ import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TripFilter
+import java.text.DecimalFormat
 import java.text.NumberFormat
 
 class DetailTripFragment : Fragment() {
@@ -73,13 +74,14 @@ class DetailTripFragment : Fragment() {
             val tripList = result.getOrNull()?.data
             tripList?.firstOrNull()?.let { trip ->
                 Glide.with(this@DetailTripFragment).load(trip.image_url).into(binding.ivTripImage)
-                var mPrice = trip.price
-                val mCurrencyFormat  = NumberFormat.getCurrencyInstance()
+                val mPrice = trip.price
+                val mCurrencyFormat = DecimalFormat("#,###")
                 val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
                 binding.tvTripName.text = trip.open_trip_name
                 binding.tvTripPrice.text = "Rp ${myFormattedPrice}"
                 binding.tvTripAvailability.text = "${trip.min_people}-${trip.max_people}"
                 binding.tvTripLocation.text = trip.mountain_data.joinToString(", ") { mountain -> mountain.name }
+                binding.tvDateTrip.text = trip.schedule_data[0].start_date
 
                 val fullDescription = trip.description
                 val shortDescription = if (fullDescription.length > 200) fullDescription.substring(0, 200) + "..." else fullDescription
@@ -201,6 +203,11 @@ class DetailTripFragment : Fragment() {
 
                 binding.fabCheckoutTrip.setOnClickListener {
                     val action = DetailTripFragmentDirections.actionNavDetailTripToCartFragment(trip)
+                    findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                }
+
+                binding.tvTripLocation.setOnClickListener {
+                    val action = DetailTripFragmentDirections.actionNavDetailTripToNavDetailMountain(trip.mountain_data[0].mountain_uuid)
                     findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
                 }
 

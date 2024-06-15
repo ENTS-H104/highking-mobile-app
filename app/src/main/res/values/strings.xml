@@ -3,7 +3,7 @@
     <string name="logo_desc">logo desc</string>
     <string name="illustration_desc">illustration desc</string>
     <string name="onboarding_2">Onboarding 2</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce faucibus eleifend erat, ac egestas massa mattis id.</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet</string>
     <string name="create_account">Create Account</string>
     <string name="your_username">Your username</string>
     <string name="your_email">Your email</string>
@@ -25,7 +25,7 @@
     <string name="cari_trip">Cari Trip</string>
     <string name="mitra_trip">Mitra Trip</string>
     <string name="profil">Profil</string>
-    <string name="loremipsum">lorem lorem lorem ipsum sit amet dolor, lorem ipsum sit amet dolor, lorem ipsum sit amet dolor,lorem ipsum sit amet dolor, lorem ipsum sit amet dolor</string>
+    <string name="loremipsum">lorem lorem lorem ipsum sit amet dolor</string>
     <string name="txt_imagetrip">gambar foto trip</string>
     <string name="white_secondary">E2E2E2</string>
     <string name="payment_accepted">Payment Accepted</string>
@@ -33,7 +33,7 @@
     <string name="not_register_yet_register">Not register yet? Register</string>
     <string name="enter_username">Enter username</string>
     <string name="sign_in">Sign in</string>
-    <string name="lorem_ipsum_2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce faucibus eleifend erat, ac egestas massa mattis id.</string>
+    <string name="lorem_ipsum_2">Lorem ipsum dolor sit amet.</string>
     <string name="onboarding_1">Onboarding 1</string>
     <string name="mountain_name">Mountain Name</string>
     <string name="welcome_back_daffa">Welcome Back, Daffa!</string>
@@ -41,4 +41,8 @@
     <string name="pencarian">Telusuri</string>
     <string name="enter_email">Enter Email</string>
     <string name="no_item">Tidak ada data</string>
+    <string name="txt_register_desc">A verification email has been sent to your email address. Please check your email and follow the instructions to verify your account.</string>
+    <string name="txt_register_label">Email Verification</string>
+    <string name="txt_password_desc">Link reset password telah dikirim ke email anda, mohon di cek di pesan masuk email</string>
+    <string name="txt_password_label">Reset Password berhasil</string>
 </resources>

@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_listMountain_to_detailMountain"
             app:destination="@id/nav_detailMountain" />
+        <action
+            android:id="@+id/action_home_to_all_listTrip"
+            app:destination="@id/listAllTripFragment" />
     </fragment>
 
     <fragment
@@ -50,6 +53,9 @@
         <action
             android:id="@+id/action_nav_detailTrip_to_profileMitraFragment"
             app:destination="@id/profileMitraFragment" />
+        <action
+            android:id="@+id/action_nav_detailTrip_to_nav_detailMountain"
+            app:destination="@id/nav_detailMountain" />
     </fragment>
 
     <fragment
@@ -76,7 +82,20 @@
         android:id="@+id/nav_profile"
         android:name="com.entsh104.highking.ui.cust.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_cust_profile" />
+        tools:layout="@layout/fragment_cust_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_fragmentCustProfileEdit"
+            app:destination="@id/fragmentCustProfileEdit" />
+        <action
+            android:id="@+id/action_nav_profile_to_favoriteMountainFragment"
+            app:destination="@id/favoriteMountainFragment2" />
+        <action
+            android:id="@+id/action_nav_profile_to_favoriteTripFragment"
+            app:destination="@id/favoriteTripFragment" />
+        <action
+            android:id="@+id/action_nav_profile_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_listMountain"
@@ -150,8 +169,8 @@
             android:id="@+id/action_orderDetailsFragment_to_nav_orders"
             app:destination="@id/nav_orders" />
         <argument
-            android:name="transaction_logs_uuid"
-            app:argType="string" />
+            android:name="trip"
+            app:argType="com.entsh104.highking.data.model.OpenTripDetail" />
     </fragment>
     <fragment
         android:id="@+id/profileMitraFragment"
@@ -173,4 +192,54 @@
         android:name="com.entsh104.highking.ui.cust.review.FragmentCustReview"
         android:label="Ulasan"
         tools:layout="@layout/fragment_cust_review" />
+
+    <fragment
+        android:id="@+id/listAllTripFragment"
+        android:name="com.entsh104.highking.ui.cust.trip.ListAllTripFragment"
+        android:label="List All Trip"
+        tools:layout="@layout/fragment_cust_list_all_trip" >
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentCustProfileEdit"
+        android:name="com.entsh104.highking.ui.cust.profile.FragmentCustProfileEdit"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_cust_profile_edit" >
+        <action
+            android:id="@+id/action_fragmentCustProfileEdit_to_nav_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteMountainFragment2"
+        android:name="com.entsh104.highking.ui.cust.mountain.FavoriteMountainFragment"
+        android:label="Favorite Mountain"
+        tools:layout="@layout/fragment_cust_fav_mountain" >
+        <action
+            android:id="@+id/action_listMountain_to_detailMountain"
+            app:destination="@id/nav_detailMountain" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteTripFragment"
+        android:name="com.entsh104.highking.ui.cust.trip.FavoriteTripFragment"
+        android:label="Favorite Trip"
+        tools:layout="@layout/fragment_cust_fav_trip" >
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.entsh104.highking.ui.cust.favorites.FavoritesFragment"
+        android:label="Favorite Items"
+        tools:layout="@layout/fragment_cust_favorite" >
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+        <action
+            android:id="@+id/action_listMountain_to_detailMountain"
+            app:destination="@id/nav_detailMountain" />
+    </fragment>
 </navigation>

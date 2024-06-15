@@ -1,5 +1,6 @@
 package com.entsh104.highking.data.source.remote
 
+import com.entsh104.highking.BuildConfig
 import ApiService
 import android.content.Context
 import com.entsh104.highking.R
@@ -14,8 +15,9 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
+
 object RetrofitClient {
-    private const val BASE_URL = "https://highking.cloud/api/"
+    private const val BASE_URL = BuildConfig.BASE_URL
     private var apiService: ApiService? = null
 
     fun createInstance(context: Context): ApiService {

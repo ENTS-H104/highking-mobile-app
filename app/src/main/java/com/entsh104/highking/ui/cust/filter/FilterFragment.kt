@@ -22,6 +22,7 @@ import java.util.*
 class FilterFragment : Fragment() {
     private lateinit var actvLocation: AutoCompleteTextView
     private lateinit var tvDate: TextView
+    private lateinit var tvDate2: TextView
     private lateinit var btnSearch: Button
     private val mountainMap = mutableMapOf<String, String>()
 
@@ -32,6 +33,7 @@ class FilterFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_cust_filter, container, false)
         actvLocation = view.findViewById(R.id.autoCompleteLocation)
         tvDate = view.findViewById(R.id.textViewDate)
+        tvDate2 = view.findViewById(R.id.textViewDate2)
         btnSearch = view.findViewById(R.id.btn_search_trip)
 
         setupAutoCompleteTextView()
@@ -73,12 +75,27 @@ class FilterFragment : Fragment() {
 
             datePickerDialog.show()
         }
+        tvDate2.setOnClickListener{
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(requireContext(), { _, selectedYear, selectedMonth, selectedDay ->
+                val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+                tvDate2.text = formattedDate
+            }, year, month, day)
+
+            datePickerDialog.show()
+        }
     }
+
 
     private fun setupSearchButton() {
         btnSearch.setOnClickListener {
             val selectedMountain = actvLocation.text.toString()
             val selectedDate = tvDate.text.toString()
+            val selectedDate2 = tvDate2.text.toString()
 
             if (!mountainMap.containsKey(selectedMountain)) {
                 actvLocation.error = "Mountain not found"
@@ -90,8 +107,13 @@ class FilterFragment : Fragment() {
                 return@setOnClickListener
             }
 
+            if (selectedDate2.isEmpty()) {
+                tvDate2.error = "Please select a date 2"
+                return@setOnClickListener
+            }
+
             val mountainUuid = mountainMap[selectedMountain] ?: return@setOnClickListener
-            performSearch(mountainUuid, selectedDate)
+            performSearch(mountainUuid, selectedDate, selectedDate2)
         }
     }
 
@@ -108,10 +130,10 @@ class FilterFragment : Fragment() {
         }
     }
 
-    private fun performSearch(mountainUuid: String, date: String) {
+    private fun performSearch(mountainUuid: String, date: String, date2: String) {
         lifecycleScope.launch {
             val apiService = RetrofitClient.getInstance()
-            val response = apiService.searchOpenTrip(mountainUuid, date)
+            val response = apiService.searchOpenTrip(mountainUuid, date, date2)
             if (response.isSuccessful && response.body() != null) {
                 val searchResults = response.body()?.data
                 val action = FilterFragmentDirections.actionNavSearchToNavListTrip(

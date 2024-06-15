@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,7 +18,8 @@ import com.entsh104.highking.R
 import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
-import com.entsh104.highking.data.viewmodel.FavoritesViewModel
+import com.entsh104.highking.data.viewmodel.MountainViewModel
+import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.databinding.FragmentCustBerandaBinding
 import com.entsh104.highking.ui.adapters.BannerAdapter
 import com.entsh104.highking.ui.adapters.MountainAdapter
@@ -33,6 +34,8 @@ class BerandaFragment : Fragment() {
     private var _binding: FragmentCustBerandaBinding? = null
     private val binding get() = _binding!!
     private lateinit var userRepository: UserRepository
+    private val mountainViewModel: MountainViewModel by viewModels()
+    private val tripViewModel: TripViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,24 +59,6 @@ class BerandaFragment : Fragment() {
         }
 
         fetchData()
-
-//        Favorite
-//        val favoriteCheck = obtainViewModel(requireActivity())
-//        favoriteCheck.getUserFavorite(mountainUuid.toString()).observe(viewLifecycleOwner) { favUser ->
-//            if (favUser != null) {
-//                isFavorite = true
-//                binding..setImageResource(R.drawable.ic_heart_filled)
-//            } else {
-//                isFavorite = false
-//                binding.fabFav.setImageResource(R.drawable.ic_heart_outline)
-//            }
-//        }
-
-    }
-
-    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
     }
 
     private fun setupRecyclerViews() {
@@ -107,7 +92,7 @@ class BerandaFragment : Fragment() {
         val result = userRepository.getMountains()
         if (result.isSuccess) {
             val mountains = result.getOrNull() ?: emptyList()
-            val mountainsAdapter = MountainAdapter(mountains, true)
+            val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, true)
             binding.recyclerViewMountains.adapter = mountainsAdapter
         } else {
             Toast.makeText(requireContext(), "Failed to load mountains", Toast.LENGTH_SHORT).show()
@@ -119,8 +104,7 @@ class BerandaFragment : Fragment() {
         val result = apiService.getOpenTrips()
         if (result.isSuccessful && result.body() != null) {
             val searchResults = result.body()?.data ?: emptyList()
-            val favoriteViewModel = obtainViewModel(requireActivity())
-            val tripsAdapter = TripsAdapter(searchResults, true, favoriteViewModel)
+            val tripsAdapter = TripsAdapter(searchResults, true, tripViewModel)
             binding.recyclerViewTrips.adapter = tripsAdapter
 
             binding.rekomendasiTripLihatSemua.setOnClickListener {
@@ -131,9 +115,7 @@ class BerandaFragment : Fragment() {
             }
 
             binding.llTemukanTripTerdekat.setOnClickListener {
-                val action = BerandaFragmentDirections.actionHomeToListTrip(
-                    searchResults?.toTypedArray() ?: emptyArray()
-                )
+                val action = BerandaFragmentDirections.actionHomeToAllListTrip()
                 findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
 

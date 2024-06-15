@@ -333,14 +333,14 @@
                 android:textStyle="bold"
                 android:paddingTop="4dp" />
 
-            <ImageView
-                android:id="@+id/iv_location_map"
-                android:layout_width="wrap_content"
-                android:layout_height="165dp"
-                android:src="@drawable/iv_illustration_maps"
-                android:scaleType="centerInside" />
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="165dp"
+                    android:layout_marginBottom="4dp"/>
 
-            <!-- Share Info -->
+
+                <!-- Share Info -->
             <TextView
                 android:id="@+id/tv_share_info_header"
                 android:layout_width="wrap_content"

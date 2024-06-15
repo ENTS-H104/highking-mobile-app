@@ -1,3 +1,9 @@
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.PagingSourceFactory
 import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
 import com.entsh104.highking.data.model.MitraProfileResponse
@@ -6,15 +12,23 @@ import com.entsh104.highking.data.model.MountainResponse
 import com.entsh104.highking.data.model.OpenTripDetailResponse
 import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
+import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TripFilter
+import com.entsh104.highking.data.model.UpdateUserRequest
+import com.entsh104.highking.data.model.UserApiResponse
 import com.entsh104.highking.data.model.UserResponse
+import com.entsh104.highking.data.model.UserUpdateApiResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
+import com.entsh104.highking.ui.cust.mountain.MountainPagingSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class UserRepository(private val apiService: ApiService, private val prefs: SharedPreferencesManager) {
+class UserRepository(
+    private val apiService: ApiService,
+    private val prefs: SharedPreferencesManager
+) {
 
     suspend fun loginUser(email: String, password: String): Result<TokenResponse> {
         return try {
@@ -29,9 +43,53 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
         }
     }
 
-    suspend fun registerUser(email: String, username: String, phone_number: String, password: String): Result<BasicResponse> {
+    suspend fun resetPasswordUser(email: String): Result<BasicResponse> {
         return try {
-            val response = apiService.registerUser(RegisterRequest(email, username, phone_number, password))
+            val response = apiService.forgotPassword(ResetPasswordRequest(email))
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun editProfileUser(
+        username: String,
+        phone_number: String
+    ): Result<UserUpdateApiResponse> {
+        val token = prefs.getToken()
+        return if (token != null) {
+            try {
+                val resp =
+                    apiService.updateUser(
+                        "Bearer $token",
+                        UpdateUserRequest(username, phone_number)
+                    )
+                if (resp.isSuccessful) {
+                    Result.success(resp.body()!!)
+                } else {
+                    Result.failure(Exception(resp.message()))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        } else {
+            Result.failure(Exception("TOKEN Not Found"))
+        }
+    }
+
+    suspend fun registerUser(
+        email: String,
+        username: String,
+        phone_number: String,
+        password: String
+    ): Result<BasicResponse> {
+        return try {
+            val response =
+                apiService.registerUser(RegisterRequest(email, username, phone_number, password))
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
@@ -97,10 +155,21 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
             Result.failure(e)
         }
     }
+//    suspend fun getMountains(): LiveData<PagingData<List<MountainResponse>>> {
+//        return Pager(
+//            config = PagingConfig(
+//                pageSize = 5
+//            ),
+//            PagingSourceFactory = {
+//                MountainPagingSource(apiService)
+//            }
+//        ).livedata
+//    }
 
     suspend fun getMountainById(id: String): Result<MountainDetailResponse> {
+        val token = prefs.getToken()
         return try {
-            val response = apiService.getMountainById(id)
+            val response = apiService.getMountainById("Bearer $token", id)
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
@@ -126,8 +195,9 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
 
 
     suspend fun getOpenTripById(tripId: String): Result<OpenTripDetailResponse> {
+        val token = prefs.getToken()
         return try {
-            val response = apiService.getOpenTripById(tripId)
+            val response = apiService.getOpenTripById("Bearer $token", tripId)
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
@@ -138,10 +208,10 @@ class UserRepository(private val apiService: ApiService, private val prefs: Shar
         }
     }
 
-    suspend fun searchOpenTrip(mountainId: String, date: String): Result<SearchOpenTripResponse> {
+    suspend fun searchOpenTrip(mountainId: String, date: String, date2: String): Result<SearchOpenTripResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = apiService.searchOpenTrip(mountainId, date)
+                val response = apiService.searchOpenTrip(mountainId, date, date2)
                 if (response.isSuccessful) {
                     Result.success(response.body()!!)
                 } else {

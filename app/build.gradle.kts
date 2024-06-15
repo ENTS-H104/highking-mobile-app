@@ -20,6 +20,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        resValue("string", "google_maps_key", "AIzaSyDsbvczf_2-MgmpGzxjdrMRZPcatQI4bPA")
+        buildConfigField("String", "BASE_URL", "\"https://highking.cloud/api/\"")
     }
 
     buildTypes {
@@ -43,6 +45,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -78,6 +81,7 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.androidx.room.runtime)
     ksp(libs.room.compiler)
+    implementation("androidx.room:room-ktx:2.5.2")
 
 
     // Midtrans Sandbox
@@ -85,4 +89,13 @@ dependencies {
     // Midtrans Production
     // implementation("com.midtrans:uikit:2.0.0")
 
+    // Barcode
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    //maps
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
+
+    //paging 3
+    implementation("androidx.paging:paging-runtime-ktx:3.3.0")
 }

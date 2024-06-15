@@ -7,55 +7,99 @@
     tools:context=".ui.cust.filter.FilterFragment">
 
     <!-- Location AutoCompleteTextView -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="Lokasi"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <AutoCompleteTextView
         android:id="@+id/autoCompleteLocation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Location"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/custom_bg_white_rounded"
         android:drawableStart="@drawable/ic_place_outline"
         android:drawablePadding="8dp"
-        android:background="@drawable/custom_bg_white_rounded"
         android:drawableTint="@android:color/darker_gray"
+        android:hint="Location"
         android:padding="12dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
         android:textSize="16sp"
-        android:layout_marginHorizontal="18dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <!-- Date Picker -->
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Rentang Tanggal"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteLocation" />
+
+    <TextView
         android:id="@+id/textViewDate"
         android:layout_width="0dp"
-        android:textSize="16sp"
         android:layout_height="wrap_content"
-        android:hint="Tanggal Berangkat"
-        android:drawablePadding="8dp"
-        android:background="@drawable/custom_bg_white_rounded"
-        android:padding="12dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toBottomOf="@id/autoCompleteLocation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="18dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/custom_bg_white_rounded"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:hint="Tanggal Awal"
+        android:padding="12dp"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/ic_calendar"
         app:drawableTint="@android:color/darker_gray"
-        app:drawableStartCompat="@drawable/ic_calendar" />
+        app:layout_constraintEnd_toStartOf="@+id/textViewDate2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textViewDate2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/custom_bg_white_rounded"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:hint="Tanggal Akhir"
+        android:padding="12dp"
+        android:textSize="16sp"
+        app:drawableStartCompat="@drawable/ic_calendar"
+        app:drawableTint="@android:color/darker_gray"
+        app:layout_constraintStart_toEndOf="@+id/textViewDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <!-- Search Button -->
     <Button
         android:id="@+id/btn_search_trip"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Cari Trip"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/iv_rounded_button"
+        android:padding="12dp"
+        android:text="Cari Trip"
         android:textColor="@android:color/white"
         android:textStyle="bold"
-        android:padding="12dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewDate"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginHorizontal="18dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewDate" />
 </androidx.constraintlayout.widget.ConstraintLayout>

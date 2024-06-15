@@ -1,3 +1,4 @@
+// ui/adapters/MountainAdapter.kt
 package com.entsh104.highking.ui.adapters
 
 import android.view.LayoutInflater
@@ -10,12 +11,16 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
+import com.entsh104.highking.data.mapper.MountainMapper
 import com.entsh104.highking.data.model.MountainResponse
+import com.entsh104.highking.data.source.local.entity.MountainEntity
 import com.entsh104.highking.ui.cust.mountain.ListMountainFragmentDirections
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import com.entsh104.highking.data.viewmodel.MountainViewModel
 
 class MountainAdapter(
-    private val mountains: List<MountainResponse>,
+    var mountains: List<MountainResponse>,
+    private val viewModel: MountainViewModel,
     private val isSimpleLayout: Boolean
 ) : RecyclerView.Adapter<MountainAdapter.MountainViewHolder>() {
 
@@ -60,9 +65,31 @@ class MountainAdapter(
             textViewDescription?.text = mountain.description
             textViewTicketPrice?.text = "Rp ${mountain.harga}"
 
+            val mountainEntity = MountainMapper.mapResponseToEntity(mountain)
+
             itemView.setOnClickListener {
                 val action = ListMountainFragmentDirections.actionListMountainToDetailMountain(mountain.mountainId)
                 itemView.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+            }
+
+            viewModel.favoriteMountains.observeForever { favoriteMountains ->
+                val isLoved = favoriteMountains.any { it.mountainId == mountain.mountainId }
+                buttonLove?.setImageResource(
+                    if (isLoved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
+                )
+                mountainEntity.isLoved = isLoved
+            }
+
+            buttonLove?.setOnClickListener {
+                if (mountainEntity.isLoved) {
+                    viewModel.deleteMountain(mountainEntity)
+                    mountainEntity.isLoved = false
+                    buttonLove.setImageResource(R.drawable.ic_heart_outline)
+                } else {
+                    viewModel.insertMountain(mountainEntity)
+                    mountainEntity.isLoved = true
+                    buttonLove.setImageResource(R.drawable.ic_heart_filled)
+                }
             }
         }
     }
