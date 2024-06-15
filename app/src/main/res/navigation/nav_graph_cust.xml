@@ -179,7 +179,7 @@
         tools:layout="@layout/fragment_cust_review" />
     <fragment
         android:id="@+id/fragmentCustProfileEdit"
-        android:name="com.entsh104.highking.FragmentCustProfileEdit"
+        android:name="com.entsh104.highking.ui.cust.profile.FragmentCustProfileEdit"
         android:label="Edit Profile"
         tools:layout="@layout/fragment_cust_profile_edit" >
         <action

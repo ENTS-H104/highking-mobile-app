@@ -13,6 +13,16 @@ data class UserApiResponse(
     val message: String,
     val data: List<UserResponse>
 )
+data class UserUpdateApiResponse(
+    val status: Int,
+    val message: String,
+    val data: List<UserUpdateResponse>
+)
+
+data class UserUpdateResponse(
+    val username: String?,
+    val phone_number: String?
+)
 
 data class UserResponse(
     val user_uid: String?,

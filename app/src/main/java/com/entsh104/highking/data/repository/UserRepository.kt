@@ -16,7 +16,10 @@ import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TripFilter
+import com.entsh104.highking.data.model.UpdateUserRequest
+import com.entsh104.highking.data.model.UserApiResponse
 import com.entsh104.highking.data.model.UserResponse
+import com.entsh104.highking.data.model.UserUpdateApiResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.ui.cust.mountain.MountainPagingSource
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +53,31 @@ class UserRepository(
             }
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    suspend fun editProfileUser(
+        username: String,
+        phone_number: String
+    ): Result<UserUpdateApiResponse> {
+        val token = prefs.getToken()
+        return if (token != null) {
+            try {
+                val resp =
+                    apiService.updateUser(
+                        "Bearer $token",
+                        UpdateUserRequest(username, phone_number)
+                    )
+                if (resp.isSuccessful) {
+                    Result.success(resp.body()!!)
+                } else {
+                    Result.failure(Exception(resp.message()))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        } else {
+            Result.failure(Exception("TOKEN Not Found"))
         }
     }
 
@@ -115,7 +143,7 @@ class UserRepository(
         }
     }
 
-        suspend fun getMountains(): Result<List<MountainResponse>> {
+    suspend fun getMountains(): Result<List<MountainResponse>> {
         return try {
             val response = apiService.getMountains()
             if (response.isSuccessful) {
