@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
@@ -19,7 +18,6 @@ import com.entsh104.highking.R
 import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
-import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.data.viewmodel.MountainViewModel
 import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.databinding.FragmentCustBerandaBinding
@@ -61,11 +59,6 @@ class BerandaFragment : Fragment() {
         }
 
         fetchData()
-    }
-
-    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
     }
 
     private fun setupRecyclerViews() {

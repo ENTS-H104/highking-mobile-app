@@ -30,7 +30,7 @@ class FavoriteTripFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = TripsAdapter(emptyList(), viewModel = tripViewModel)
+        val adapter = TripsAdapter(emptyList(), true, viewModel = tripViewModel)
         binding.recyclerViewFavoriteTrips.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewFavoriteTrips.adapter = adapter
 

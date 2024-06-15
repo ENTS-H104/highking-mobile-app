@@ -66,16 +66,16 @@
                     android:textColor="@android:color/white" />
 
                 <Button
-                    android:id="@+id/buttonShareProfile"
+                    android:id="@+id/buttonFavoriteItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:backgroundTint="@color/green_light"
-                    android:drawableRight="@drawable/ic_send"
+                    android:drawableRight="@drawable/ic_heart_filled"
                     android:drawablePadding="8dp"
                     android:drawableTint="@color/green_primary"
                     android:paddingHorizontal="16dp"
-                    android:text="Share"
+                    android:text="Favorite"
                     android:textColor="@color/green_primary" />
             </LinearLayout>
 
@@ -246,20 +246,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="16dp"
                             android:text="Logout" />
-
-                        <Button
-                            android:id="@+id/btnFavoriteMountain"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:text="Mountain Favorite" />
-
-                        <Button
-                            android:id="@+id/btnFavoriteTrip"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="16dp"
-                            android:text="Trip Favorite" />
 
                     </LinearLayout>
                 </LinearLayout>

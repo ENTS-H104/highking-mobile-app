@@ -14,7 +14,6 @@ import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
-import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.databinding.FragmentCustListTripBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
@@ -62,10 +61,6 @@ class ListTripFragment : Fragment() {
 
             binding.recyclerViewTrips.adapter = tripsAdapter
         }
-    }
-    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
     }
     override fun onDestroyView() {
         super.onDestroyView()

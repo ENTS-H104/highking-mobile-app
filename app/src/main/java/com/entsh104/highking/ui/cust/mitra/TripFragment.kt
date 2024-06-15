@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
-import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.databinding.FragmentCustMitraProfileTripBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
@@ -90,10 +89,6 @@ class TripFragment : Fragment() {
 
             binding.progressBar.visibility = View.GONE
         }
-    }
-    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
     }
 
     override fun onDestroyView() {

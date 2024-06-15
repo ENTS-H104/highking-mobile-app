@@ -10,18 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
 import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
-import com.entsh104.highking.data.viewmodel.FavoritesViewModel
 import com.entsh104.highking.databinding.FragmentCustMitraProfileDetailsBinding
-import com.entsh104.highking.ui.adapters.TripsAdapter
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 class DetailsFragment : Fragment() {
 
@@ -93,13 +89,6 @@ class DetailsFragment : Fragment() {
             }
         }
     }
-
-    private fun obtainViewModel(activity: FragmentActivity): FavoritesViewModel {
-        val factory = ViewModelFactory.getInstance(activity.application)
-        return ViewModelProvider(activity, factory)[FavoritesViewModel::class.java]
-    }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

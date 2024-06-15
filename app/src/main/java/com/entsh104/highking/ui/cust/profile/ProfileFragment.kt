@@ -71,13 +71,10 @@ class ProfileFragment : Fragment() {
             toggleSection(binding.contentSettings, binding.arrowSettings)
         }
 
-        binding.btnFavoriteMountain.setOnClickListener{
-            findNavController().navigate(R.id.action_nav_profile_to_favoriteMountainFragment)
+        binding.buttonFavoriteItem.setOnClickListener{
+            findNavController().navigate(R.id.action_nav_profile_to_favoritesFragment)
         }
 
-        binding.btnFavoriteTrip.setOnClickListener{
-            findNavController().navigate(R.id.action_nav_profile_to_favoriteTripFragment)
-        }
         fetchUserProfile()
     }
 

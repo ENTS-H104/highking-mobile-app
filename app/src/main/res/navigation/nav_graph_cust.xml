@@ -92,6 +92,9 @@
         <action
             android:id="@+id/action_nav_profile_to_favoriteTripFragment"
             app:destination="@id/favoriteTripFragment" />
+        <action
+            android:id="@+id/action_nav_profile_to_favoritesFragment"
+            app:destination="@id/favoritesFragment" />
     </fragment>
 
     <fragment
@@ -226,5 +229,17 @@
         <action
             android:id="@+id/action_listTrip_to_detailTrip"
             app:destination="@id/nav_detailTrip" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.entsh104.highking.ui.cust.favorites.FavoritesFragment"
+        android:label="Favorite Items"
+        tools:layout="@layout/fragment_cust_favorite" >
+        <action
+            android:id="@+id/action_listTrip_to_detailTrip"
+            app:destination="@id/nav_detailTrip" />
+        <action
+            android:id="@+id/action_listMountain_to_detailMountain"
+            app:destination="@id/nav_detailMountain" />
     </fragment>
 </navigation>
