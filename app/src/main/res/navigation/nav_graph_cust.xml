@@ -76,7 +76,11 @@
         android:id="@+id/nav_profile"
         android:name="com.entsh104.highking.ui.cust.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_cust_profile" />
+        tools:layout="@layout/fragment_cust_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_fragmentCustProfileEdit"
+            app:destination="@id/fragmentCustProfileEdit" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_listMountain"
@@ -173,4 +177,13 @@
         android:name="com.entsh104.highking.ui.cust.review.FragmentCustReview"
         android:label="Ulasan"
         tools:layout="@layout/fragment_cust_review" />
+    <fragment
+        android:id="@+id/fragmentCustProfileEdit"
+        android:name="com.entsh104.highking.FragmentCustProfileEdit"
+        android:label="fragment_cust_profile_edit"
+        tools:layout="@layout/fragment_cust_profile_edit" >
+        <action
+            android:id="@+id/action_fragmentCustProfileEdit_to_nav_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
 </navigation>
