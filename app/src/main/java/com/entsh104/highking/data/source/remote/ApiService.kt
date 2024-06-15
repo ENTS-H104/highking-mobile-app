@@ -16,6 +16,7 @@ import com.entsh104.highking.data.model.UpdatePhotoUserRequest
 import com.entsh104.highking.data.model.UpdateUserRequest
 import com.entsh104.highking.data.model.UserApiResponse
 import com.entsh104.highking.data.model.UserResponse
+import com.entsh104.highking.data.model.UserUpdateApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -43,13 +44,13 @@ interface ApiService {
     suspend fun updateUser(
         @Header("Authorization") token: String,
         @Body request: UpdateUserRequest
-    ): Response<UserApiResponse>
+    ): Response<UserUpdateApiResponse>
 
     @PUT("users/update/photo")
     suspend fun updatePhotoUser(
         @Header("Authorization") token: String,
         @Part("image_url") imageUrl: MultipartBody.Part
-    ): Response<UserApiResponse>
+    ): Response<UserUpdateApiResponse>
 
 
     @GET("users/get-current-user")

@@ -205,8 +205,8 @@
 
     <fragment
         android:id="@+id/fragmentCustProfileEdit"
-        android:name="com.entsh104.highking.FragmentCustProfileEdit"
-        android:label="fragment_cust_profile_edit"
+        android:name="com.entsh104.highking.ui.cust.profile.FragmentCustProfileEdit"
+        android:label="Edit Profile"
         tools:layout="@layout/fragment_cust_profile_edit" >
         <action
             android:id="@+id/action_fragmentCustProfileEdit_to_nav_profile"

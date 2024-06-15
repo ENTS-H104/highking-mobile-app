@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentCustProfileEdit">
+    tools:context=".ui.cust.profile.FragmentCustProfileEdit">
 
     <!-- TODO: Update blank fragment layout -->
     <!-- Search Button -->
@@ -27,6 +27,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_edit_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp" />
@@ -52,6 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ed_edit_username">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_edit_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp" />
@@ -59,7 +61,7 @@
 
 
     <Button
-        android:id="@+id/btn_search_trip"
+        android:id="@+id/btn_save_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="18dp"
