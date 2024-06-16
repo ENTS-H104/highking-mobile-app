@@ -76,7 +76,7 @@ class BerandaFragment : Fragment() {
         // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val fetchMountainsDeferred = async { fetchMountains() }
             val fetchOpenTripsDeferred = async { fetchOpenTrips() }
 

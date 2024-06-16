@@ -45,7 +45,7 @@ class ListAllTripFragment : Fragment() {
         val tripsAdapter = TripsPagingAdapter(tripViewModel2, true)
         binding.recyclerViewTrips.adapter = tripsAdapter
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             tripsViewModel.trips.collectLatest { pagingData ->
                 tripsAdapter.submitData(pagingData)
             }

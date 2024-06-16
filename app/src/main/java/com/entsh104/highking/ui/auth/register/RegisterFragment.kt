@@ -48,7 +48,7 @@ class RegisterFragment : Fragment() {
             } else if (password != retypePassword) {
                 Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
             } else {
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     val result = userRepository.registerUser(email, username, phone_number, password)
                     if (result.isSuccess) {
                         findNavController().navigate(R.id.action_registerFragment_to_verificationFragment, null, NavOptionsUtil.defaultNavOptions)

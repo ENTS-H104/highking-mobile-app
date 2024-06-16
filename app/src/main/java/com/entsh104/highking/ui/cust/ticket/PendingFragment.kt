@@ -48,7 +48,7 @@ class PendingFragment : Fragment() {
             pendingOrders = Gson().fromJson(jsonString, type)
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(pendingOrders)
             adapter = OrdersAdapter(tripDetails, pendingOrders)
             binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
@@ -76,7 +76,7 @@ class PendingFragment : Fragment() {
     }
 
     fun updateData(newOrders: List<TransactionHistory>) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(newOrders)
             pendingOrders = newOrders
             adapter = OrdersAdapter(tripDetails, pendingOrders)

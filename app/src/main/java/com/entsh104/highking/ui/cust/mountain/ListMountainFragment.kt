@@ -49,7 +49,7 @@ class ListMountainFragment : Fragment() {
         // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val result = userRepository.getMountains()
             if (result.isSuccess) {
                 val mountains = result.getOrNull() ?: emptyList()

@@ -48,7 +48,7 @@ class CanceledFragment : Fragment() {
             canceledOrders = Gson().fromJson(jsonString, type)
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(canceledOrders)
             adapter = OrdersAdapter(tripDetails, canceledOrders)
             binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
@@ -75,7 +75,7 @@ class CanceledFragment : Fragment() {
     }
 
     fun updateData(newOrders: List<TransactionHistory>) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(newOrders)
             canceledOrders = newOrders
             adapter = OrdersAdapter(tripDetails, canceledOrders)

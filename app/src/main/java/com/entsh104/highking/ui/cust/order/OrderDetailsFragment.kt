@@ -70,7 +70,7 @@ class OrderDetailsFragment : Fragment() {
     }
 
     private fun fetchTransactionById(transactionId: String) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val apiService = RetrofitClient.getInstance()
                 val response = apiService.getTransactionDetail(transactionId)

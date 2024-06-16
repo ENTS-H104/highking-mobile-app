@@ -76,7 +76,7 @@ class TripFragment : Fragment() {
         // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val result = userRepository.getMitraTrips(mitraId)
             if (result.isSuccess) {
                 val openTrips = result.getOrNull() ?: emptyList()

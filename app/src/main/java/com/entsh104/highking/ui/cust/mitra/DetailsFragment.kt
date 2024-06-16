@@ -69,7 +69,7 @@ class DetailsFragment : Fragment() {
         // Show ProgressBar
 //        binding.progressBar.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val result = userRepository.getMitraProfile(mitraId)
 
             if (result.isSuccess) {

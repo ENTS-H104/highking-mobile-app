@@ -51,7 +51,7 @@ class ProfileFragment : Fragment() {
 
         binding.btnLogout.setOnClickListener {
             val token = prefs.getToken().toString()
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 val responseLogout = userRepository.logoutUser(token)
                 if (responseLogout.isSuccess) {
                     Toast.makeText(requireContext(), "Logout Berhasil", Toast.LENGTH_SHORT).show()
@@ -96,7 +96,7 @@ class ProfileFragment : Fragment() {
         builder.setTitle("Confirm Photo")
         builder.setMessage("Are you sure you want to upload this photo?")
         builder.setPositiveButton("Yes") { dialog, which ->
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 val response = userRepository.uploadPhoto(
                     requireContext().contentResolver,
                     requireContext().cacheDir,
@@ -137,7 +137,7 @@ class ProfileFragment : Fragment() {
 
 
     private fun fetchUserProfile() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             binding.progressBar.visibility = View.VISIBLE
             binding.scrollViewContent.visibility = View.GONE
 

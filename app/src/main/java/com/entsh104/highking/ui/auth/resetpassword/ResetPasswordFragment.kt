@@ -42,7 +42,7 @@ class ResetPasswordFragment : Fragment() {
             if (email.isEmpty()) {
                 Toast.makeText(requireContext(), "Email are required", Toast.LENGTH_SHORT).show()
             } else {
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     val result = userRepository.resetPasswordUser(email)
                     if (result.isSuccess) {
                         val bundle = Bundle().apply {

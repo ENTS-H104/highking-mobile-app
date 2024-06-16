@@ -62,7 +62,7 @@ class DetailTripFragment : Fragment() {
         // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val fetchTripDetailDeferred = async { fetchTripDetail(tripId) }
 
             fetchTripDetailDeferred.await()

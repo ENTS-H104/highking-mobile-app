@@ -49,7 +49,7 @@ class LoginFragment : Fragment() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT).show()
             } else {
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     val result = userRepository.loginUser(email, password)
                     if (result.isSuccess) {
                         userRepository.saveToken(result.getOrNull()!!.token)

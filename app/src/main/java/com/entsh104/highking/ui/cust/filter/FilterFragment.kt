@@ -118,7 +118,7 @@ class FilterFragment : Fragment() {
     }
 
     private fun fetchMountains() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val apiService = RetrofitClient.getInstance()
             val response = apiService.getMountains()
             if (response.isSuccessful && response.body() != null) {
@@ -131,7 +131,7 @@ class FilterFragment : Fragment() {
     }
 
     private fun performSearch(mountainUuid: String, date: String, date2: String) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val apiService = RetrofitClient.getInstance()
             val response = apiService.searchOpenTrip(mountainUuid, date, date2)
             if (response.isSuccessful && response.body() != null) {

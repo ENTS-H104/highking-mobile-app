@@ -58,7 +58,7 @@ class ProfileMitraFragment : Fragment() {
     }
 
     private fun fetchMitraProfile() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             try {
                 val response = userRepository.getMitraProfile(mitraId)
                 if (response.isSuccess) {

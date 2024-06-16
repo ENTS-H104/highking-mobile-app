@@ -59,7 +59,7 @@ class FragmentCustProfileEdit : Fragment() {
                 Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                lifecycleScope.launch {
+                viewLifecycleOwner.lifecycleScope.launch {
                     val response = userRepository.editProfileUser(username, phone)
                     Toast.makeText(requireContext(), "Update Profile Berhasil", Toast.LENGTH_SHORT)
                         .show()

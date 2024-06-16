@@ -49,7 +49,7 @@ class AcceptedFragment : Fragment() {
             acceptedOrders = Gson().fromJson(jsonString, type)
         }
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(acceptedOrders)
             adapter = OrdersAdapter(tripDetails, acceptedOrders)
             binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
@@ -77,7 +77,7 @@ class AcceptedFragment : Fragment() {
     }
 
     fun updateData(newOrders: List<TransactionHistory>) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(newOrders)
             acceptedOrders = newOrders
             adapter = OrdersAdapter(tripDetails, acceptedOrders)

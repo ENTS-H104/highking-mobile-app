@@ -80,7 +80,7 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
     private fun fetchData(mountainId: String) {
         binding.progressBar.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
 
             val tripsLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
             binding.rvSimilarTrips.layoutManager = tripsLayoutManager
@@ -222,6 +222,12 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
+        mapView.onDestroy()
+        _binding = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         mapView.onDestroy()
         _binding = null
     }

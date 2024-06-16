@@ -210,7 +210,7 @@ class CartFragment : Fragment() {
     }
 
     private fun fetchUserProfileAndCreateTransaction() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val result = userRepository.getCurrentUser()
             if (result.isSuccess) {
                 createTransaction()
@@ -235,7 +235,7 @@ class CartFragment : Fragment() {
             )
             Log.d("CartFragmentTT", "createTransaction: $request")
 
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 try {
                     val apiService = RetrofitClient.getInstance()
                     val response = apiService.createTransaction(request)
