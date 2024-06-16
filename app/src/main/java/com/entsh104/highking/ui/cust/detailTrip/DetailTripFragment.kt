@@ -26,6 +26,8 @@ import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TripFilter
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DetailTripFragment : Fragment() {
 
@@ -77,11 +79,21 @@ class DetailTripFragment : Fragment() {
                 val mPrice = trip.price
                 val mCurrencyFormat = DecimalFormat("#,###")
                 val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+                val schedule = trip.schedule_data[0]
+
                 binding.tvTripName.text = trip.open_trip_name
                 binding.tvTripPrice.text = "Rp ${myFormattedPrice}"
                 binding.tvTripAvailability.text = "${trip.min_people}-${trip.max_people}"
                 binding.tvTripLocation.text = trip.mountain_data.joinToString(", ") { mountain -> mountain.name }
-                binding.tvDateTrip.text = trip.schedule_data[0].start_date
+
+
+                val formattedSchedule = """
+                    ${schedule.total_day} Hari Perjalanan
+                    Berangkat: ${convertDate(schedule.start_date)} (${schedule.start_time})
+                    Kembali: ${convertDate(schedule.end_date)} (${schedule.end_time})
+                """.trimIndent()
+
+                binding.tvDeperatureDate.text = formattedSchedule
 
                 val fullDescription = trip.description
                 val shortDescription = if (fullDescription.length > 200) fullDescription.substring(0, 200) + "..." else fullDescription
@@ -234,6 +246,13 @@ class DetailTripFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Failed to load trip details", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun convertDate(dateString: String): String {
+        val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+        val date = sdf.parse(dateString)
+        val outputFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
+        return outputFormat.format(date)
     }
 
     private fun formatBulletPoints(text: String?): String {
