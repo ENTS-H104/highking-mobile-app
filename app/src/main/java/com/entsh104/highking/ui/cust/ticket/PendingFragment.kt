@@ -50,6 +50,7 @@ class PendingFragment : Fragment() {
             val type = object : TypeToken<List<TransactionHistory>>() {}.type
             pendingOrders = Gson().fromJson(jsonString, type)
         }
+        binding.progressBar.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -60,6 +61,7 @@ class PendingFragment : Fragment() {
                     binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
                     binding.recyclerViewOrders.adapter = adapter
                 }
+                binding.progressBar.visibility = View.GONE
             }
         }
     }

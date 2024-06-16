@@ -48,6 +48,8 @@ class ListAllTripFragment : Fragment() {
         val tripsAdapter = TripsPagingAdapter(tripViewModel2, true)
         binding.recyclerViewTrips.adapter = tripsAdapter
 
+        binding.progressBar.visibility = View.VISIBLE
+
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 delay(500)
@@ -55,6 +57,8 @@ class ListAllTripFragment : Fragment() {
                     tripsViewModel.trips.collectLatest { pagingData ->
                         tripsAdapter.submitData(pagingData)
                     }
+
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }

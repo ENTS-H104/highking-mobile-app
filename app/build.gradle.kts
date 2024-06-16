@@ -104,4 +104,7 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.9.0")
     // Library Crop Image
 //    implementation("com.github.yalantis:ucrop:2.2.8")
+
+    //skeleton
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

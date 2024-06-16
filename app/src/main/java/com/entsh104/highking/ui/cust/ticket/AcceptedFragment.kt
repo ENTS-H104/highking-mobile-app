@@ -52,6 +52,8 @@ class AcceptedFragment : Fragment() {
             acceptedOrders = Gson().fromJson(jsonString, type)
         }
 
+        binding.progressBar.visibility = View.VISIBLE
+
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 delay(500)
@@ -61,6 +63,7 @@ class AcceptedFragment : Fragment() {
                     binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
                     binding.recyclerViewOrders.adapter = adapter
                 }
+                binding.progressBar.visibility = View.GONE
             }
         }
     }
