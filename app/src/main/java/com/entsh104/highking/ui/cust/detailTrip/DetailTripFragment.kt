@@ -62,8 +62,9 @@ class DetailTripFragment : Fragment() {
     }
 
     private fun fetchData(tripId: String) {
-        // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
+        binding.scrollViewDetailTrip.visibility = View.GONE
+        binding.fabCheckoutTrip.visibility = View.GONE
 
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -75,6 +76,8 @@ class DetailTripFragment : Fragment() {
 
                     // Hide ProgressBar
                     binding.progressBar.visibility = View.GONE
+                    binding.scrollViewDetailTrip.visibility = View.VISIBLE
+                    binding.fabCheckoutTrip.visibility = View.VISIBLE
                 }
             }
         }
@@ -290,7 +293,13 @@ class DetailTripFragment : Fragment() {
     }
 
     private fun formatBulletPoints(text: String?): String {
-        return text?.split(",")?.joinToString("\n") { "• $it" } ?: ""
+        return text?.let {
+            val cleanedText = it.replace("[", "").replace("]", "").replace("\"", "").trim()
+            cleanedText.split(",")
+                .map { item -> item.trim() }
+                .filter { item -> item.isNotEmpty() }
+                .joinToString("\n") { item -> "• $item" }
+        } ?: ""
     }
 
     private fun shareInformation(platform: String, trip: OpenTripDetail) {

@@ -82,6 +82,8 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
     private fun fetchData(mountainId: String) {
         binding.progressBar.visibility = View.VISIBLE
+        binding.scrollViewDetailMountain.visibility = View.GONE
+        binding.fabSearchTrips.visibility = View.GONE
 
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -99,6 +101,8 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
                     fetchTripsDeferred.await()
 
                     binding.progressBar.visibility = View.GONE
+                    binding.scrollViewDetailMountain.visibility = View.VISIBLE
+                    binding.fabSearchTrips.visibility = View.VISIBLE
                 }
             }
         }
@@ -155,6 +159,8 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
                 binding.textViewFeeLabel.text = "Harga Masuk"
                 binding.textViewTicketPrice.text = "Rp ${it.harga}"
                 binding.tvSimilarTripsHeader.text = "Trip di ${it.name}"
+
+                binding.fabSearchTrips.text = "Cari Trip ke ${it.name}"
 
                 binding.llShareInfo.findViewById<View>(R.id.iv_twitter).setOnClickListener {
                     shareInformation("twitter", mountain)
