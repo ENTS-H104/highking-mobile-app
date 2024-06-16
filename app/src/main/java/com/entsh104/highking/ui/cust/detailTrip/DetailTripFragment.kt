@@ -87,10 +87,11 @@ class DetailTripFragment : Fragment() {
                 binding.tvTripLocation.text = trip.mountain_data.joinToString(", ") { mountain -> mountain.name }
 
 
+
                 val formattedSchedule = """
                     ${schedule.total_day} Hari Perjalanan
-                    Berangkat: ${convertDate(schedule.start_date)} (${schedule.start_time})
-                    Kembali: ${convertDate(schedule.end_date)} (${schedule.end_time})
+                    Berangkat   : ${convertDate(schedule.start_date)}   (${schedule.start_time})
+                    Kembali         : ${convertDate(schedule.end_date)}     (${schedule.end_time})
                 """.trimIndent()
 
                 binding.tvDeperatureDate.text = formattedSchedule
@@ -100,8 +101,13 @@ class DetailTripFragment : Fragment() {
 
                 binding.tvTripDescription.text = shortDescription
 
-                binding.tvReadMore.visibility = View.VISIBLE
-                binding.tvShowLess.visibility = View.GONE
+                if(fullDescription.length <= 200){
+                    binding.tvReadMore.visibility = View.GONE
+                    binding.tvShowLess.visibility = View.GONE
+                } else {
+                    binding.tvReadMore.visibility = View.VISIBLE
+                    binding.tvShowLess.visibility = View.GONE
+                }
 
                 // Handle "baca selengkapnya" click
                 binding.tvReadMore.setOnClickListener {

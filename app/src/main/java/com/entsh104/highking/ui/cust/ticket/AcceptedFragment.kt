@@ -53,7 +53,6 @@ class AcceptedFragment : Fragment() {
             val tripDetails = fetchTripDetailsForOrders(acceptedOrders)
             adapter = OrdersAdapter(tripDetails, acceptedOrders)
             binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
-            Log.d("AcceptedFragmentTT", "onViewCreated: $acceptedOrders")
             binding.recyclerViewOrders.adapter = adapter
         }
     }
@@ -81,7 +80,6 @@ class AcceptedFragment : Fragment() {
         lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(newOrders)
             acceptedOrders = newOrders
-            Log.d("AcceptedFragmentTT", "updateData: $acceptedOrders")
             adapter = OrdersAdapter(tripDetails, acceptedOrders)
             binding.recyclerViewOrders.adapter = adapter
         }

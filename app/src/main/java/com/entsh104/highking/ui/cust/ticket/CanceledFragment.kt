@@ -52,7 +52,6 @@ class CanceledFragment : Fragment() {
             val tripDetails = fetchTripDetailsForOrders(canceledOrders)
             adapter = OrdersAdapter(tripDetails, canceledOrders)
             binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
-            Log.d("CanceledFragmentTT", "onViewCreated: $canceledOrders")
             binding.recyclerViewOrders.adapter = adapter
         }
     }
@@ -72,7 +71,6 @@ class CanceledFragment : Fragment() {
                 }
             }
         }
-
         return tripDetailsMap
     }
 
@@ -80,7 +78,6 @@ class CanceledFragment : Fragment() {
         lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(newOrders)
             canceledOrders = newOrders
-            Log.d("CanceledFragmentTT", "updateData: $canceledOrders")
             adapter = OrdersAdapter(tripDetails, canceledOrders)
             binding.recyclerViewOrders.adapter = adapter
         }

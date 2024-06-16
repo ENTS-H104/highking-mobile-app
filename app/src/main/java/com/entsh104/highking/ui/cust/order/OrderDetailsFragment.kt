@@ -29,7 +29,14 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.widget.ScrollView
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
+import com.entsh104.highking.data.model.TransactionDetail
+import com.entsh104.highking.data.model.TransactionHistory
+import com.entsh104.highking.data.source.remote.RetrofitClient
+import kotlinx.coroutines.launch
 
 class OrderDetailsFragment : Fragment() {
 
@@ -37,6 +44,8 @@ class OrderDetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var trip: OpenTripDetail
     private val args: OrderDetailsFragmentArgs by navArgs()
+    private lateinit var transaction: TransactionDetail
+    private lateinit var transactionId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,31 +59,59 @@ class OrderDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         trip = args.trip
+        transactionId = args.transactionId
 
-        // Set up view with order details
-        setupOrderDetails()
+        fetchTransactionById(transactionId)
 
-        // Set up print ticket button
         binding.btnPrintTicket.setOnClickListener {
             printTicket()
         }
+    }
 
-        binding.btnBack.setOnClickListener {
-            val action = OrderDetailsFragmentDirections.actionOrderDetailsFragmentToNavOrders()
-            it.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+    private fun fetchTransactionById(transactionId: String) {
+        lifecycleScope.launch {
+            try {
+                val apiService = RetrofitClient.getInstance()
+                val response = apiService.getTransactionDetail(transactionId)
+                if (response.isSuccessful) {
+                    response.body()?.let { transactionDetailResponse ->
+                        if (transactionDetailResponse.status == 200) {
+                            transaction = transactionDetailResponse.data.first()
+                            setupOrderDetails()
+                        } else {
+                            Toast.makeText(requireContext(), transactionDetailResponse.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Failed to fetch transaction details", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun setupOrderDetails() {
         Glide.with(this@OrderDetailsFragment).load(trip.image_url).into(binding.imageViewMountain)
-        binding.textViewTripName.text = trip.open_trip_name
-        binding.textViewHikerName.text = "HighKing"
-        binding.textViewDepartureDate.text = trip.schedule_data[0].start_date
-        binding.textViewPickupLocation.text = trip.mountain_data[0].name
-        binding.textViewContactInfo.text = trip.mitra_data[0].username
-        val barcodeBitmap = generateBarcode(trip.open_trip_uuid)
+        binding.textViewTripName.text = transaction.name + " - Gunung " + trip.mountain_data[0].name
+
+        val participants = transaction.name_participant.split(",")
+        val formattedParticipants = participants.joinToString(separator = "\n")
+        binding.textViewHikerName.text = formattedParticipants
+
+        val departureDateText = "${transaction.start_date} ${transaction.start_time}"
+        binding.textViewDepartureDate.text = departureDateText
+
+        binding.textViewPickupLocation.text = transaction.meeting_point
+
+        val contactInfoText = "${transaction.phone_number} a.n ${trip.mitra_data[0].username}"
+        binding.textViewContactInfo.text = contactInfoText
+
+        val barcodeBitmap = generateBarcode(transactionId)
         if (barcodeBitmap != null) {
             binding.imageViewBarcode.setImageBitmap(barcodeBitmap)
+        } else {
+            binding.imageViewBarcode.visibility = View.GONE
         }
         binding.btnPrintTicket.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -86,6 +123,14 @@ class OrderDetailsFragment : Fragment() {
             } else {
                 printTicket()
             }
+        }
+
+        binding.btnCallTour.setOnClickListener {
+            val phoneNumber = transaction.phone_number.replace("+", "").replace(" ", "")
+            val url = "https://wa.me/$phoneNumber"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
         }
     }
 

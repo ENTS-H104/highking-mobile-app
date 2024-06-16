@@ -52,7 +52,6 @@ class PendingFragment : Fragment() {
             val tripDetails = fetchTripDetailsForOrders(pendingOrders)
             adapter = OrdersAdapter(tripDetails, pendingOrders)
             binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
-            Log.d("PendingFragmentTT", "onViewCreated: $pendingOrders")
             binding.recyclerViewOrders.adapter = adapter
         }
     }
@@ -68,11 +67,11 @@ class PendingFragment : Fragment() {
             if (result.isSuccess) {
                 val tripList = result.getOrNull()?.data
                 tripList?.firstOrNull()?.let { trip ->
-                    tripDetailsMap[order.open_trip_uuid] = trip
+                    tripDetailsMap[order.transaction_logs_uuid] = trip
                 }
             }
         }
-
+        Log.d("PendingFragment", "fetchTripDetailsForOrders: $tripDetailsMap")
         return tripDetailsMap
     }
 
@@ -80,7 +79,6 @@ class PendingFragment : Fragment() {
         lifecycleScope.launch {
             val tripDetails = fetchTripDetailsForOrders(newOrders)
             pendingOrders = newOrders
-            Log.d("PendingFragmentTT", "updateData: $pendingOrders")
             adapter = OrdersAdapter(tripDetails, pendingOrders)
             binding.recyclerViewOrders.adapter = adapter
         }

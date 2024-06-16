@@ -11,6 +11,7 @@ import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
+import com.entsh104.highking.data.model.TransactionDetailResponse
 import com.entsh104.highking.data.model.TransactionHistoryResponse
 import com.entsh104.highking.data.model.UpdatePhotoResponse
 import com.entsh104.highking.data.model.UpdatePhotoUserRequest
@@ -96,6 +97,9 @@ interface ApiService {
         @Query("id") id: String,
         @Query("status") status: String
     ): Response<TransactionHistoryResponse>
+
+    @GET("transaction/get-detail_transaction/{id}")
+    suspend fun getTransactionDetail(@Path("id") transactionId: String): Response<TransactionDetailResponse>
 
     @GET("open-trips/partners/{partner_uid}")
     suspend fun getMitraProfile(@Path("partner_uid") partnerUid: String): Response<MitraProfileResponse>

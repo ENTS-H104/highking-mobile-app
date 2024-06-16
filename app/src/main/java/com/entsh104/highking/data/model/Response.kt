@@ -203,6 +203,22 @@ data class CreateTransactionResponse(
     val data: TransactionData
 )
 
+data class TransactionDetailResponse(
+    val status: Int,
+    val message: String,
+    val data: List<TransactionDetail>
+)
+
+data class TransactionDetail(
+    val token: String?,
+    val name: String,
+    val phone_number: String,
+    val start_date: String,
+    val start_time: String,
+    val meeting_point: String,
+    val name_participant: String
+)
+
 data class TransactionData(
     val transaction_logs_uuid: String,
     val user_uid: String,

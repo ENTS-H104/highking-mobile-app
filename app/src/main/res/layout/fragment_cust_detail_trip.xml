@@ -48,42 +48,16 @@
                     app:layout_constraintEnd_toEndOf="parent" />
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- Image Indicators -->
-            <LinearLayout
-                android:id="@+id/ll_image_indicators"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardImageTrip">
-
-                <!-- Dummy indicators, replace with actual dynamic indicators -->
-                <ImageView
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/custom_indicator_unselected" />
-
-                <ImageView
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/custom_indicator_selected" />
-            </LinearLayout>
-
             <!-- Trip Name and Price -->
             <LinearLayout
                 android:id="@+id/ll_trip_name_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/ll_image_indicators"
+                app:layout_constraintTop_toBottomOf="@id/cardImageTrip"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/tv_trip_name"
@@ -174,7 +148,8 @@
                 android:text="baca selengkapnya"
                 android:textColor="@android:color/holo_blue_dark"
                 app:layout_constraintTop_toBottomOf="@id/tv_trip_description"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"/>
 
 
             <!-- Show Less Link -->
@@ -290,7 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="3 Hari Perjalanan\nBerangkat\t: Senin, 12 Desember 2022 \t(08:00)\nKembali\t\t\t: Rabu, 14 Desember 2022 \t(17:00)"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@id/tv_trip_schedule_header"
                 app:layout_constraintStart_toStartOf="parent" />
 
