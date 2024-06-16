@@ -1,4 +1,4 @@
-pluginManagement {
+    pluginManagement {
     repositories {
         google {
             content {
@@ -16,6 +16,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 

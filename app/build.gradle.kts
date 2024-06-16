@@ -103,5 +103,5 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.0")
     implementation("androidx.activity:activity-ktx:1.9.0")
     // Library Crop Image
-//    implementation("com.github.yalantis:ucrop:2.2.8")
+    implementation("com.github.yalantis:ucrop:2.2.8")
 }
