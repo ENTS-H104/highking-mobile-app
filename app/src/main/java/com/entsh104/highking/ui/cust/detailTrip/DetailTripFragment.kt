@@ -11,7 +11,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
@@ -24,6 +26,7 @@ import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TripFilter
+import kotlinx.coroutines.delay
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParseException
@@ -63,12 +66,17 @@ class DetailTripFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {
-            val fetchTripDetailDeferred = async { fetchTripDetail(tripId) }
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val fetchTripDetailDeferred = async { fetchTripDetail(tripId) }
 
-            fetchTripDetailDeferred.await()
+                    fetchTripDetailDeferred.await()
 
-            // Hide ProgressBar
-            binding.progressBar.visibility = View.GONE
+                    // Hide ProgressBar
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
         }
     }
 

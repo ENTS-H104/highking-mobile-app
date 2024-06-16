@@ -8,12 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustMitraProfileDetailsBinding
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -70,22 +73,33 @@ class DetailsFragment : Fragment() {
 //        binding.progressBar.visibility = View.VISIBLE
 
         viewLifecycleOwner.lifecycleScope.launch {
-            val result = userRepository.getMitraProfile(mitraId)
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val result = userRepository.getMitraProfile(mitraId)
 
-            if (result.isSuccess) {
-                val mitraProfileResponse = result.getOrNull()
-                mitraProfileResponse?.data?.firstOrNull()?.let { mitraProfile ->
-                    val dateString = mitraProfile.created_at
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-                    val date: Date? = dateFormat.parse(dateString)
-                    val myFormattedDate = date?.let { DateFormat.getDateInstance().format(it) }
-                    binding.textViewJoinDate.text = myFormattedDate
-                    binding.textViewDescription.text = mitraProfile.domicile_address
-                } ?: run {
-                    Toast.makeText(requireContext(), "Mitra profile not found", Toast.LENGTH_SHORT).show()
+                    if (result.isSuccess) {
+                        val mitraProfileResponse = result.getOrNull()
+                        mitraProfileResponse?.data?.firstOrNull()?.let { mitraProfile ->
+                            val dateString = mitraProfile.created_at
+                            val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+                            val date: Date? = dateFormat.parse(dateString)
+                            val myFormattedDate =
+                                date?.let { DateFormat.getDateInstance().format(it) }
+                            binding.textViewJoinDate.text = myFormattedDate
+                            binding.textViewDescription.text = mitraProfile.domicile_address
+                        } ?: run {
+                            Toast.makeText(
+                                requireContext(),
+                                "Mitra profile not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to load mitra", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
-            } else {
-                Toast.makeText(requireContext(), "Failed to load mitra", Toast.LENGTH_SHORT).show()
             }
         }
     }

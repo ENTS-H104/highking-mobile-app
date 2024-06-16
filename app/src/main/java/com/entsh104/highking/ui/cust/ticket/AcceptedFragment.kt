@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.databinding.FragmentCustTicketListBinding
@@ -17,6 +19,7 @@ import com.entsh104.highking.ui.adapters.OrdersAdapter
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class AcceptedFragment : Fragment() {
@@ -50,10 +53,15 @@ class AcceptedFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            val tripDetails = fetchTripDetailsForOrders(acceptedOrders)
-            adapter = OrdersAdapter(tripDetails, acceptedOrders)
-            binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
-            binding.recyclerViewOrders.adapter = adapter
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val tripDetails = fetchTripDetailsForOrders(acceptedOrders)
+                    adapter = OrdersAdapter(tripDetails, acceptedOrders)
+                    binding.recyclerViewOrders.layoutManager = LinearLayoutManager(context)
+                    binding.recyclerViewOrders.adapter = adapter
+                }
+            }
         }
     }
 
@@ -78,10 +86,15 @@ class AcceptedFragment : Fragment() {
 
     fun updateData(newOrders: List<TransactionHistory>) {
         viewLifecycleOwner.lifecycleScope.launch {
-            val tripDetails = fetchTripDetailsForOrders(newOrders)
-            acceptedOrders = newOrders
-            adapter = OrdersAdapter(tripDetails, acceptedOrders)
-            binding.recyclerViewOrders.adapter = adapter
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val tripDetails = fetchTripDetailsForOrders(newOrders)
+                    acceptedOrders = newOrders
+                    adapter = OrdersAdapter(tripDetails, acceptedOrders)
+                    binding.recyclerViewOrders.adapter = adapter
+                }
+            }
         }
     }
 

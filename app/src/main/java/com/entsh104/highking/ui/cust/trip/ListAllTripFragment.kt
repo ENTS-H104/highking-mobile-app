@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.data.viewmodel.TripViewModel
@@ -15,6 +17,7 @@ import com.entsh104.highking.data.viewmodel.TripsViewModel
 import com.entsh104.highking.data.viewmodel.TripsViewModelFactory
 import com.entsh104.highking.databinding.FragmentCustListAllTripBinding
 import com.entsh104.highking.ui.adapters.TripsPagingAdapter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -46,8 +49,13 @@ class ListAllTripFragment : Fragment() {
         binding.recyclerViewTrips.adapter = tripsAdapter
 
         viewLifecycleOwner.lifecycleScope.launch {
-            tripsViewModel.trips.collectLatest { pagingData ->
-                tripsAdapter.submitData(pagingData)
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    tripsViewModel.trips.collectLatest { pagingData ->
+                        tripsAdapter.submitData(pagingData)
+                    }
+                }
             }
         }
     }

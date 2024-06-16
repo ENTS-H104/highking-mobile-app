@@ -10,12 +10,15 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.ui.util.NavOptionsUtil
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.ui.cust.filter.FilterFragmentDirections
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -119,27 +122,37 @@ class FilterFragment : Fragment() {
 
     private fun fetchMountains() {
         viewLifecycleOwner.lifecycleScope.launch {
-            val apiService = RetrofitClient.getInstance()
-            val response = apiService.getMountains()
-            if (response.isSuccessful && response.body() != null) {
-                response.body()?.data?.forEach {
-                    mountainMap[it.name] = it.mountainId
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val apiService = RetrofitClient.getInstance()
+                    val response = apiService.getMountains()
+                    if (response.isSuccessful && response.body() != null) {
+                        response.body()?.data?.forEach {
+                            mountainMap[it.name] = it.mountainId
+                        }
+                        setupAutoCompleteTextView()
+                    }
                 }
-                setupAutoCompleteTextView()
             }
         }
     }
 
     private fun performSearch(mountainUuid: String, date: String, date2: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            val apiService = RetrofitClient.getInstance()
-            val response = apiService.searchOpenTrip(mountainUuid, date, date2)
-            if (response.isSuccessful && response.body() != null) {
-                val searchResults = response.body()?.data
-                val action = FilterFragmentDirections.actionNavSearchToNavListTrip(
-                    searchResults?.toTypedArray() ?: emptyArray()
-                )
-                findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val apiService = RetrofitClient.getInstance()
+                    val response = apiService.searchOpenTrip(mountainUuid, date, date2)
+                    if (response.isSuccessful && response.body() != null) {
+                        val searchResults = response.body()?.data
+                        val action = FilterFragmentDirections.actionNavSearchToNavListTrip(
+                            searchResults?.toTypedArray() ?: emptyArray()
+                        )
+                        findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                    }
+                }
             }
         }
     }

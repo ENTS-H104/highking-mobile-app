@@ -33,10 +33,13 @@ import android.widget.ScrollView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.entsh104.highking.data.model.TransactionDetail
 import com.entsh104.highking.data.model.TransactionHistory
 import com.entsh104.highking.data.source.remote.RetrofitClient
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class OrderDetailsFragment : Fragment() {
@@ -71,23 +74,37 @@ class OrderDetailsFragment : Fragment() {
 
     private fun fetchTransactionById(transactionId: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val apiService = RetrofitClient.getInstance()
-                val response = apiService.getTransactionDetail(transactionId)
-                if (response.isSuccessful) {
-                    response.body()?.let { transactionDetailResponse ->
-                        if (transactionDetailResponse.status == 200) {
-                            transaction = transactionDetailResponse.data.first()
-                            setupOrderDetails()
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    try {
+                        val apiService = RetrofitClient.getInstance()
+                        val response = apiService.getTransactionDetail(transactionId)
+                        if (response.isSuccessful) {
+                            response.body()?.let { transactionDetailResponse ->
+                                if (transactionDetailResponse.status == 200) {
+                                    transaction = transactionDetailResponse.data.first()
+                                    setupOrderDetails()
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        transactionDetailResponse.message,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
                         } else {
-                            Toast.makeText(requireContext(), transactionDetailResponse.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Failed to fetch transaction details",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
+                    } catch (e: Exception) {
+                        Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT)
+                            .show()
                     }
-                } else {
-                    Toast.makeText(requireContext(), "Failed to fetch transaction details", Toast.LENGTH_SHORT).show()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }

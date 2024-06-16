@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentAuthRegisterBinding
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
@@ -49,11 +52,25 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
             } else {
                 viewLifecycleOwner.lifecycleScope.launch {
-                    val result = userRepository.registerUser(email, username, phone_number, password)
-                    if (result.isSuccess) {
-                        findNavController().navigate(R.id.action_registerFragment_to_verificationFragment, null, NavOptionsUtil.defaultNavOptions)
-                    } else {
-                        Toast.makeText(requireContext(), "Registration failed", Toast.LENGTH_SHORT).show()
+                    lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        delay(500)
+                        if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                            val result =
+                                userRepository.registerUser(email, username, phone_number, password)
+                            if (result.isSuccess) {
+                                findNavController().navigate(
+                                    R.id.action_registerFragment_to_verificationFragment,
+                                    null,
+                                    NavOptionsUtil.defaultNavOptions
+                                )
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Registration failed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                     }
                 }
             }
