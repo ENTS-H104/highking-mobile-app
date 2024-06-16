@@ -10,7 +10,6 @@ data class  UpdateUserRequest(val username: String, val phone_number: String)
 
 data class  UpdatePhotoUserRequest(val imageUrl: String)
 
-
 data class CreateTransactionRequest(
     val user_uid: String,
     val partner_uid: String,

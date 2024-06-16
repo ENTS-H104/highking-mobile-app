@@ -11,7 +11,9 @@ import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
+import com.entsh104.highking.data.model.TransactionDetailResponse
 import com.entsh104.highking.data.model.TransactionHistoryResponse
+import com.entsh104.highking.data.model.UpdatePhotoResponse
 import com.entsh104.highking.data.model.UpdatePhotoUserRequest
 import com.entsh104.highking.data.model.UpdateUserRequest
 import com.entsh104.highking.data.model.UserApiResponse
@@ -46,11 +48,12 @@ interface ApiService {
         @Body request: UpdateUserRequest
     ): Response<UserUpdateApiResponse>
 
+    @Multipart
     @PUT("users/update/photo")
     suspend fun updatePhotoUser(
         @Header("Authorization") token: String,
-        @Part("image_url") imageUrl: MultipartBody.Part
-    ): Response<UserUpdateApiResponse>
+        @Part imageUrl: MultipartBody.Part
+    ): Response<UpdatePhotoResponse>
 
 
     @GET("users/get-current-user")
@@ -94,6 +97,9 @@ interface ApiService {
         @Query("id") id: String,
         @Query("status") status: String
     ): Response<TransactionHistoryResponse>
+
+    @GET("transaction/get-detail_transaction/{id}")
+    suspend fun getTransactionDetail(@Path("id") transactionId: String): Response<TransactionDetailResponse>
 
     @GET("open-trips/partners/{partner_uid}")
     suspend fun getMitraProfile(@Path("partner_uid") partnerUid: String): Response<MitraProfileResponse>

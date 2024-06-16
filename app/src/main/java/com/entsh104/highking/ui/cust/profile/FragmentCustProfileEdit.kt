@@ -11,13 +11,16 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustProfileEditBinding
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.util.UUID
@@ -59,12 +62,21 @@ class FragmentCustProfileEdit : Fragment() {
                 Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                lifecycleScope.launch {
-                    val response = userRepository.editProfileUser(username, phone)
-                    Toast.makeText(requireContext(), "Update Profile Berhasil", Toast.LENGTH_SHORT)
-                        .show()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        delay(500)
+                        if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                            val response = userRepository.editProfileUser(username, phone)
+                            Toast.makeText(
+                                requireContext(),
+                                "Update Profile Berhasil",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
 
-                    findNavController().navigate(R.id.action_fragmentCustProfileEdit_to_nav_profile)
+                            findNavController().navigate(R.id.action_fragmentCustProfileEdit_to_nav_profile)
+                        }
+                    }
                 }
             }
         }

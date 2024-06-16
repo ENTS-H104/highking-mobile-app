@@ -9,8 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.helper.ViewModelFactory
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
@@ -18,6 +20,7 @@ import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.databinding.FragmentCustMitraProfileTripBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class TripFragment : Fragment() {
@@ -76,18 +79,24 @@ class TripFragment : Fragment() {
         // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
 
-        lifecycleScope.launch {
-            val result = userRepository.getMitraTrips(mitraId)
-            if (result.isSuccess) {
-                val openTrips = result.getOrNull() ?: emptyList()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val result = userRepository.getMitraTrips(mitraId)
+                    if (result.isSuccess) {
+                        val openTrips = result.getOrNull() ?: emptyList()
 
-                val tripsAdapter = TripsAdapter(openTrips, true, tripViewModel)
-                binding.recyclerViewTrip.adapter = tripsAdapter
-            } else {
-                Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
+                        val tripsAdapter = TripsAdapter(openTrips, true, tripViewModel)
+                        binding.recyclerViewTrip.adapter = tripsAdapter
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    binding.progressBar.visibility = View.GONE
+                }
             }
-
-            binding.progressBar.visibility = View.GONE
         }
     }
 

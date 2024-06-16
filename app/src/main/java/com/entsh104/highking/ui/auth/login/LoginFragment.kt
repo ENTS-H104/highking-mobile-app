@@ -10,13 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.R
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentAuthLoginBinding
 import com.entsh104.highking.ui.cust.CustActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
@@ -49,15 +52,21 @@ class LoginFragment : Fragment() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(requireContext(), "All fields are required", Toast.LENGTH_SHORT).show()
             } else {
-                lifecycleScope.launch {
-                    val result = userRepository.loginUser(email, password)
-                    if (result.isSuccess) {
-                        userRepository.saveToken(result.getOrNull()!!.token)
-                        val intent = Intent(activity, CustActivity::class.java)
-                        startActivity(intent)
-                        activity?.finish()
-                    } else {
-                        Toast.makeText(requireContext(), "Login failed", Toast.LENGTH_SHORT).show()
+                viewLifecycleOwner.lifecycleScope.launch {
+                    lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        delay(500)
+                        if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                            val result = userRepository.loginUser(email, password)
+                            if (result.isSuccess) {
+                                userRepository.saveToken(result.getOrNull()!!.token)
+                                val intent = Intent(activity, CustActivity::class.java)
+                                startActivity(intent)
+                                activity?.finish()
+                            } else {
+                                Toast.makeText(requireContext(), "Login failed", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
                     }
                 }
             }

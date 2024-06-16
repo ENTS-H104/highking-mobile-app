@@ -169,6 +169,9 @@
             android:id="@+id/action_orderDetailsFragment_to_nav_orders"
             app:destination="@id/nav_orders" />
         <argument
+            android:name="transactionId"
+            app:argType="string" />
+        <argument
             android:name="trip"
             app:argType="com.entsh104.highking.data.model.OpenTripDetail" />
     </fragment>
