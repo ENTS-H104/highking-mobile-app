@@ -48,7 +48,7 @@ class ListAllTripFragment : Fragment() {
         val tripsAdapter = TripsPagingAdapter(tripViewModel2, true)
         binding.recyclerViewTrips.adapter = tripsAdapter
 
-        binding.progressBar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.GONE
 
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
