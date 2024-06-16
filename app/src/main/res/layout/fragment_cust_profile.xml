@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:foregroundGravity="left"
     tools:context=".ui.cust.profile.ProfileFragment">
 
     <ProgressBar
@@ -28,12 +29,38 @@
             android:orientation="vertical">
 
             <!-- Profile Image and Username -->
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageViewProfile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginTop="12dp"
-                android:src="@drawable/iv_profile_placeholder" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageViewProfile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/iv_profile_placeholder"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/buttonEditPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-40dp"
+                    android:layout_marginTop="-40dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/circle_background"
+                    android:backgroundTint="@color/green_primary"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_baseline_camera_alt_24"
+                    app:circularflow_radiusInDP="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewProfile"
+                    app:layout_constraintTop_toBottomOf="@+id/imageViewProfile" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/textViewUsername"

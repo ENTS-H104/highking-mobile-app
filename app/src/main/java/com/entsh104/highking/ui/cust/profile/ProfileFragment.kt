@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -64,6 +66,10 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        binding.buttonEditPhoto.setOnClickListener {
+            startGallery()
+        }
+
         binding.buttonEditProfile.setOnClickListener {
             val currentUsername = binding.textViewName.text.toString()
             val currentPhone = binding.textViewPhone.text.toString()
@@ -84,6 +90,40 @@ class ProfileFragment : Fragment() {
 
         fetchUserProfile()
     }
+
+    private fun startGallery() {
+        launcherGallery.launch(
+            PickVisualMediaRequest(
+                ActivityResultContracts.PickVisualMedia.ImageOnly
+            )
+        )
+    }
+
+    private val launcherGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        if (uri != null) {
+            Log.d("PhotoPicker", "Selected Uri: $uri")
+//            launchCropper(uri)
+        } else {
+            Log.d("PhotoPicker", "No Media")
+        }
+    }
+//
+//    private fun launchCropper(uri: Uri) {
+//        val destinationFileName = "${UUID.randomUUID()}.png"
+//        val destinationDirectory = getExternalFilesDir("ucrop")
+//        if (!destinationDirectory!!.exists()) {
+//            destinationDirectory.mkdirs()
+//        }
+//        val destinationFile = File(destinationDirectory, destinationFileName)
+//        val destinationUri = Uri.fromFile(destinationFile)
+//        UCrop.of(uri, destinationUri)
+//            .withAspectRatio(1F, 1F)
+//            .withMaxResultSize(500, 500)
+//            .start(this)
+//    }
+
 
     private fun fetchUserProfile() {
         lifecycleScope.launch {

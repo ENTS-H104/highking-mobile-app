@@ -98,4 +98,10 @@ dependencies {
 
     //paging 3
     implementation("androidx.paging:paging-runtime-ktx:3.3.0")
+
+    // Library PhotoPicker
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.activity:activity-ktx:1.9.0")
+    // Library Crop Image
+//    implementation("com.github.yalantis:ucrop:2.2.8")
 }

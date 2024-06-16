@@ -24,6 +24,7 @@
             android:screenOrientation="portrait"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".ui.auth.AuthActivity"
             android:screenOrientation="portrait"

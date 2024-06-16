@@ -1,12 +1,15 @@
 package com.entsh104.highking.ui.cust.profile
 
 import UserRepository
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -16,6 +19,8 @@ import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustProfileEditBinding
 import com.entsh104.highking.ui.util.NavOptionsUtil
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.UUID
 
 class FragmentCustProfileEdit : Fragment() {
 
@@ -46,8 +51,6 @@ class FragmentCustProfileEdit : Fragment() {
         binding.inputEditUsername.setText(username2)
         binding.inputEditPhone.setText(phone2)
 
-
-
         binding.btnSaveEdit.setOnClickListener {
             val username = binding.inputEditUsername.text.toString().trim()
             val phone = binding.inputEditPhone.text.toString().trim()
@@ -67,7 +70,7 @@ class FragmentCustProfileEdit : Fragment() {
         }
 
     }
-
+    
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
