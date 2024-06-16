@@ -2,6 +2,7 @@ package com.entsh104.highking.ui.cust.profile
 
 import UserRepository
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,11 +24,16 @@ import com.entsh104.highking.databinding.FragmentCustProfileBinding
 import com.entsh104.highking.ui.auth.AuthActivity
 import com.entsh104.highking.ui.cust.CustActivity
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.UUID
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentCustProfileBinding? = null
+    private var currentImageUri: Uri? = null
+
     private val binding get() = _binding!!
     private lateinit var userRepository: UserRepository
 
@@ -109,8 +116,8 @@ class ProfileFragment : Fragment() {
             Log.d("PhotoPicker", "No Media")
         }
     }
-//
-//    private fun launchCropper(uri: Uri) {
+
+    private fun launchCropper(uri: Uri) {
 //        val destinationFileName = "${UUID.randomUUID()}.png"
 //        val destinationDirectory = getExternalFilesDir("ucrop")
 //        if (!destinationDirectory!!.exists()) {
@@ -121,8 +128,8 @@ class ProfileFragment : Fragment() {
 //        UCrop.of(uri, destinationUri)
 //            .withAspectRatio(1F, 1F)
 //            .withMaxResultSize(500, 500)
-//            .start(this)
-//    }
+//            .start(getContext(),this)
+    }
 
 
     private fun fetchUserProfile() {
@@ -165,5 +172,16 @@ class ProfileFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == AppCompatActivity.RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+            currentImageUri = UCrop.getOutput(data!!)
+//            showImage()
+        } else if (resultCode == UCrop.RESULT_ERROR) {
+            val cropError: Throwable? = UCrop.getError(data!!)
+        }
     }
 }
