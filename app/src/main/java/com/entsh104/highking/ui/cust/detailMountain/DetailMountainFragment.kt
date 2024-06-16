@@ -11,8 +11,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
@@ -34,6 +36,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.delay
 
 class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
@@ -79,19 +82,29 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
     private fun fetchData(mountainId: String) {
         binding.progressBar.visibility = View.VISIBLE
+        binding.scrollViewDetailMountain.visibility = View.GONE
+        binding.fabSearchTrips.visibility = View.GONE
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
 
-            val tripsLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
-            binding.rvSimilarTrips.layoutManager = tripsLayoutManager
+                    val tripsLayoutManager =
+                        GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+                    binding.rvSimilarTrips.layoutManager = tripsLayoutManager
 
-            val fetchMountainDetailDeferred = async { fetchMountainDetail(mountainId) }
-            val fetchTripsDeferred = async { fetchTripsForMountain(mountainId) }
+                    val fetchMountainDetailDeferred = async { fetchMountainDetail(mountainId) }
+                    val fetchTripsDeferred = async { fetchTripsForMountain(mountainId) }
 
-            fetchMountainDetailDeferred.await()
-            fetchTripsDeferred.await()
+                    fetchMountainDetailDeferred.await()
+                    fetchTripsDeferred.await()
 
-            binding.progressBar.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
+                    binding.scrollViewDetailMountain.visibility = View.VISIBLE
+                    binding.fabSearchTrips.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -146,6 +159,8 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
                 binding.textViewFeeLabel.text = "Harga Masuk"
                 binding.textViewTicketPrice.text = "Rp ${it.harga}"
                 binding.tvSimilarTripsHeader.text = "Trip di ${it.name}"
+
+                binding.fabSearchTrips.text = "Cari Trip ke ${it.name}"
 
                 binding.llShareInfo.findViewById<View>(R.id.iv_twitter).setOnClickListener {
                     shareInformation("twitter", mountain)
@@ -222,6 +237,12 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
+        mapView.onDestroy()
+        _binding = null
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         mapView.onDestroy()
         _binding = null
     }

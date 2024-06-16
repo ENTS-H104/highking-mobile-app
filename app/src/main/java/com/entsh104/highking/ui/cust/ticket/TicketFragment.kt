@@ -89,7 +89,7 @@ class TicketFragment : Fragment() {
     }
 
     private fun fetchTransactionHistories(status: String, callback: (List<TransactionHistory>) -> Unit) {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             val userResult = userRepository.getCurrentUser()
             if (userResult.isSuccess) {
                 val userId = userRepository.getCurrentUserId()

@@ -7,13 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.data.viewmodel.TripsViewModel
 import com.entsh104.highking.data.viewmodel.TripsViewModelFactory
 import com.entsh104.highking.databinding.FragmentCustListAllTripBinding
 import com.entsh104.highking.ui.adapters.TripsPagingAdapter
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -24,6 +28,7 @@ class ListAllTripFragment : Fragment() {
     private val tripsViewModel: TripsViewModel by viewModels {
         TripsViewModelFactory(RetrofitClient.getInstance())
     }
+    private val tripViewModel2: TripViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,12 +45,21 @@ class ListAllTripFragment : Fragment() {
         binding.recyclerViewTrips.layoutManager = gridLayoutManager
         binding.recyclerViewTrips.addItemDecoration(GridSpacingItemDecoration(2, 1, true))
 
-        val tripsAdapter = TripsPagingAdapter()
+        val tripsAdapter = TripsPagingAdapter(tripViewModel2, true)
         binding.recyclerViewTrips.adapter = tripsAdapter
 
-        lifecycleScope.launch {
-            tripsViewModel.trips.collectLatest { pagingData ->
-                tripsAdapter.submitData(pagingData)
+        binding.progressBar.visibility = View.GONE
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    tripsViewModel.trips.collectLatest { pagingData ->
+                        tripsAdapter.submitData(pagingData)
+                    }
+
+                    binding.progressBar.visibility = View.GONE
+                }
             }
         }
     }

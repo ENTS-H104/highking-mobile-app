@@ -187,11 +187,11 @@
 
     <!-- Back Button -->
     <Button
-        android:id="@+id/btn_back"
+        android:id="@+id/btn_call_tour"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Kembali"
+        android:text="Hubungi Tur"
         android:layout_marginEnd="16dp"
         android:textColor="@color/green_primary"
         android:backgroundTint="@color/green_light"

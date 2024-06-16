@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +27,7 @@ import com.entsh104.highking.ui.adapters.TripsAdapter
 import com.entsh104.highking.ui.model.Banner
 import com.entsh104.highking.ui.util.NavOptionsUtil
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BerandaFragment : Fragment() {
@@ -49,8 +50,8 @@ class BerandaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = SharedPreferencesManager(requireContext())
-            RetrofitClient.createInstance(requireContext()) 
-    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         setupRecyclerViews()
 
@@ -73,18 +74,23 @@ class BerandaFragment : Fragment() {
     }
 
     private fun fetchData() {
-        // Show ProgressBar
-        binding.progressBar.visibility = View.VISIBLE
+        binding.shimmerViewContainer.startShimmer()
 
-        lifecycleScope.launch {
-            val fetchMountainsDeferred = async { fetchMountains() }
-            val fetchOpenTripsDeferred = async { fetchOpenTrips() }
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val fetchMountainsDeferred = async { fetchMountains() }
+                    val fetchOpenTripsDeferred = async { fetchOpenTrips() }
 
-            fetchMountainsDeferred.await()
-            fetchOpenTripsDeferred.await()
+                    fetchMountainsDeferred.await()
+                    fetchOpenTripsDeferred.await()
 
-            // Hide ProgressBar
-            binding.progressBar.visibility = View.GONE
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.GONE
+                    binding.contentView.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -109,7 +115,7 @@ class BerandaFragment : Fragment() {
 
             binding.rekomendasiTripLihatSemua.setOnClickListener {
                 val action = BerandaFragmentDirections.actionHomeToListTrip(
-                    searchResults?.toTypedArray() ?: emptyArray()
+                    searchResults.toTypedArray()
                 )
                 findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
@@ -126,8 +132,6 @@ class BerandaFragment : Fragment() {
 
     private fun getBannerData(): List<Banner> {
         return listOf(
-            Banner(R.drawable.iv_banner),
-            Banner(R.drawable.iv_banner),
             Banner(R.drawable.iv_banner)
         )
     }

@@ -10,15 +10,12 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_gravity="center"
+        android:visibility="visible" />
 
     <!-- ScrollView to hold the content -->
     <ScrollView
+        android:id="@+id/scrollViewDetailTrip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -48,42 +45,16 @@
                     app:layout_constraintEnd_toEndOf="parent" />
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!-- Image Indicators -->
-            <LinearLayout
-                android:id="@+id/ll_image_indicators"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardImageTrip">
-
-                <!-- Dummy indicators, replace with actual dynamic indicators -->
-                <ImageView
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/custom_indicator_unselected" />
-
-                <ImageView
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:layout_margin="4dp"
-                    android:background="@drawable/custom_indicator_selected" />
-            </LinearLayout>
-
             <!-- Trip Name and Price -->
             <LinearLayout
                 android:id="@+id/ll_trip_name_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/ll_image_indicators"
+                app:layout_constraintTop_toBottomOf="@id/cardImageTrip"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/tv_trip_name"
@@ -151,25 +122,6 @@
                     app:layout_constraintStart_toEndOf="@id/iv_person_outline"
                     android:layout_marginStart="4dp" />
 
-                <ImageView
-                    android:id="@+id/iv_calendar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    app:layout_constraintStart_toEndOf="@id/tv_trip_location"
-                    android:src="@drawable/ic_calendar_24_black" />
-
-                <TextView
-                    android:id="@+id/tv_date_trip"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="DD/MM/YYYY"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@id/tv_trip_availability"
-                    android:textColor="@color/green_primary" />
-
             </LinearLayout>
 
 
@@ -193,7 +145,8 @@
                 android:text="baca selengkapnya"
                 android:textColor="@android:color/holo_blue_dark"
                 app:layout_constraintTop_toBottomOf="@id/tv_trip_description"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"/>
 
 
             <!-- Show Less Link -->
@@ -293,6 +246,45 @@
                     style="?attr/borderlessButtonStyle" />
             </LinearLayout>
 
+            <!-- Trip Schedule -->
+            <TextView
+                android:id="@+id/tv_trip_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jadwal Trip"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/ll_partner_info"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_deperature_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3 Hari Perjalanan\nBerangkat\t: Senin, 12 Desember 2022 \t(08:00)\nKembali\t\t\t: Rabu, 14 Desember 2022 \t(17:00)"
+                android:textSize="13sp"
+                app:layout_constraintTop_toBottomOf="@id/tv_trip_date"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Trip Schedule -->
+            <TextView
+                android:id="@+id/tv_trip_schedule_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rincian Jadwal"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_deperature_date"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/ll_trip_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="2dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_trip_schedule_header">
+            </LinearLayout>
 
             <!-- Inclusion and Exclusion -->
             <TextView
@@ -302,7 +294,7 @@
                 android:text="Inclusion and Exclusion"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/ll_partner_info"
+                app:layout_constraintTop_toBottomOf="@id/ll_trip_schedule"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <LinearLayout
@@ -331,26 +323,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Trip Schedule -->
-            <TextView
-                android:id="@+id/tv_trip_schedule_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Jadwal Trip"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/ll_inclusion_exclusion"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/ll_trip_schedule"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_trip_schedule_header">
-            </LinearLayout>
-
             <!-- FAQ -->
             <TextView
                 android:id="@+id/tv_faq_header"
@@ -359,7 +331,7 @@
                 android:text="FAQ"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/ll_trip_schedule"
+                app:layout_constraintTop_toBottomOf="@id/ll_inclusion_exclusion"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <LinearLayout

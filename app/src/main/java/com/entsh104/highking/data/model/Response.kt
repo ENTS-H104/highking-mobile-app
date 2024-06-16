@@ -23,6 +23,16 @@ data class UserUpdateResponse(
     val phone_number: String?
 )
 
+data class UpdatePhotoResponse(
+    val status: Int,
+    val message: String,
+    val data: PhotoData
+)
+
+data class PhotoData(
+    val image_url: String
+)
+
 data class UserResponse(
     val user_uid: String?,
     val verified_status_uuid: String?,
@@ -191,6 +201,24 @@ data class FaqData(
 data class CreateTransactionResponse(
     val message: String,
     val data: TransactionData
+)
+
+data class TransactionDetailResponse(
+    val status: Int,
+    val message: String,
+    val data: List<TransactionDetail>
+)
+
+data class TransactionDetail(
+    val token: String?,
+    val name: String,
+    val phone_number: String,
+    val start_date: String,
+    val start_time: String,
+    val status_accepted: String,
+    val status_payment: String,
+    val meeting_point: String,
+    val name_participant: String
 )
 
 data class TransactionData(

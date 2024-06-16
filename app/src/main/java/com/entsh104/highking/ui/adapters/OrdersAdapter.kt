@@ -1,5 +1,6 @@
 package com.entsh104.highking.ui.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,7 @@ import com.entsh104.highking.ui.util.NavOptionsUtil
 
 class OrdersAdapter(
     private val orders: Map<String, OpenTripDetail>,
-    pendingOrders: List<TransactionHistory>
+    Orders: List<TransactionHistory>
 ) :
     RecyclerView.Adapter<OrdersAdapter.OrderViewHolder>() {
 
@@ -27,7 +28,7 @@ class OrdersAdapter(
     }
 
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
-        holder.bind(orders.values.elementAt(position))
+        holder.bind(orders.keys.elementAt(position), orders.values.elementAt(position))
     }
 
     override fun getItemCount(): Int {
@@ -39,7 +40,7 @@ class OrdersAdapter(
         private val textViewOrderName: TextView = itemView.findViewById(R.id.textViewOrderName)
         private val textViewPrice: TextView = itemView.findViewById(R.id.textViewOrderPrice)
 
-        fun bind(order: OpenTripDetail?) {
+        fun bind(transactionId: String, order: OpenTripDetail?) {
             Glide.with(itemView.context)
                 .load(order?.image_url)
                 .into(imageView)
@@ -49,8 +50,9 @@ class OrdersAdapter(
 
             itemView.setOnClickListener {
                 if (order != null) {
-                    val action = TicketFragmentDirections.actionNavOrdersToOrderDetailsFragment(order)
-                    it.findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                    val action =
+                        TicketFragmentDirections.actionNavOrdersToOrderDetailsFragment(transactionId, order)
+                    it.findNavController().navigate(action)
                 }
             }
         }

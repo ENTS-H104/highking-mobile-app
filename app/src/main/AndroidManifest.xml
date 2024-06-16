@@ -8,6 +8,8 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +26,7 @@
             android:screenOrientation="portrait"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".ui.auth.AuthActivity"
             android:screenOrientation="portrait"

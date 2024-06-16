@@ -15,7 +15,9 @@ import android.widget.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -30,6 +32,7 @@ import com.entsh104.highking.ui.util.NavOptionsUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.midtrans.sdk.uikit.external.UiKitApi
 import com.midtrans.sdk.uikit.internal.util.UiKitConstants
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CartFragment : Fragment() {
@@ -210,12 +213,17 @@ class CartFragment : Fragment() {
     }
 
     private fun fetchUserProfileAndCreateTransaction() {
-        lifecycleScope.launch {
-            val result = userRepository.getCurrentUser()
-            if (result.isSuccess) {
-                createTransaction()
-            } else {
-                Toast.makeText(requireContext(), "Failed to fetch user profile", Toast.LENGTH_SHORT).show()
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val result = userRepository.getCurrentUser()
+                    if (result.isSuccess) {
+                        createTransaction()
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to fetch user profile", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
@@ -235,26 +243,43 @@ class CartFragment : Fragment() {
             )
             Log.d("CartFragmentTT", "createTransaction: $request")
 
-            lifecycleScope.launch {
-                try {
-                    val apiService = RetrofitClient.getInstance()
-                    val response = apiService.createTransaction(request)
-                    if (response.isSuccessful) {
-                        val transactionToken = response.body()?.data?.transaction_token
-                        if (!transactionToken.isNullOrEmpty()) {
-                            startSnapPaymentUiFlow(transactionToken)
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                findNavController().navigate(R.id.action_nav_cart_to_nav_orders)
-                            }, 2000)
-                        } else {
-                            Toast.makeText(requireContext(), "Failed to get transaction token", Toast.LENGTH_SHORT).show()
+            viewLifecycleOwner.lifecycleScope.launch {
+                lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    delay(500)
+                    if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                        try {
+                            val apiService = RetrofitClient.getInstance()
+                            val response = apiService.createTransaction(request)
+                            if (response.isSuccessful) {
+                                val transactionToken = response.body()?.data?.transaction_token
+                                if (!transactionToken.isNullOrEmpty()) {
+                                    startSnapPaymentUiFlow(transactionToken)
+                                    Handler(Looper.getMainLooper()).postDelayed({
+                                        findNavController().navigate(R.id.action_nav_cart_to_nav_orders)
+                                    }, 2000)
+                                } else {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Failed to get transaction token",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Failed to create transaction",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        } catch (e: Exception) {
+                            // Handle error
+                            Toast.makeText(
+                                requireContext(),
+                                "Error: ${e.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
-                    } else {
-                        Toast.makeText(requireContext(), "Failed to create transaction", Toast.LENGTH_SHORT).show()
                     }
-                } catch (e: Exception) {
-                    // Handle error
-                    Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {

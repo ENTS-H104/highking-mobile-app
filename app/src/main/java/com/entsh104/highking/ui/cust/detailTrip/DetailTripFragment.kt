@@ -11,7 +11,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
@@ -24,8 +26,13 @@ import kotlinx.coroutines.launch
 import androidx.navigation.fragment.findNavController
 import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TripFilter
+import kotlinx.coroutines.delay
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class DetailTripFragment : Fragment() {
 
@@ -55,16 +62,24 @@ class DetailTripFragment : Fragment() {
     }
 
     private fun fetchData(tripId: String) {
-        // Show ProgressBar
         binding.progressBar.visibility = View.VISIBLE
+        binding.scrollViewDetailTrip.visibility = View.GONE
+        binding.fabCheckoutTrip.visibility = View.GONE
 
-        lifecycleScope.launch {
-            val fetchTripDetailDeferred = async { fetchTripDetail(tripId) }
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val fetchTripDetailDeferred = async { fetchTripDetail(tripId) }
 
-            fetchTripDetailDeferred.await()
+                    fetchTripDetailDeferred.await()
 
-            // Hide ProgressBar
-            binding.progressBar.visibility = View.GONE
+                    // Hide ProgressBar
+                    binding.progressBar.visibility = View.GONE
+                    binding.scrollViewDetailTrip.visibility = View.VISIBLE
+                    binding.fabCheckoutTrip.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -77,19 +92,35 @@ class DetailTripFragment : Fragment() {
                 val mPrice = trip.price
                 val mCurrencyFormat = DecimalFormat("#,###")
                 val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+                val schedule = trip.schedule_data[0]
+
                 binding.tvTripName.text = trip.open_trip_name
                 binding.tvTripPrice.text = "Rp ${myFormattedPrice}"
                 binding.tvTripAvailability.text = "${trip.min_people}-${trip.max_people}"
                 binding.tvTripLocation.text = trip.mountain_data.joinToString(", ") { mountain -> mountain.name }
-                binding.tvDateTrip.text = trip.schedule_data[0].start_date
+
+
+
+                val formattedSchedule = """
+                    ${schedule.total_day} Hari Pendakian
+                    Berangkat: ${convertDate(schedule.start_date)} - (${schedule.start_time})
+                    Kembali: ${convertDate(schedule.end_date)} - (${schedule.end_time})
+                """.trimIndent()
+
+                binding.tvDeperatureDate.text = formattedSchedule
 
                 val fullDescription = trip.description
                 val shortDescription = if (fullDescription.length > 200) fullDescription.substring(0, 200) + "..." else fullDescription
 
                 binding.tvTripDescription.text = shortDescription
 
-                binding.tvReadMore.visibility = View.VISIBLE
-                binding.tvShowLess.visibility = View.GONE
+                if(fullDescription.length <= 200){
+                    binding.tvReadMore.visibility = View.GONE
+                    binding.tvShowLess.visibility = View.GONE
+                } else {
+                    binding.tvReadMore.visibility = View.VISIBLE
+                    binding.tvShowLess.visibility = View.GONE
+                }
 
                 // Handle "baca selengkapnya" click
                 binding.tvReadMore.setOnClickListener {
@@ -236,8 +267,40 @@ class DetailTripFragment : Fragment() {
         }
     }
 
+    private fun convertDate(dateString: String): String {
+        val outputFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
+        var date: Date? = null
+
+        val formats = listOf("yyyy/MM/dd", "yyyy-MM-dd")
+
+        for (format in formats) {
+            try {
+                val sdf = SimpleDateFormat(format, Locale.getDefault())
+                date = sdf.parse(dateString)
+                if (date != null) {
+                    break
+                }
+            } catch (e: ParseException) {
+                // Ignore and try next format
+            }
+        }
+
+        return if (date != null) {
+            outputFormat.format(date)
+        } else {
+            "Invalid date format"
+        }
+    }
+
     private fun formatBulletPoints(text: String?): String {
-        return text?.split(",")?.joinToString("\n") { "• $it" } ?: ""
+        return text?.let {
+            val cleanedText = it.replace("[", "").replace("]", "").replace("\"", "").trim()
+            cleanedText.split(",")
+                .map { item -> item.trim() }
+                .filter { item -> item.isNotEmpty() }
+                .joinToString("\n") { item -> "• $item" }
+                .trim()
+        } ?: ""
     }
 
     private fun shareInformation(platform: String, trip: OpenTripDetail) {
