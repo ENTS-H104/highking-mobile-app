@@ -68,7 +68,7 @@ class AcceptedFragment : Fragment() {
             if (result.isSuccess) {
                 val tripList = result.getOrNull()?.data
                 tripList?.firstOrNull()?.let { trip ->
-                    tripDetailsMap[order.open_trip_uuid] = trip
+                    tripDetailsMap[order.transaction_logs_uuid] = trip
                 }
             }
         }

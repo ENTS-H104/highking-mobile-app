@@ -28,6 +28,7 @@ import java.io.FileOutputStream
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.widget.ScrollView
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat.startActivity
@@ -108,21 +109,23 @@ class OrderDetailsFragment : Fragment() {
         binding.textViewContactInfo.text = contactInfoText
 
         val barcodeBitmap = generateBarcode(transactionId)
-        if (barcodeBitmap != null) {
+        Log.d("OrderDetailsFragment", "Barcode bitmap: $barcodeBitmap transaction: $transaction")
+        if (barcodeBitmap != null && transaction.status_accepted == "ACCEPTED" && transaction.status_payment == "SUCCESS") {
             binding.imageViewBarcode.setImageBitmap(barcodeBitmap)
-        } else {
-            binding.imageViewBarcode.visibility = View.GONE
-        }
-        binding.btnPrintTicket.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (context?.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSION)
+            binding.btnPrintTicket.setOnClickListener {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (context?.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_WRITE_PERMISSION)
+                    } else {
+                        printTicket()
+                    }
                 } else {
                     printTicket()
                 }
-            } else {
-                printTicket()
             }
+        } else {
+            binding.imageViewBarcode.visibility = View.GONE
+            binding.btnPrintTicket.visibility = View.GONE
         }
 
         binding.btnCallTour.setOnClickListener {

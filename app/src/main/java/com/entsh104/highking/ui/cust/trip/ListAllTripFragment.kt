@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.data.viewmodel.TripsViewModel
 import com.entsh104.highking.data.viewmodel.TripsViewModelFactory
 import com.entsh104.highking.databinding.FragmentCustListAllTripBinding
@@ -24,6 +25,7 @@ class ListAllTripFragment : Fragment() {
     private val tripsViewModel: TripsViewModel by viewModels {
         TripsViewModelFactory(RetrofitClient.getInstance())
     }
+    private val tripViewModel2: TripViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +42,7 @@ class ListAllTripFragment : Fragment() {
         binding.recyclerViewTrips.layoutManager = gridLayoutManager
         binding.recyclerViewTrips.addItemDecoration(GridSpacingItemDecoration(2, 1, true))
 
-        val tripsAdapter = TripsPagingAdapter()
+        val tripsAdapter = TripsPagingAdapter(tripViewModel2, true)
         binding.recyclerViewTrips.adapter = tripsAdapter
 
         lifecycleScope.launch {

@@ -26,7 +26,9 @@ import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TripFilter
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class DetailTripFragment : Fragment() {
@@ -255,10 +257,28 @@ class DetailTripFragment : Fragment() {
     }
 
     private fun convertDate(dateString: String): String {
-        val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
-        val date = sdf.parse(dateString)
         val outputFormat = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.getDefault())
-        return outputFormat.format(date)
+        var date: Date? = null
+
+        val formats = listOf("yyyy/MM/dd", "yyyy-MM-dd")
+
+        for (format in formats) {
+            try {
+                val sdf = SimpleDateFormat(format, Locale.getDefault())
+                date = sdf.parse(dateString)
+                if (date != null) {
+                    break
+                }
+            } catch (e: ParseException) {
+                // Ignore and try next format
+            }
+        }
+
+        return if (date != null) {
+            outputFormat.format(date)
+        } else {
+            "Invalid date format"
+        }
     }
 
     private fun formatBulletPoints(text: String?): String {

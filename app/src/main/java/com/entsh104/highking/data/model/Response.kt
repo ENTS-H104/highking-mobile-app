@@ -215,6 +215,8 @@ data class TransactionDetail(
     val phone_number: String,
     val start_date: String,
     val start_time: String,
+    val status_accepted: String,
+    val status_payment: String,
     val meeting_point: String,
     val name_participant: String
 )

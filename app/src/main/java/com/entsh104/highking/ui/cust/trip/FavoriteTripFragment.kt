@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.entsh104.highking.data.mapper.TripMapper
 import com.entsh104.highking.data.viewmodel.TripViewModel
@@ -31,8 +32,11 @@ class FavoriteTripFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = TripsAdapter(emptyList(), true, viewModel = tripViewModel)
-        binding.recyclerViewFavoriteTrips.layoutManager = LinearLayoutManager(context)
+        val gridLayoutManager = GridLayoutManager(context, 2)
+        binding.recyclerViewFavoriteTrips.layoutManager = gridLayoutManager
+        binding.recyclerViewFavoriteTrips.addItemDecoration(GridSpacingItemDecoration(2, 1, true))
         binding.recyclerViewFavoriteTrips.adapter = adapter
+
 
         tripViewModel.favoriteTrips.observe(viewLifecycleOwner) { trips ->
             val tripFilters = trips.map { TripMapper.mapEntityToFilter(it) }
