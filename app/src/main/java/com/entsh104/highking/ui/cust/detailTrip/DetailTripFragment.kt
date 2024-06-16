@@ -299,6 +299,7 @@ class DetailTripFragment : Fragment() {
                 .map { item -> item.trim() }
                 .filter { item -> item.isNotEmpty() }
                 .joinToString("\n") { item -> "• $item" }
+                .trim()
         } ?: ""
     }
 

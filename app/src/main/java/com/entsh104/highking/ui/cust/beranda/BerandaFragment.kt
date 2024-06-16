@@ -132,8 +132,6 @@ class BerandaFragment : Fragment() {
 
     private fun getBannerData(): List<Banner> {
         return listOf(
-            Banner(R.drawable.iv_banner),
-            Banner(R.drawable.iv_banner),
             Banner(R.drawable.iv_banner)
         )
     }
