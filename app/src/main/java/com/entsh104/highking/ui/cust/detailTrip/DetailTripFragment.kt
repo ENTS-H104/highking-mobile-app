@@ -99,9 +99,9 @@ class DetailTripFragment : Fragment() {
 
 
                 val formattedSchedule = """
-                    ${schedule.total_day} Hari Perjalanan
-                    Berangkat   : ${convertDate(schedule.start_date)}   (${schedule.start_time})
-                    Kembali         : ${convertDate(schedule.end_date)}     (${schedule.end_time})
+                    ${schedule.total_day} Hari Pendakian
+                    Berangkat: ${convertDate(schedule.start_date)} - (${schedule.start_time})
+                    Kembali: ${convertDate(schedule.end_date)} - (${schedule.end_time})
                 """.trimIndent()
 
                 binding.tvDeperatureDate.text = formattedSchedule

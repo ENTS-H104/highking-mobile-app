@@ -251,7 +251,7 @@
 
             <!-- Trip Schedule -->
             <TextView
-                android:id="@+id/tv_trip_schedule_header"
+                android:id="@+id/tv_trip_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Jadwal Trip"
@@ -266,7 +266,18 @@
                 android:layout_height="wrap_content"
                 android:text="3 Hari Perjalanan\nBerangkat\t: Senin, 12 Desember 2022 \t(08:00)\nKembali\t\t\t: Rabu, 14 Desember 2022 \t(17:00)"
                 android:textSize="13sp"
-                app:layout_constraintTop_toBottomOf="@id/tv_trip_schedule_header"
+                app:layout_constraintTop_toBottomOf="@id/tv_trip_date"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <!-- Trip Schedule -->
+            <TextView
+                android:id="@+id/tv_trip_schedule_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rincian Jadwal"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tv_deperature_date"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <LinearLayout
@@ -275,7 +286,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_deperature_date">
+                app:layout_constraintTop_toBottomOf="@id/tv_trip_schedule_header">
             </LinearLayout>
 
             <!-- Inclusion and Exclusion -->
