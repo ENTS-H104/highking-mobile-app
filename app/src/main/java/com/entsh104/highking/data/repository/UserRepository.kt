@@ -81,6 +81,22 @@ class UserRepository(
         }
     }
 
+//    suspend fun editPhotoUser(
+//        image_url: String,
+//    ): Result<UserUpdateApiResponse> {
+//        val token = prefs.getToken()
+//        return if (token != null) {
+//            try {
+//                val resp = apiService.updatePhotoUser("Bearer $token", image_url)
+//            } catch (e: Exception) {
+//                Result.failure(e)
+//            }
+//        } else {
+//            Result.failure(Exception("Tidak ada Token"))
+//        }
+//
+//    }
+
     suspend fun registerUser(
         email: String,
         username: String,

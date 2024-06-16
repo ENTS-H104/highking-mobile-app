@@ -111,6 +111,10 @@ class ProfileFragment : Fragment() {
     ) { uri ->
         if (uri != null) {
             Log.d("PhotoPicker", "Selected Uri: $uri")
+            lifecycleScope.launch {
+//                val response = userRepository
+
+            }
 //            launchCropper(uri)
         } else {
             Log.d("PhotoPicker", "No Media")
