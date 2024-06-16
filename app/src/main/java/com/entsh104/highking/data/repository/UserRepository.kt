@@ -1,9 +1,7 @@
-import androidx.lifecycle.LiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.PagingSource
-import androidx.paging.PagingSourceFactory
+import android.content.ContentResolver
+import android.net.Uri
+import android.provider.OpenableColumns
+import android.util.Log
 import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.LoginRequest
 import com.entsh104.highking.data.model.MitraProfileResponse
@@ -16,14 +14,21 @@ import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TripFilter
+import com.entsh104.highking.data.model.UpdatePhotoResponse
 import com.entsh104.highking.data.model.UpdateUserRequest
-import com.entsh104.highking.data.model.UserApiResponse
 import com.entsh104.highking.data.model.UserResponse
 import com.entsh104.highking.data.model.UserUpdateApiResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
-import com.entsh104.highking.ui.cust.mountain.MountainPagingSource
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 class UserRepository(
     private val apiService: ApiService,
@@ -79,6 +84,51 @@ class UserRepository(
         } else {
             Result.failure(Exception("TOKEN Not Found"))
         }
+    }
+
+    suspend fun uploadPhoto(
+        contentResolver: ContentResolver,
+        cacheDir: File,
+        imageUri: Uri
+    ): Result<UpdatePhotoResponse> {
+        val token = prefs.getToken() ?: return Result.failure(Exception("Token not found"))
+        Log.d("UploadPhoto", "Token: $token")
+        val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null) ?: return Result.failure(Exception("Failed to open file descriptor"))
+        Log.d("UploadPhoto", "File Descriptor opened successfully")
+        val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+        val file = File(cacheDir, contentResolver.getFileName(imageUri))
+        val outputStream = FileOutputStream(file)
+        inputStream.copyTo(outputStream)
+
+        val requestFile = file.asRequestBody("image/*".toMediaTypeOrNull())
+        val body = MultipartBody.Part.createFormData("image", file.name, requestFile)
+
+        return try {
+            val response = apiService.updatePhotoUser("Bearer $token", body)
+            Log.d("UploadPhoto", "Response: ${response.message()}")
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception("Failed to upload photo: ${response.message()}"))
+            }
+        } catch (e: Exception) {
+            Log.e("UploadPhoto", "Error: ${e.message}", e)
+            Result.failure(e)
+        }
+
+    }
+
+
+    fun ContentResolver.getFileName(uri: Uri): String {
+        var name = ""
+        val returnCursor = this.query(uri, null, null, null, null)
+        if (returnCursor != null) {
+            val nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            returnCursor.moveToFirst()
+            name = returnCursor.getString(nameIndex)
+            returnCursor.close()
+        }
+        return name
     }
 
     suspend fun registerUser(

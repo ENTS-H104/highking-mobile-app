@@ -12,6 +12,7 @@ import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TransactionHistoryResponse
+import com.entsh104.highking.data.model.UpdatePhotoResponse
 import com.entsh104.highking.data.model.UpdatePhotoUserRequest
 import com.entsh104.highking.data.model.UpdateUserRequest
 import com.entsh104.highking.data.model.UserApiResponse
@@ -46,11 +47,12 @@ interface ApiService {
         @Body request: UpdateUserRequest
     ): Response<UserUpdateApiResponse>
 
+    @Multipart
     @PUT("users/update/photo")
     suspend fun updatePhotoUser(
         @Header("Authorization") token: String,
-        @Part("image_url") imageUrl: MultipartBody.Part
-    ): Response<UserUpdateApiResponse>
+        @Part imageUrl: MultipartBody.Part
+    ): Response<UpdatePhotoResponse>
 
 
     @GET("users/get-current-user")

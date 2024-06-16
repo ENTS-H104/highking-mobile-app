@@ -1,7 +1,9 @@
 package com.entsh104.highking.ui.cust.profile
 
 import UserRepository
+import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,8 +22,6 @@ import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustProfileBinding
 import com.entsh104.highking.ui.auth.AuthActivity
-import com.entsh104.highking.ui.cust.CustActivity
-import com.entsh104.highking.ui.util.NavOptionsUtil
 import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
@@ -91,6 +91,42 @@ class ProfileFragment : Fragment() {
         fetchUserProfile()
     }
 
+    private fun showConfirmationDialog(imageUri: Uri) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Confirm Photo")
+        builder.setMessage("Are you sure you want to upload this photo?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            lifecycleScope.launch {
+                val response = userRepository.uploadPhoto(
+                    requireContext().contentResolver,
+                    requireContext().cacheDir,
+                    imageUri
+                )
+                if (response.isSuccess) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Photo uploaded successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    fetchUserProfile()
+                } else {
+                    Toast.makeText(requireContext(), "Failed to upload photo", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+        builder.show()
+    }
+
+
+    private val launcherGallery = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+        uri?.let {
+            showConfirmationDialog(it)
+        }
+    }
+
     private fun startGallery() {
         launcherGallery.launch(
             PickVisualMediaRequest(
@@ -98,31 +134,6 @@ class ProfileFragment : Fragment() {
             )
         )
     }
-
-    private val launcherGallery = registerForActivityResult(
-        ActivityResultContracts.PickVisualMedia()
-    ) { uri ->
-        if (uri != null) {
-            Log.d("PhotoPicker", "Selected Uri: $uri")
-//            launchCropper(uri)
-        } else {
-            Log.d("PhotoPicker", "No Media")
-        }
-    }
-//
-//    private fun launchCropper(uri: Uri) {
-//        val destinationFileName = "${UUID.randomUUID()}.png"
-//        val destinationDirectory = getExternalFilesDir("ucrop")
-//        if (!destinationDirectory!!.exists()) {
-//            destinationDirectory.mkdirs()
-//        }
-//        val destinationFile = File(destinationDirectory, destinationFileName)
-//        val destinationUri = Uri.fromFile(destinationFile)
-//        UCrop.of(uri, destinationUri)
-//            .withAspectRatio(1F, 1F)
-//            .withMaxResultSize(500, 500)
-//            .start(this)
-//    }
 
 
     private fun fetchUserProfile() {

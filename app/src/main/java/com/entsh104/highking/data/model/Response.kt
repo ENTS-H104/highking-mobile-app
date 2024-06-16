@@ -23,6 +23,16 @@ data class UserUpdateResponse(
     val phone_number: String?
 )
 
+data class UpdatePhotoResponse(
+    val status: Int,
+    val message: String,
+    val data: PhotoData
+)
+
+data class PhotoData(
+    val image_url: String
+)
+
 data class UserResponse(
     val user_uid: String?,
     val verified_status_uuid: String?,
