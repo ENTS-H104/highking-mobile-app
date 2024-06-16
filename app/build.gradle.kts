@@ -103,12 +103,8 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.9.0")
     implementation("androidx.activity:activity-ktx:1.9.0")
     // Library Crop Image
-<<<<<<< HEAD
     implementation("com.github.yalantis:ucrop:2.2.8")
-=======
-//    implementation("com.github.yalantis:ucrop:2.2.8")
 
     //skeleton
     implementation("com.facebook.shimmer:shimmer:0.5.0")
->>>>>>> 22c8c04edb3f0ea60af67236e61ab8eecfc3db15
 }
