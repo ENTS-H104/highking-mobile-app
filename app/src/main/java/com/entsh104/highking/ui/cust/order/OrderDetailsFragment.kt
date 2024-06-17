@@ -62,6 +62,8 @@ class OrderDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnPrintTicket.visibility = View.GONE
+        binding.btnCallTour.visibility = View.GONE
         trip = args.trip
         transactionId = args.transactionId
 
@@ -132,6 +134,8 @@ class OrderDetailsFragment : Fragment() {
         val barcodeBitmap = generateBarcode(transactionId)
         Log.d("OrderDetailsFragment", "Barcode bitmap: $barcodeBitmap transaction: $transaction")
         if (barcodeBitmap != null && transaction.status_accepted == "ACCEPTED" && transaction.status_payment == "SUCCESS") {
+            binding.btnCallTour.visibility = View.VISIBLE
+            binding.btnPrintTicket.visibility = View.VISIBLE
             binding.imageViewBarcode.setImageBitmap(barcodeBitmap)
             binding.btnPrintTicket.setOnClickListener {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -146,6 +150,7 @@ class OrderDetailsFragment : Fragment() {
             }
         } else {
             binding.imageViewBarcode.visibility = View.GONE
+            binding.btnCallTour.visibility = View.VISIBLE
             binding.btnPrintTicket.visibility = View.GONE
         }
 
