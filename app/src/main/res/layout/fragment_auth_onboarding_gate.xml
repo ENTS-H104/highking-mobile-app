@@ -38,7 +38,7 @@
         android:layout_below="@id/illustration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
-        android:text="Onboarding Gate"
+        android:text="Bergabunglah Bersama Kami!"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"/>
@@ -52,7 +52,7 @@
         android:layout_marginTop="8dp"
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce faucibus eleifend erat, ac egestas massa mattis id."
+        android:text="Daftar atau masuk untuk memulai petualangan Anda. Ayo, temukan lebih banyak lagi bersama kami!"
         android:textSize="16sp"
         android:textColor="@android:color/black"
         android:gravity="center"/>

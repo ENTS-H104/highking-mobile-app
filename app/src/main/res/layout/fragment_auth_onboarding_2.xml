@@ -38,7 +38,7 @@
         android:layout_below="@id/illustration"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
-        android:text="@string/onboarding_2"
+        android:text="Eksplorasi Destinasi Unik"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"/>
@@ -52,7 +52,7 @@
         android:layout_marginTop="8dp"
         android:paddingStart="32dp"
         android:paddingEnd="32dp"
-        android:text="@string/lorem_ipsum"
+        android:text="Dapatkan rekomendasi destinasi terbaik yang disesuaikan dengan minat Anda"
         android:textSize="16sp"
         android:textColor="@android:color/black"
         android:gravity="center"/>
