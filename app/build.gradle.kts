@@ -21,6 +21,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resValue("string", "google_maps_key", "AIzaSyDsbvczf_2-MgmpGzxjdrMRZPcatQI4bPA")
+        resValue("string", "payment_gateway_uuid", "dc5ce8d6-e907-44fa-8d3f-106a83dd6f22")
         buildConfigField("String", "BASE_URL", "\"https://highking.cloud/api/\"")
     }
 

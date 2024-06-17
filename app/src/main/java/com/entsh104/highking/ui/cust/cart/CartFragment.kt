@@ -230,7 +230,7 @@ class CartFragment : Fragment() {
 
     private fun createTransaction() {
         val userUid = userRepository.getCurrentUserId()
-        val paymentGatewayUuid = "a39e11df-8ba5-496c-a924-21918053acd0"
+        val paymentGatewayUuid = getString(R.string.payment_gateway_uuid)
 
         if (userUid != null) {
             val request = CreateTransactionRequest(
@@ -294,8 +294,6 @@ class CartFragment : Fragment() {
             transactionToken
         )
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
