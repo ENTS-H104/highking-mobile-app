@@ -90,18 +90,19 @@ class BerandaFragment : Fragment() {
                 if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
                     val userResult = userRepository.getCurrentUser()
                     userName = userResult.getOrNull()?.username?: ""
+                    binding.tvRekomendasiTrip.text = "Trip Pilihanmu, $userName ✨"
                     if (userResult.isSuccess) {
                         val userId = userRepository.getCurrentUserId()
-                            if(userId != null) {
-                                val fetchMountainsDeferred = async { fetchRecommendedMountains(userId) }
-                                val fetchOpenTripsDeferred = async { fetchRecommendedTrips(userId) }
+                        if(userId != null) {
+                            val fetchMountainsDeferred = async { fetchRecommendedMountains(userId) }
+                            val fetchOpenTripsDeferred = async { fetchRecommendedTrips(userId) }
 
-                                fetchMountainsDeferred.await()
-                                fetchOpenTripsDeferred.await()
+                            fetchMountainsDeferred.await()
+                            fetchOpenTripsDeferred.await()
 
-                                binding.shimmerViewContainer.stopShimmer()
-                                binding.shimmerViewContainer.visibility = View.GONE
-                                binding.llBeranda.visibility = View.VISIBLE
+                            binding.shimmerViewContainer.stopShimmer()
+                            binding.shimmerViewContainer.visibility = View.GONE
+                            binding.llBeranda.visibility = View.VISIBLE
                         }
                     } else {
                         val message = "Failed to load user data"

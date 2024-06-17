@@ -35,6 +35,8 @@ class ListTripFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerViewTrips.visibility = View.GONE
 
         val prefs = SharedPreferencesManager(requireContext())
         RetrofitClient.createInstance(requireContext())
@@ -55,9 +57,11 @@ class ListTripFragment : Fragment() {
         if (tripsAdapter.itemCount <= 0){
             binding.noTrips.visibility = View.VISIBLE
             binding.recyclerViewTrips.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
         }else{
             binding.noTrips.visibility = View.GONE
             binding.recyclerViewTrips.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
 
             binding.recyclerViewTrips.adapter = tripsAdapter
         }

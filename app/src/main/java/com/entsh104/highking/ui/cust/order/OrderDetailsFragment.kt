@@ -78,7 +78,7 @@ class OrderDetailsFragment : Fragment() {
                 delay(500)
                 if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
                     binding.progressBar.visibility = View.VISIBLE
-                    binding.scrollViewContent.visibility = View.GONE
+                    binding.scrollView.visibility = View.GONE
                     try {
                         val apiService = RetrofitClient.getInstance()
                         val response = apiService.getTransactionDetail(transactionId)
@@ -95,7 +95,7 @@ class OrderDetailsFragment : Fragment() {
                                     ).show()
                                 }
                                 binding.progressBar.visibility = View.GONE
-                                binding.scrollViewContent.visibility = View.VISIBLE
+                                binding.scrollView.visibility = View.VISIBLE
                             }
                         } else {
                             Toast.makeText(

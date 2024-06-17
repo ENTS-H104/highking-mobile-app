@@ -38,6 +38,8 @@ class ListAllMountainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerViewMountains.visibility = View.GONE
         val prefs = SharedPreferencesManager(requireContext())
         RetrofitClient.createInstance(requireContext())
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
@@ -58,16 +60,27 @@ class ListAllMountainFragment : Fragment() {
                     if (result.isSuccess) {
                         val mountains = result.getOrNull() ?: emptyList()
                         val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, false)
-                        binding.recyclerViewMountains.adapter = mountainsAdapter
+
+                        if (mountainsAdapter.itemCount <= 0){
+                            binding.noMountains.visibility = View.VISIBLE
+                            binding.recyclerViewMountains.visibility = View.GONE
+                            binding.progressBar.visibility = View.GONE
+                        } else{
+                            binding.noMountains.visibility = View.GONE
+                            binding.recyclerViewMountains.visibility = View.VISIBLE
+                            binding.progressBar.visibility = View.GONE
+                            binding.recyclerViewMountains.adapter = mountainsAdapter
+                        }
+
                     } else {
                         Toast.makeText(
                             requireContext(),
                             "Failed to load mountains",
                             Toast.LENGTH_SHORT
                         ).show()
+                        binding.noMountains.visibility = View.VISIBLE
+                        binding.progressBar.visibility = View.GONE
                     }
-
-                    binding.progressBar.visibility = View.GONE
                 }
             }
         }

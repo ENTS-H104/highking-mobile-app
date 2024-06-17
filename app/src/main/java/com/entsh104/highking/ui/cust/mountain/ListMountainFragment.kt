@@ -34,6 +34,9 @@ class ListMountainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerViewMountains.visibility = View.GONE
+
         val prefs = SharedPreferencesManager(requireContext())
         RetrofitClient.createInstance(requireContext())
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
@@ -44,18 +47,20 @@ class ListMountainFragment : Fragment() {
 
         arguments?.let {
             val searchResults = ListMountainFragmentArgs.fromBundle(it).mountainList
-            displayTrips(searchResults.toList())
+            displayMountains(searchResults.toList())
         }
     }
 
-    private fun displayTrips(mountains: List<MountainResponse>) {
+    private fun displayMountains(mountains: List<MountainResponse>) {
         val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, false)
         if (mountainsAdapter.itemCount <= 0){
             binding.noMountains.visibility = View.VISIBLE
             binding.recyclerViewMountains.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
         }else{
             binding.noMountains.visibility = View.GONE
             binding.recyclerViewMountains.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
             binding.recyclerViewMountains.adapter = mountainsAdapter
         }
     }

@@ -42,6 +42,9 @@ class ProfileMitraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.progressBar.visibility = View.GONE
+        binding.linearLayoutProfileHeader.visibility = View.GONE
+
         mitraId = args.mitraId ?: ""
         val prefs = SharedPreferencesManager(requireContext())
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
@@ -91,6 +94,7 @@ class ProfileMitraFragment : Fragment() {
                         Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT)
                             .show()
                     }
+                    binding.linearLayoutProfileHeader.visibility = View.VISIBLE
                 }
             }
         }
