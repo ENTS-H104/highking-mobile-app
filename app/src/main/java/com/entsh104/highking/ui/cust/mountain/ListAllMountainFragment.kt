@@ -5,18 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import com.entsh104.highking.data.model.MountainResponse
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.data.viewmodel.MountainViewModel
 import com.entsh104.highking.databinding.FragmentCustListMountainBinding
 import com.entsh104.highking.ui.adapters.MountainAdapter
-import com.entsh104.highking.ui.cust.trip.GridSpacingItemDecoration
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class ListMountainFragment : Fragment() {
+class ListAllMountainFragment : Fragment() {
 
     private var _binding: FragmentCustListMountainBinding? = null
     private val binding get() = _binding!!
@@ -38,27 +42,37 @@ class ListMountainFragment : Fragment() {
         RetrofitClient.createInstance(requireContext())
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
-        val gridLayoutManager = GridLayoutManager(context, 1)
-        binding.recyclerViewMountains.layoutManager = gridLayoutManager
-        binding.recyclerViewMountains.addItemDecoration(GridSpacingItemDecoration(2, 1, true))
+        binding.recyclerViewMountains.layoutManager = LinearLayoutManager(context)
 
-        arguments?.let {
-            val searchResults = ListMountainFragmentArgs.fromBundle(it).mountainList
-            displayTrips(searchResults.toList())
+        fetchMountains()
+    }
+
+    private fun fetchMountains() {
+        binding.progressBar.visibility = View.VISIBLE
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                delay(500)
+                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    val result = userRepository.getMountains()
+                    if (result.isSuccess) {
+                        val mountains = result.getOrNull() ?: emptyList()
+                        val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, false)
+                        binding.recyclerViewMountains.adapter = mountainsAdapter
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Failed to load mountains",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
         }
     }
 
-    private fun displayTrips(mountains: List<MountainResponse>) {
-        val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, false)
-        if (mountainsAdapter.itemCount <= 0){
-            binding.noMountains.visibility = View.VISIBLE
-            binding.recyclerViewMountains.visibility = View.GONE
-        }else{
-            binding.noMountains.visibility = View.GONE
-            binding.recyclerViewMountains.visibility = View.VISIBLE
-            binding.recyclerViewMountains.adapter = mountainsAdapter
-        }
-    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

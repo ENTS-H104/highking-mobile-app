@@ -19,6 +19,7 @@ import com.entsh104.highking.data.model.UpdateUserRequest
 import com.entsh104.highking.data.model.UserApiResponse
 import com.entsh104.highking.data.model.UserResponse
 import com.entsh104.highking.data.model.UserUpdateApiResponse
+import com.entsh104.highking.ui.model.Mountain
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -109,4 +110,10 @@ interface ApiService {
         @Query("page") page: Int,
         @Query("limit") size: Int
     ): Response<OpenTripResponse>
+
+    @GET("/api/recommendation/mountain/{user_uid}")
+    suspend fun getRecommendedMountains(@Path("user_uid") userUid: String): Response<MountainsResponse>
+
+    @GET("/api/recommendation/open-trip/{user_uid}")
+    suspend fun getRecommendedTrips(@Path("user_uid") userId: String): Response<OpenTripResponse>
 }

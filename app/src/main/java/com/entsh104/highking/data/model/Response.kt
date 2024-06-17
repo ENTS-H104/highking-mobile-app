@@ -45,6 +45,7 @@ data class UserResponse(
     val updated_at: String?
 )
 
+@Parcelize
 data class MountainResponse(
     @SerializedName("mountain_uuid") val mountainId: String,
     @SerializedName("name") val name: String,
@@ -59,7 +60,7 @@ data class MountainResponse(
     @SerializedName("harga") val harga: Int,
     @SerializedName("gmaps") val gmaps: String,
     @SerializedName("total_trip_open") val totalTripOpen: Int
-)
+): Parcelable
 
 data class MountainsResponse(
     @SerializedName("status") val status: Int,

@@ -16,14 +16,17 @@
             android:id="@+id/action_listTrip_to_detailTrip"
             app:destination="@id/nav_detailTrip" />
         <action
-            android:id="@+id/action_home_to_listMountain"
-            app:destination="@id/nav_listMountain" />
+            android:id="@+id/action_home_to_listAllMountain"
+            app:destination="@id/nav_listAllMountain" />
         <action
             android:id="@+id/action_listMountain_to_detailMountain"
             app:destination="@id/nav_detailMountain" />
         <action
             android:id="@+id/action_home_to_all_listTrip"
             app:destination="@id/listAllTripFragment" />
+        <action
+            android:id="@+id/action_home_to_listMountain"
+            app:destination="@id/nav_listMountain" />
     </fragment>
 
     <fragment
@@ -100,6 +103,19 @@
     <fragment
         android:id="@+id/nav_listMountain"
         android:name="com.entsh104.highking.ui.cust.mountain.ListMountainFragment"
+        android:label="List Mountain"
+        tools:layout="@layout/fragment_cust_list_mountain" >
+        <action
+            android:id="@+id/action_listMountain_to_detailMountain"
+            app:destination="@id/nav_detailMountain" />
+        <argument
+            android:name="mountainList"
+            app:argType="com.entsh104.highking.data.model.MountainResponse[]"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_listAllMountain"
+        android:name="com.entsh104.highking.ui.cust.mountain.ListAllMountainFragment"
         android:label="List Mountain"
         tools:layout="@layout/fragment_cust_list_mountain" >
         <action

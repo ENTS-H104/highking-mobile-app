@@ -10,6 +10,10 @@ class SharedPreferencesManager(context: Context) {
         prefs.edit().putString("token", token).apply()
     }
 
+    fun saveUserUid(uid: String) {
+        prefs.edit().putString("userUid", uid).apply()
+    }
+
     fun getToken(): String? {
         return prefs.getString("token", null)
     }

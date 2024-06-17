@@ -259,6 +259,39 @@
                     android:padding="8dp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_jelajahi_semua_gunung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:background="@drawable/custom_border_top_bottom">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_near_map"
+                    android:layout_marginStart="5dp"
+                    android:padding="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jelajahi Semua Gunung!"
+                    android:textSize="16sp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_navigate_next_24"
+                    android:padding="8dp" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

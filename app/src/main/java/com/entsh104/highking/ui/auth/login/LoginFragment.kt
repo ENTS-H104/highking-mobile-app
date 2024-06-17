@@ -42,8 +42,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         prefs = SharedPreferencesManager(requireContext())
-            RetrofitClient.createInstance(requireContext()) 
-    userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
+        RetrofitClient.createInstance(requireContext())
+        userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         binding.loginButton.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()
