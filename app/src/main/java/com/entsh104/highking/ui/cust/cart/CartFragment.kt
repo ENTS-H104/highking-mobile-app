@@ -200,6 +200,8 @@ class CartFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnCheckout.setOnClickListener {
+            binding.btnCheckout.text = ""
+            binding.progressBar.visibility = View.VISIBLE
             fetchUserProfileAndCreateTransaction()
         }
 

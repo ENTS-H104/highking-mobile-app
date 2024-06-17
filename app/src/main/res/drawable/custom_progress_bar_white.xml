@@ -1,0 +1,18 @@
+<!-- res/drawable/white_progress_bar.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="ring"
+            android:innerRadiusRatio="3"
+            android:thicknessRatio="8"
+            android:useLevel="false">
+            <size android:width="48dp"
+                android:height="48dp"/>
+            <gradient
+                android:type="sweep"
+                android:useLevel="false"
+                android:startColor="@color/green_secondary"
+                android:endColor="#00FFFFFF"
+                android:angle="0"/>
+        </shape>
+    </item>
+</layer-list>

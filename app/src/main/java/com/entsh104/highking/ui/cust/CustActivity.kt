@@ -48,6 +48,13 @@ class CustActivity : AppCompatActivity() {
             .build()
     }
 
+    fun hideToolbar() {
+        supportActionBar?.hide()
+    }
+
+    fun showToolbar() {
+        supportActionBar?.show()
+    }
     fun hideToolbarAndNavbar() {
         supportActionBar?.hide()
         findViewById<View>(R.id.bottomNavigationView)?.visibility = View.GONE

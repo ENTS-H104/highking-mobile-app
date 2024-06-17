@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.entsh104.highking.ui.cust.beranda.BerandaFragment"
-        android:label="Welcome Back!"
+        android:label=""
         tools:layout="@layout/fragment_cust_beranda">
         <action
             android:id="@+id/action_home_to_listTrip"

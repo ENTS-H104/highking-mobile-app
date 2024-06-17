@@ -66,14 +66,23 @@ interface ApiService {
     @GET("mountains")
     suspend fun getMountains(
         @Query("page") page: Int = 1,
-        @Query("limit") size: Int = 100
+        @Query("limit") size: Int = 1000
+    ): Response<MountainsResponse>
+
+    @GET("mountains")
+    suspend fun getMountainsLimit(
+        @Query("page") page: Int = 1,
+        @Query("limit") size: Int = 10
     ): Response<MountainsResponse>
 
     @GET("mountains/{id}")
     suspend fun getMountainById(@Header("Authorization") token: String, @Path("id") id: String): Response<MountainDetailResponse>
 
     @GET("open-trips")
-    suspend fun getOpenTrips(): Response<OpenTripResponse>
+    suspend fun getOpenTrips(
+        @Query("page") page: Int = 1,
+        @Query("limit") size: Int = 10
+    ): Response<OpenTripResponse>
 
     @GET("open-trips/{open_trip_uuid}")
     suspend fun getOpenTripById(@Header("Authorization") token: String, @Path("open_trip_uuid") openTripId: String): Response<OpenTripDetailResponse>

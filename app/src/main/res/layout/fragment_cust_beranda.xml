@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.cust.beranda.BerandaFragment">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container"
+    <ScrollView
+        android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
         android:visibility="visible">
 
         <LinearLayout
@@ -16,154 +15,166 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Shimmer View for Banner -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/custom_shimmer_background"/>
-
-            <!-- Shimmer View for Gunung Terpopuler -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                >
-
-                <View
-                    android:layout_width="150dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="16dp">
-
-                <View
-                    android:layout_width="140dp"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-                <View
-                    android:layout_width="140dp"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-                <View
-                    android:layout_width="140dp"
-                    android:layout_height="100dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-            </LinearLayout>
-
-
-            <!-- Shimmer View for Gunung Terpopuler -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:paddingHorizontal="16dp">
-
-                <View
-                    android:layout_width="150dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="16dp">
-
-                <View
-                    android:layout_width="175dp"
-                    android:layout_height="170dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-                <View
-                    android:layout_width="175dp"
-                    android:layout_height="170dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-                <View
-                    android:layout_width="175dp"
-                    android:layout_height="170dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/custom_shimmer_background"/>
-            </LinearLayout>
-
-            <!-- Shimmer View for Temukan Trip Terdekat -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginBottom="8dp"
-                android:layout_margin="16dp"
-                android:background="@drawable/custom_shimmer_background"/>
-        </LinearLayout>
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
-    <ScrollView
-        android:id="@+id/content_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
             <!-- Banners -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewBanner"
+            <ImageView
+                android:id="@+id/iv_bg_banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
+                android:src="@drawable/iv_bggunung"
+                android:adjustViewBounds="true"
                 android:orientation="horizontal" />
 
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- Shimmer View for Gunung Terpopuler -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="20dp"
+                        android:paddingTop="8dp"
+                        >
+
+                        <View
+                            android:layout_width="150dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+
+                        <View
+                            android:layout_width="100dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="20dp">
+
+                        <View
+                            android:layout_width="140dp"
+                            android:layout_height="100dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+                        <View
+                            android:layout_width="140dp"
+                            android:layout_height="100dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+                        <View
+                            android:layout_width="140dp"
+                            android:layout_height="100dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+                    </LinearLayout>
+
+
+                    <!-- Shimmer View for Gunung Terpopuler -->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:paddingHorizontal="20dp">
+
+                        <View
+                            android:layout_width="150dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+
+                        <View
+                            android:layout_width="100dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginBottom="8dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingStart="20dp">
+
+                        <View
+                            android:layout_width="175dp"
+                            android:layout_height="170dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+                        <View
+                            android:layout_width="175dp"
+                            android:layout_height="170dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+                        <View
+                            android:layout_width="175dp"
+                            android:layout_height="170dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="@drawable/custom_shimmer_background"/>
+                    </LinearLayout>
+
+                    <!-- Shimmer View for Temukan Trip Terdekat -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_margin="20dp"
+                        android:background="@drawable/custom_shimmer_background"/>
+                </LinearLayout>
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <!-- Banners -->
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/recyclerViewBanner"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingBottom="8dp"-->
+<!--                android:orientation="horizontal" />-->
+
+        <LinearLayout
+            android:id="@+id/ll_beranda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
             <!-- Section: Gunung Terpopuler -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingHorizontal="8dp"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="4dp"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
+                    android:paddingTop="4dp"
                     android:paddingHorizontal="8dp"
                     android:text="@string/gunung_terpopuler"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                     android:layout_weight="1" />
@@ -183,24 +194,24 @@
                 android:id="@+id/recyclerViewMountains"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingBottom="4dp"
-                android:orientation="horizontal" />
+                android:paddingStart="12dp"
+                android:paddingBottom="2dp"
+                android:orientation="horizontal"/>
 
             <!-- Section: Rekomendasi Trip -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingHorizontal="8dp"
+                android:paddingHorizontal="12dp"
                 android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
+                    android:paddingTop="4dp"
                     android:paddingHorizontal="8dp"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     android:text="@string/rekomendasi_trip"
                     android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -221,7 +232,7 @@
                 android:id="@+id/recyclerViewTrips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="8dp"
+                android:paddingStart="12dp"
                 android:paddingBottom="8dp"
                 android:orientation="horizontal" />
 
@@ -258,40 +269,7 @@
                     android:src="@drawable/ic_navigate_next_24"
                     android:padding="8dp" />
             </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_jelajahi_semua_gunung"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:background="@drawable/custom_border_top_bottom">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_near_map"
-                    android:layout_marginStart="5dp"
-                    android:padding="8dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Jelajahi Semua Gunung!"
-                    android:textSize="16sp"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_navigate_next_24"
-                    android:padding="8dp" />
-            </LinearLayout>
-
+        </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

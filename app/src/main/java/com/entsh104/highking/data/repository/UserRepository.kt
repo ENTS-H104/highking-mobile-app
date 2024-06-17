@@ -204,6 +204,19 @@ class UserRepository(
         }
     }
 
+    suspend fun getMountainsLimit(): Result<List<MountainResponse>> {
+        return try {
+            val response = apiService.getMountainsLimit()
+            if (response.isSuccessful) {
+                Result.success(response.body()?.data ?: emptyList())
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     suspend fun getMountainById(id: String): Result<MountainDetailResponse> {
         val token = prefs.getToken()
         return try {
