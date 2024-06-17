@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
@@ -21,6 +23,9 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
+        val fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
+        findViewById<View>(R.id.splashLogo).startAnimation(fadeInAnimation)
+
         prefs = SharedPreferencesManager(this)
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -30,6 +35,6 @@ class SplashScreenActivity : AppCompatActivity() {
                 startActivity(Intent(this, AuthActivity::class.java))
             }
             finish()
-        }, 2000)
+        }, 1200)
     }
 }

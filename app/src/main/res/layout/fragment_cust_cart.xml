@@ -122,6 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/quantity_array"
+                    android:paddingEnd="8dp"
                     android:layout_marginStart="4dp"/>
             </LinearLayout>
 
@@ -241,6 +242,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/ll_hiker_data"
                 >
 
@@ -255,7 +257,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -288,6 +291,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_vertical"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/ll_payment_method"
                 >
 
@@ -408,16 +412,27 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <!-- Checkout Button -->
-    <Button
-        android:id="@+id/btn_checkout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="Checkout"
-        android:textColor="@android:color/white"
         android:layout_marginHorizontal="18dp"
-        android:background="@drawable/iv_rounded_button"
-        android:layout_marginBottom="8dp"
-        />
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/btn_checkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lanjut ke Pembayaran"
+            android:textColor="@android:color/white"
+            android:background="@drawable/iv_rounded_button" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminateDrawable="@drawable/custom_progress_bar_white"/>
+    </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

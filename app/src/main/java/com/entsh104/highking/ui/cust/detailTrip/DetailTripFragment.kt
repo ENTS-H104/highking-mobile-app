@@ -28,9 +28,13 @@ import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TripFilter
 import kotlinx.coroutines.delay
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
 
@@ -90,7 +94,9 @@ class DetailTripFragment : Fragment() {
             tripList?.firstOrNull()?.let { trip ->
                 Glide.with(this@DetailTripFragment).load(trip.image_url).into(binding.ivTripImage)
                 val mPrice = trip.price
-                val mCurrencyFormat = DecimalFormat("#,###")
+                val symbols = DecimalFormatSymbols(Locale.getDefault())
+                symbols.groupingSeparator = '.'
+                val mCurrencyFormat = DecimalFormat("#,###", symbols)
                 val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
                 val schedule = trip.schedule_data[0]
 
@@ -99,10 +105,21 @@ class DetailTripFragment : Fragment() {
                 binding.tvTripAvailability.text = "${trip.min_people}-${trip.max_people}"
                 binding.tvTripLocation.text = trip.mountain_data.joinToString(", ") { mountain -> mountain.name }
 
+                val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+                val startDateTime = LocalDateTime.parse("${schedule.start_date} ${schedule.start_time}", dateTimeFormatter)
+                val endDateTime = LocalDateTime.parse("${schedule.end_date} ${schedule.end_time}", dateTimeFormatter)
+                val duration = Duration.between(startDateTime, endDateTime)
+                val days = duration.toDays()
+                val hours = duration.toHours() % 24
 
+                val formattedDuration = when {
+                    days > 0 && hours > 0 -> "$days Hari $hours Jam"
+                    days > 0 -> "$days Hari"
+                    else -> "$hours Jam"
+                }
 
                 val formattedSchedule = """
-                    ${schedule.total_day} Hari Pendakian
+                    $formattedDuration Pendakian
                     Berangkat: ${convertDate(schedule.start_date)} - (${schedule.start_time})
                     Kembali: ${convertDate(schedule.end_date)} - (${schedule.end_time})
                 """.trimIndent()
@@ -216,7 +233,7 @@ class DetailTripFragment : Fragment() {
                         faqView.findViewById<TextView>(R.id.tv_dropdown_description).text = answer
                     }
                     val dropdownItem = faqView.findViewById<LinearLayout>(R.id.ll_item_dropdown)
-                    val toggleArrow = faqView.findViewById<ImageView>(R.id.iv_expand_dropdown)
+                    val toggleArrow = faqView.findViewById<ImageView>(R.drawable.ic_arrow_down)
                     val rundownContent = faqView.findViewById<LinearLayout>(R.id.ll_dropdown_content)
 
                     dropdownItem.setOnClickListener {
@@ -306,7 +323,10 @@ class DetailTripFragment : Fragment() {
     private fun shareInformation(platform: String, trip: OpenTripDetail) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "Check out this trip: ${trip.open_trip_name} to ${trip.mountain_data.joinToString(", ") { it.name }}. Price: Rp ${trip.price}. Availability: ${trip.min_people}-${trip.max_people} people!")
+            val mPrice = trip.price
+            val mCurrencyFormat = DecimalFormat("#,###")
+            val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+            putExtra(Intent.EXTRA_TEXT, "Check out this trip: ${trip.open_trip_name} to ${trip.mountain_data.joinToString(", ") { it.name }}. Price: Rp ${myFormattedPrice}. Availability: ${trip.min_people}-${trip.max_people} people!")
             type = "text/plain"
         }
 

@@ -16,6 +16,8 @@ import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.ui.cust.trip.ListTripFragmentDirections
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 
 class TripsAdapter(var trips: List<TripFilter>, private val isHorizontal: Boolean = false, private val viewModel: TripViewModel) :
@@ -45,14 +47,16 @@ class TripsAdapter(var trips: List<TripFilter>, private val isHorizontal: Boolea
 
         fun bind(trip: TripFilter) {
             val mPrice = trip.price
-            val mCurrencyFormat = DecimalFormat("#,###")
+            val symbols = DecimalFormatSymbols(Locale.getDefault())
+            symbols.groupingSeparator = '.'
+            val mCurrencyFormat = DecimalFormat("#,###", symbols)
             val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+            textViewPrice.text = "Rp $myFormattedPrice"
 
             Glide.with(itemView.context).load(trip.image_url).into(imageView)
             textViewTripName.text = trip.name
             textViewMountainName.text = trip.mountain_name
-            textViewPrice.text = "Rp $myFormattedPrice"
-            textViewCapacity.text = trip.total_participants ?: "0"
+            textViewCapacity.text = "${trip.total_participants ?: "0"}/${trip.max_people ?: "0"}"
 
             // Adjust item layout params for horizontal orientation
             if (isHorizontal) {

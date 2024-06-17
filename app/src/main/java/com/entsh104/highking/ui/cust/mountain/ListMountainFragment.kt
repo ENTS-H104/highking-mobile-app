@@ -5,21 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.entsh104.highking.R
+import androidx.recyclerview.widget.GridLayoutManager
+import com.entsh104.highking.data.model.MountainResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.data.viewmodel.MountainViewModel
 import com.entsh104.highking.databinding.FragmentCustListMountainBinding
 import com.entsh104.highking.ui.adapters.MountainAdapter
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import com.entsh104.highking.ui.cust.trip.GridSpacingItemDecoration
 
 class ListMountainFragment : Fragment() {
 
@@ -39,43 +34,36 @@ class ListMountainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerViewMountains.visibility = View.GONE
+
         val prefs = SharedPreferencesManager(requireContext())
         RetrofitClient.createInstance(requireContext())
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
-        binding.recyclerViewMountains.layoutManager = LinearLayoutManager(context)
+        val gridLayoutManager = GridLayoutManager(context, 1)
+        binding.recyclerViewMountains.layoutManager = gridLayoutManager
+        binding.recyclerViewMountains.addItemDecoration(GridSpacingItemDecoration(2, 1, true))
 
-        fetchMountains()
-    }
-
-    private fun fetchMountains() {
-        // Show ProgressBar
-        binding.progressBar.visibility = View.VISIBLE
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                delay(500)
-                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-                    val result = userRepository.getMountains()
-                    if (result.isSuccess) {
-                        val mountains = result.getOrNull() ?: emptyList()
-                        val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, false)
-                        binding.recyclerViewMountains.adapter = mountainsAdapter
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Failed to load mountains",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    // Hide ProgressBar
-                    binding.progressBar.visibility = View.GONE
-                }
-            }
+        arguments?.let {
+            val searchResults = ListMountainFragmentArgs.fromBundle(it).mountainList
+            displayMountains(searchResults.toList())
         }
     }
 
+    private fun displayMountains(mountains: List<MountainResponse>) {
+        val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, false)
+        if (mountainsAdapter.itemCount <= 0){
+            binding.noMountains.visibility = View.VISIBLE
+            binding.recyclerViewMountains.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
+        }else{
+            binding.noMountains.visibility = View.GONE
+            binding.recyclerViewMountains.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.GONE
+            binding.recyclerViewMountains.adapter = mountainsAdapter
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

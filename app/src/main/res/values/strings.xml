@@ -2,7 +2,7 @@
     <string name="app_name">HighKing</string>
     <string name="logo_desc">logo desc</string>
     <string name="illustration_desc">illustration desc</string>
-    <string name="onboarding_2">Onboarding 2</string>
+    <string name="onboarding_2">Dapatkan rekomendasi destinasi terbaik yang disesuaikan dengan minat Anda</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet</string>
     <string name="create_account">Create Account</string>
     <string name="your_username">Your username</string>
@@ -34,7 +34,7 @@
     <string name="enter_username">Enter username</string>
     <string name="sign_in">Sign in</string>
     <string name="lorem_ipsum_2">Lorem ipsum dolor sit amet.</string>
-    <string name="onboarding_1">Onboarding 1</string>
+    <string name="onboarding_1">Temukan cara baru untuk mengelola pendakian Anda dengan mudah dan nyaman</string>
     <string name="mountain_name">Mountain Name</string>
     <string name="welcome_back_daffa">Welcome Back, Daffa!</string>
     <string name="cari">Cari</string>

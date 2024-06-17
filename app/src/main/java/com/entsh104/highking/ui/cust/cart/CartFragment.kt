@@ -34,6 +34,9 @@ import com.midtrans.sdk.uikit.external.UiKitApi
 import com.midtrans.sdk.uikit.internal.util.UiKitConstants
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 class CartFragment : Fragment() {
 
@@ -77,7 +80,14 @@ class CartFragment : Fragment() {
         // Use the trip data
         Glide.with(this@CartFragment).load(trip.image_url).into(binding.imageViewTrip)
         binding.tvTripName.text = trip.open_trip_name
-        binding.tvTripPrice.text = "Rp ${trip.price}"
+
+        val mPrice = trip.price
+        val symbols = DecimalFormatSymbols(Locale.getDefault())
+        symbols.groupingSeparator = '.'
+        val mCurrencyFormat = DecimalFormat("#,###", symbols)
+        val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+        binding.tvTripPrice.text = "Rp $myFormattedPrice"
+
         binding.tvTripLocation.text = trip.mountain_data[0].name
         binding.tvDateTrip.text = trip.schedule_data[0].start_date
 
@@ -120,8 +130,14 @@ class CartFragment : Fragment() {
     private fun updateTotalCost(quantity: Int) {
         val ticketPrice = trip.price
         val totalTicketPrice = ticketPrice * quantity
-        binding.tvTotalTiket.text = "Rp $totalTicketPrice"
-        binding.tvTotalTagihan.text = "Rp $totalTicketPrice"
+
+        val mPrice = totalTicketPrice
+        val symbols = DecimalFormatSymbols(Locale.getDefault())
+        symbols.groupingSeparator = '.'
+        val mCurrencyFormat = DecimalFormat("#,###", symbols)
+        val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+        binding.tvTotalTiket.text = "Rp $myFormattedPrice"
+        binding.tvTotalTagihan.text = "Rp $myFormattedPrice"
     }
 
     private fun showHikerInfoDialog(position: Int) {
@@ -200,6 +216,8 @@ class CartFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.btnCheckout.setOnClickListener {
+            binding.btnCheckout.text = ""
+            binding.progressBar.visibility = View.VISIBLE
             fetchUserProfileAndCreateTransaction()
         }
 
@@ -230,7 +248,7 @@ class CartFragment : Fragment() {
 
     private fun createTransaction() {
         val userUid = userRepository.getCurrentUserId()
-        val paymentGatewayUuid = "a39e11df-8ba5-496c-a924-21918053acd0"
+        val paymentGatewayUuid = getString(R.string.payment_gateway_uuid)
 
         if (userUid != null) {
             val request = CreateTransactionRequest(
@@ -241,7 +259,6 @@ class CartFragment : Fragment() {
                 payment_gateway_uuid = paymentGatewayUuid,
                 participants = participants
             )
-            Log.d("CartFragmentTT", "createTransaction: $request")
 
             viewLifecycleOwner.lifecycleScope.launch {
                 lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -294,8 +311,6 @@ class CartFragment : Fragment() {
             transactionToken
         )
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

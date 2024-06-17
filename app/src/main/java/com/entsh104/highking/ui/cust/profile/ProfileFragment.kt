@@ -45,7 +45,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = SharedPreferencesManager(requireContext())
-        RetrofitClient.createInstance(requireContext())  // Suspicious indentation: This is indented but is not continuing the previous expression (val prefs = SharedPr...) (Previous statement here
+        RetrofitClient.createInstance(requireContext())
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
         binding.llheaderInfoAkun.setOnClickListener {
@@ -166,7 +166,6 @@ class ProfileFragment : Fragment() {
                     if (result.isSuccess) {
                         val user = result.getOrNull()
                         user?.let {
-                            Log.d("ProfileFragment", "User: $it")
                             binding.textViewUsername.text = "@" + it.username
                             binding.textViewName.text = it.username
                             binding.textViewEmail.text = it.email

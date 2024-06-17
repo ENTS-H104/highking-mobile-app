@@ -34,19 +34,16 @@ class TicketPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     fun setPendingTransactions(transactions: List<TransactionHistory>) {
         pendingTransactions = transactions
         (fragmentMap[0] as? PendingFragment)?.updateData(transactions)
-        Log.d("TicketPagerAdapter", "setPendingTransactions: $transactions")
     }
 
     fun setAcceptedTransactions(transactions: List<TransactionHistory>) {
         acceptedTransactions = transactions
         (fragmentMap[1] as? AcceptedFragment)?.updateData(transactions)
-        Log.d("TicketPagerAdapter", "setAcceptedTransactions: $transactions")
     }
 
     fun setCanceledTransactions(transactions: List<TransactionHistory>) {
         canceledTransactions = transactions
         (fragmentMap[2] as? CanceledFragment)?.updateData(transactions)
-        Log.d("TicketPagerAdapter", "setCanceledTransactions: $transactions")
     }
 }
 

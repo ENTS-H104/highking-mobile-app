@@ -17,6 +17,9 @@ import com.entsh104.highking.data.source.local.entity.MountainEntity
 import com.entsh104.highking.ui.cust.mountain.ListMountainFragmentDirections
 import com.entsh104.highking.ui.util.NavOptionsUtil
 import com.entsh104.highking.data.viewmodel.MountainViewModel
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 class MountainAdapter(
     var mountains: List<MountainResponse>,
@@ -63,7 +66,13 @@ class MountainAdapter(
             textViewCityName?.text = mountain.province
             textViewOpenTrips?.text = "${mountain.totalTripOpen} Trip Open"
             textViewDescription?.text = mountain.description
-            textViewTicketPrice?.text = "Rp ${mountain.harga}"
+
+            val mPrice = mountain.harga
+            val symbols = DecimalFormatSymbols(Locale.getDefault())
+            symbols.groupingSeparator = '.'
+            val mCurrencyFormat = DecimalFormat("#,###", symbols)
+            val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+            textViewTicketPrice?.text = "Rp $myFormattedPrice"
 
             val mountainEntity = MountainMapper.mapResponseToEntity(mountain)
 

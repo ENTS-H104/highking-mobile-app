@@ -24,11 +24,13 @@ import com.entsh104.highking.databinding.FragmentCustBerandaBinding
 import com.entsh104.highking.ui.adapters.BannerAdapter
 import com.entsh104.highking.ui.adapters.MountainAdapter
 import com.entsh104.highking.ui.adapters.TripsAdapter
+import com.entsh104.highking.ui.cust.CustActivity
 import com.entsh104.highking.ui.model.Banner
 import com.entsh104.highking.ui.util.NavOptionsUtil
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class BerandaFragment : Fragment() {
 
@@ -37,6 +39,7 @@ class BerandaFragment : Fragment() {
     private lateinit var userRepository: UserRepository
     private val mountainViewModel: MountainViewModel by viewModels()
     private val tripViewModel: TripViewModel by viewModels()
+    private lateinit var userName: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,22 +58,27 @@ class BerandaFragment : Fragment() {
 
         setupRecyclerViews()
 
-        binding.gunungTerpopulerLihatSemua.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_listMountain, null, NavOptionsUtil.defaultNavOptions)
+        binding.ivBgBanner.setOnClickListener {
+            val action = BerandaFragmentDirections.actionHomeToListAllMountain()
+            findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+        }
+        binding.llTemukanTripTerdekat.setOnClickListener {
+            val action = BerandaFragmentDirections.actionHomeToAllListTrip()
+            findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
         }
 
         fetchData()
     }
 
     private fun setupRecyclerViews() {
-        binding.recyclerViewBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//        binding.recyclerViewBanner.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerViewMountains.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         val tripsLayoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         binding.recyclerViewTrips.layoutManager = tripsLayoutManager
 
-        val bannerAdapter = BannerAdapter(getBannerData())
-        binding.recyclerViewBanner.adapter = bannerAdapter
+//        val bannerAdapter = BannerAdapter(getBannerData())
+//        binding.recyclerViewBanner.adapter = bannerAdapter
     }
 
     private fun fetchData() {
@@ -80,53 +88,95 @@ class BerandaFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 delay(500)
                 if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-                    val fetchMountainsDeferred = async { fetchMountains() }
-                    val fetchOpenTripsDeferred = async { fetchOpenTrips() }
+                    val userResult = userRepository.getCurrentUser()
+                    userName = userResult.getOrNull()?.username?: ""
+                    binding.tvRekomendasiTrip.text = "Trip Pilihanmu, $userName ✨"
+                    if (userResult.isSuccess) {
+                        val userId = userRepository.getCurrentUserId()
+                        if(userId != null) {
+                            val fetchMountainsDeferred = async { fetchRecommendedMountains(userId) }
+                            val fetchOpenTripsDeferred = async { fetchRecommendedTrips(userId) }
 
-                    fetchMountainsDeferred.await()
-                    fetchOpenTripsDeferred.await()
+                            fetchMountainsDeferred.await()
+                            fetchOpenTripsDeferred.await()
 
-                    binding.shimmerViewContainer.stopShimmer()
-                    binding.shimmerViewContainer.visibility = View.GONE
-                    binding.contentView.visibility = View.VISIBLE
+                            binding.shimmerViewContainer.stopShimmer()
+                            binding.shimmerViewContainer.visibility = View.GONE
+                            binding.llBeranda.visibility = View.VISIBLE
+                        }
+                    } else {
+                        val message = "Failed to load user data"
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
 
-    private suspend fun fetchMountains() {
-        val result = userRepository.getMountains()
-        if (result.isSuccess) {
+    private suspend fun fetchRecommendedMountains(userId: String) {
+        val result = withTimeoutOrNull(2000) {userRepository.getRecommendedMountains(userId)}
+        if (result?.isSuccess == true) {
             val mountains = result.getOrNull() ?: emptyList()
             val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, true)
             binding.recyclerViewMountains.adapter = mountainsAdapter
+
+            binding.gunungTerpopulerLihatSemua.setOnClickListener {
+                val action = BerandaFragmentDirections.actionHomeToListMountain(mountains.toTypedArray())
+                findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+            }
         } else {
-            Toast.makeText(requireContext(), "Failed to load mountains", Toast.LENGTH_SHORT).show()
+            if (result == null) {
+                val result2 = withTimeoutOrNull(2000) {userRepository.getMountainsLimit()}
+                if (result2?.isSuccess == true) {
+                    val mountains = result2.getOrNull() ?: emptyList()
+                    val mountainsAdapter = MountainAdapter(mountains, mountainViewModel, true)
+                    binding.recyclerViewMountains.adapter = mountainsAdapter
+
+                    binding.gunungTerpopulerLihatSemua.setOnClickListener {
+                        val action = BerandaFragmentDirections.actionHomeToListMountain(mountains.toTypedArray())
+                        findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                    }
+                }
+            } else {
+                val message = "Failed to load recommended mountains"
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    private suspend fun fetchOpenTrips() {
+    private suspend fun fetchRecommendedTrips(userId: String) {
         val apiService = RetrofitClient.getInstance()
-        val result = apiService.getOpenTrips()
-        if (result.isSuccessful && result.body() != null) {
-            val searchResults = result.body()?.data ?: emptyList()
-            val tripsAdapter = TripsAdapter(searchResults, true, tripViewModel)
+        val result = withTimeoutOrNull(2000) {
+            apiService.getRecommendedTrips(userId)
+        }
+        if (result?.isSuccessful == true && result.body() != null) {
+            val trips = result.body()?.data ?: emptyList()
+            val tripsAdapter = TripsAdapter(trips, true, tripViewModel)
             binding.recyclerViewTrips.adapter = tripsAdapter
 
             binding.rekomendasiTripLihatSemua.setOnClickListener {
-                val action = BerandaFragmentDirections.actionHomeToListTrip(
-                    searchResults.toTypedArray()
-                )
+                val action = BerandaFragmentDirections.actionHomeToListTrip(trips.toTypedArray())
                 findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
-
-            binding.llTemukanTripTerdekat.setOnClickListener {
-                val action = BerandaFragmentDirections.actionHomeToAllListTrip()
-                findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
-            }
-
         } else {
-            Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
+            if (result == null) {
+                val result2 = withTimeoutOrNull(2000) {
+                    apiService.getOpenTrips()
+                }
+                if (result2?.isSuccessful == true && result2.body() != null) {
+                    val trips = result2.body()?.data ?: emptyList()
+                    val tripsAdapter = TripsAdapter(trips, true, tripViewModel)
+                    binding.recyclerViewTrips.adapter = tripsAdapter
+
+                    binding.rekomendasiTripLihatSemua.setOnClickListener {
+                        val action = BerandaFragmentDirections.actionHomeToListTrip(trips.toTypedArray())
+                        findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
+                    }
+                }
+            } else {
+                val message = "Failed to load recommended trips"
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -134,6 +184,16 @@ class BerandaFragment : Fragment() {
         return listOf(
             Banner(R.drawable.iv_banner)
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? CustActivity)?.hideToolbar()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as? CustActivity)?.showToolbar()
     }
 
     override fun onDestroyView() {

@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.entsh104.highking.BuildConfig
 import com.entsh104.highking.R
 import com.entsh104.highking.databinding.ActivityCustBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,7 +25,6 @@ class CustActivity : AppCompatActivity() {
         binding = ActivityCustBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ensure the toolbar is set as the action bar
         setSupportActionBar(binding.toolbarCust)
 
         val navHostFragment = supportFragmentManager
@@ -39,15 +39,23 @@ class CustActivity : AppCompatActivity() {
         val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
         bottomNavigationView.setupWithNavController(navController)
 
-        // Inisialisasi Midtrans SDK
         UiKitApi.Builder()
-            .withMerchantClientKey("SB-Mid-client-0euqacxFYGhkN5uu")
+            .withMerchantClientKey(
+                BuildConfig.MIDTRANS_CLIENT_KEY
+            )
             .withContext(applicationContext)
-            .withMerchantUrl("https://api.sandbox.midtrans.com/")
+            .withMerchantUrl(BuildConfig.MIDTRANS_URL)
             .enableLog(true)
             .build()
     }
 
+    fun hideToolbar() {
+        supportActionBar?.hide()
+    }
+
+    fun showToolbar() {
+        supportActionBar?.show()
+    }
     fun hideToolbarAndNavbar() {
         supportActionBar?.hide()
         findViewById<View>(R.id.bottomNavigationView)?.visibility = View.GONE

@@ -16,7 +16,6 @@ class TripPagingSource(private val apiService: ApiService) : PagingSource<Int, T
             val response = apiService.getOpenTripsPaging(page, 8)
             val trips = response.body()?.data ?: emptyList()
 
-            Log.d("PagingSource", "Loaded page $page with ${trips.size} items")
 
             LoadResult.Page(
                 data = trips,

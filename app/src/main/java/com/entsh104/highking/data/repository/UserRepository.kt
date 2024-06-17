@@ -19,9 +19,7 @@ import com.entsh104.highking.data.model.UpdateUserRequest
 import com.entsh104.highking.data.model.UserResponse
 import com.entsh104.highking.data.model.UserUpdateApiResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -92,9 +90,7 @@ class UserRepository(
         imageUri: Uri
     ): Result<UpdatePhotoResponse> {
         val token = prefs.getToken() ?: return Result.failure(Exception("Token not found"))
-        Log.d("UploadPhoto", "Token: $token")
         val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null) ?: return Result.failure(Exception("Failed to open file descriptor"))
-        Log.d("UploadPhoto", "File Descriptor opened successfully")
         val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
         val file = File(cacheDir, contentResolver.getFileName(imageUri))
         val outputStream = FileOutputStream(file)
@@ -105,7 +101,6 @@ class UserRepository(
 
         return try {
             val response = apiService.updatePhotoUser("Bearer $token", body)
-            Log.d("UploadPhoto", "Response: ${response.message()}")
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {
@@ -205,16 +200,19 @@ class UserRepository(
             Result.failure(e)
         }
     }
-//    suspend fun getMountains(): LiveData<PagingData<List<MountainResponse>>> {
-//        return Pager(
-//            config = PagingConfig(
-//                pageSize = 5
-//            ),
-//            PagingSourceFactory = {
-//                MountainPagingSource(apiService)
-//            }
-//        ).livedata
-//    }
+
+    suspend fun getMountainsLimit(): Result<List<MountainResponse>> {
+        return try {
+            val response = apiService.getMountainsLimit()
+            if (response.isSuccessful) {
+                Result.success(response.body()?.data ?: emptyList())
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
     suspend fun getMountainById(id: String): Result<MountainDetailResponse> {
         val token = prefs.getToken()
@@ -242,7 +240,6 @@ class UserRepository(
             Result.failure(e)
         }
     }
-
 
     suspend fun getOpenTripById(tripId: String): Result<OpenTripDetailResponse> {
         val token = prefs.getToken()
@@ -300,11 +297,33 @@ class UserRepository(
         }
     }
 
-    fun saveToken(token: String) {
-        prefs.saveToken(token)
+    suspend fun getRecommendedMountains(userUid: String): Result<List<MountainResponse>> {
+        return try {
+            val response = apiService.getRecommendedMountains(userUid)
+            if (response.isSuccessful) {
+                Result.success(response.body()?.data ?: emptyList())
+            } else {
+                Result.failure(Throwable(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
-    fun getToken(): String? {
-        return prefs.getToken()
+    suspend fun getRecommendedTrips(userUid: String): Result<OpenTripResponse> = withContext(Dispatchers.IO) {
+        try {
+            val response = apiService.getRecommendedTrips(userUid)
+            if (response.isSuccessful) {
+                Result.success(response.body()!!)
+            } else {
+                Result.failure(Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    fun saveToken(token: String) {
+        prefs.saveToken(token)
     }
 }

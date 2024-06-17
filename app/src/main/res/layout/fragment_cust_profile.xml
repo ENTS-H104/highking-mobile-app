@@ -37,7 +37,7 @@
                     android:id="@+id/imageViewProfile"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="10dp"
                     android:src="@drawable/iv_profile_placeholder"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -47,12 +47,12 @@
                     android:id="@+id/buttonEditPhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="-40dp"
-                    android:layout_marginTop="-40dp"
+                    android:layout_marginStart="-32dp"
+                    android:layout_marginTop="-36dp"
                     android:layout_marginBottom="8dp"
-                    android:background="@drawable/circle_background"
+                    android:background="@drawable/custom_circle_background_2"
                     android:backgroundTint="@color/green_primary"
-                    android:padding="10dp"
+                    android:padding="6dp"
                     android:src="@drawable/ic_baseline_camera_alt_24"
                     app:circularflow_radiusInDP="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -76,7 +76,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="14dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -87,6 +87,7 @@
                     android:backgroundTint="@color/green_primary"
                     android:drawableRight="@drawable/ic_edit"
                     android:drawablePadding="8dp"
+                    android:paddingBottom="3dp"
                     android:drawableTint="@color/white"
                     android:paddingHorizontal="16dp"
                     android:text="Edit"
@@ -99,10 +100,12 @@
                     android:layout_marginStart="8dp"
                     android:backgroundTint="@color/green_light"
                     android:drawableRight="@drawable/ic_heart_filled"
+
                     android:drawablePadding="8dp"
+                    android:paddingBottom="3dp"
                     android:drawableTint="@color/green_primary"
                     android:paddingHorizontal="16dp"
-                    android:text="Favorite"
+                    android:text="Favorit"
                     android:textColor="@color/green_primary" />
             </LinearLayout>
 

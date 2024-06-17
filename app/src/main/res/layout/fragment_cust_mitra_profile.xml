@@ -6,118 +6,128 @@
     android:layout_height="match_parent"
     tools:context=".ui.cust.mitra.ProfileMitraFragment">
 
-    <!-- Profile Header -->
-    <LinearLayout
-        android:id="@+id/linearLayoutProfileHeader"
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/iv_background_gradient_light_green"
-        android:padding="16dp"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="visible" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageViewProfile"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/iv_profile_placeholder"
-            android:layout_gravity="center"/>
-
-        <TextView
-            android:id="@+id/textViewUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Lancar Jaya"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"/>
-
-
-
+        <!-- Profile Header -->
         <LinearLayout
+            android:id="@+id/linearLayoutProfileHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="6dp"
-            android:layout_marginHorizontal="12dp"
-            android:gravity="center_vertical">
+            android:orientation="vertical"
+            android:background="@drawable/iv_background_gradient_light_green"
+            android:padding="16dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageViewProfile"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/iv_profile_placeholder"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/textViewUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:text="Lancar Jaya"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"/>
 
-                <TextView
-                    android:id="@+id/textViewRating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rating (15)"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="-4dp"
-                    android:layout_marginTop="4dp"/>
 
-                <!-- Rating Section -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp"
+                android:layout_marginHorizontal="12dp"
+                android:gravity="center_vertical">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_partner_rating"
+                        android:id="@+id/textViewRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginEnd="5dp"
-                        android:text="4.2/5"
-                        android:textColor="@android:color/darker_gray" />
+                        android:text="Rating (15)"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="-4dp"
+                        android:layout_marginTop="4dp"/>
 
-                    <RatingBar
-                        android:id="@+id/ratingBar"
+                    <!-- Rating Section -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:numStars="5"
-                        android:stepSize="0.1"
-                        android:rating="4.2"
-                        android:isIndicator="true"
-                        style="?android:attr/ratingBarStyleSmall" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tv_partner_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="4.2/5"
+                            android:textColor="@android:color/darker_gray" />
+
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:numStars="5"
+                            android:stepSize="0.1"
+                            android:rating="4.2"
+                            android:isIndicator="true"
+                            style="?android:attr/ratingBarStyleSmall" />
+                    </LinearLayout>
                 </LinearLayout>
+
+                <!-- Lihat Ulasan Button -->
+                <Button
+                    android:id="@+id/buttonLihatUlasan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lihat Ulasan"
+                    android:gravity="center"/>
+            </LinearLayout>
         </LinearLayout>
 
-            <!-- Lihat Ulasan Button -->
-            <Button
-                android:id="@+id/buttonLihatUlasan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lihat Ulasan"
-                android:gravity="center"/>
-        </LinearLayout>
-    </LinearLayout>
+        <!-- TabLayout -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutProfileHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- TabLayout -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/linearLayoutProfileHeader"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <!-- ViewPager -->
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
+        <!-- ViewPager -->
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,6 +62,8 @@ class OrderDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.btnPrintTicket.visibility = View.GONE
+        binding.btnCallTour.visibility = View.GONE
         trip = args.trip
         transactionId = args.transactionId
 
@@ -77,6 +79,8 @@ class OrderDetailsFragment : Fragment() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 delay(500)
                 if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.scrollView.visibility = View.GONE
                     try {
                         val apiService = RetrofitClient.getInstance()
                         val response = apiService.getTransactionDetail(transactionId)
@@ -92,6 +96,8 @@ class OrderDetailsFragment : Fragment() {
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
+                                binding.progressBar.visibility = View.GONE
+                                binding.scrollView.visibility = View.VISIBLE
                             }
                         } else {
                             Toast.makeText(
@@ -126,8 +132,9 @@ class OrderDetailsFragment : Fragment() {
         binding.textViewContactInfo.text = contactInfoText
 
         val barcodeBitmap = generateBarcode(transactionId)
-        Log.d("OrderDetailsFragment", "Barcode bitmap: $barcodeBitmap transaction: $transaction")
         if (barcodeBitmap != null && transaction.status_accepted == "ACCEPTED" && transaction.status_payment == "SUCCESS") {
+            binding.btnCallTour.visibility = View.VISIBLE
+            binding.btnPrintTicket.visibility = View.VISIBLE
             binding.imageViewBarcode.setImageBitmap(barcodeBitmap)
             binding.btnPrintTicket.setOnClickListener {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -142,12 +149,19 @@ class OrderDetailsFragment : Fragment() {
             }
         } else {
             binding.imageViewBarcode.visibility = View.GONE
+            binding.btnCallTour.visibility = View.VISIBLE
             binding.btnPrintTicket.visibility = View.GONE
         }
 
         binding.btnCallTour.setOnClickListener {
-            val phoneNumber = transaction.phone_number.replace("+", "").replace(" ", "")
-            val url = "https://wa.me/$phoneNumber"
+            var phoneNumber = transaction.phone_number.replace(Regex("\\D"), "")
+            phoneNumber = phoneNumber.replaceFirst("^0", "62")
+            val phoneNumberWithCountryCode = if (phoneNumber.startsWith("62")) {
+                phoneNumber
+            } else {
+                "62$phoneNumber"
+            }
+            val url = "https://wa.me/$phoneNumberWithCountryCode"
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             startActivity(intent)
