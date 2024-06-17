@@ -7,9 +7,6 @@
 </a>
 </div>
 
-<!-- You can make badge by read on official documentation at https://shields.io/badges -->
-
-
 <p align="center">
 <a href="#-introduction">Introduction</a> &nbsp;&bull;&nbsp;
 <a href="#-tech-stack">Tech Stack</a> &nbsp;&bull;&nbsp;
@@ -25,16 +22,15 @@ Key features include detailed mountain information, secure guide and partner boo
 
 ## 💻 Tech Stack
 
-> Framework, Library, Database, Tools, etc
-
 ![Kotlin](https://img.shields.io/badge/Kotlin-0095D5?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Android Studio](https://img.shields.io/badge/Android%20Studio-3DDC84?style=for-the-badge&logo=android-studio&logoColor=white)
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
-![Retrofit](https://img.shields.io/badge/Retrofit-007FFF?style=for-the-badge&logo=retrofit&logoColor=white)
-![ViewPager](https://img.shields.io/badge/ViewPager-FF4081?style=for-the-badge&logo=android&logoColor=white)
-![DataStore](https://img.shields.io/badge/DataStore-FF6F00?style=for-the-badge&logo=android&logoColor=white)
-![Room](https://img.shields.io/badge/Room-007FFF?style=for-the-badge&logo=room&logoColor=white)
-![Paging 3](https://img.shields.io/badge/Paging%203-FF6F00?style=for-the-badge&logo=android&logoColor=white)
+![Retrofit](https://img.shields.io/badge/Retrofit-FF4081?style=for-the-badge&logo=android&logoColor=white)
+![ViewPager](https://img.shields.io/badge/ViewPager-0095D5?style=for-the-badge&logo=android&logoColor=white)
+![DataStore](https://img.shields.io/badge/DataStore-3DDC84?style=for-the-badge&logo=android&logoColor=white)
+![Room Dao](https://img.shields.io/badge/Room-FF6C37?style=for-the-badge&logo=android&logoColor=white)
+![Paging 3](https://img.shields.io/badge/Paging%203-FF4081?style=for-the-badge&logo=android&logoColor=white)
+![Midtrans](https://img.shields.io/badge/Midtrans-0095D5?style=for-the-badge&logo=android&logoColor=white)
 
 
 ## 📚 Reference
@@ -45,6 +41,7 @@ Key features include detailed mountain information, secure guide and partner boo
 - [DataStore](https://developer.android.com/topic/libraries/architecture/datastore)
 - [Room](https://developer.android.com/training/data-storage/room/)
 - [Paging 3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
+- [Midtrans](https://docs.midtrans.com/reference/android-sdk)
 
   
 ## 🚩 Issue
