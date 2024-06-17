@@ -17,6 +17,8 @@ import com.entsh104.highking.data.model.TripFilter
 import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.ui.cust.trip.ListTripFragmentDirections
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 class TripsPagingAdapter(
     private val viewModel: TripViewModel,
@@ -50,7 +52,9 @@ class TripsPagingAdapter(
 
         fun bind(trip: TripFilter) {
             val mPrice = trip.price
-            val mCurrencyFormat = DecimalFormat("#,###")
+            val symbols = DecimalFormatSymbols(Locale.getDefault())
+            symbols.groupingSeparator = '.'
+            val mCurrencyFormat = DecimalFormat("#,###", symbols)
             val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
 
             Glide.with(itemView.context).load(trip.image_url).into(imageView)

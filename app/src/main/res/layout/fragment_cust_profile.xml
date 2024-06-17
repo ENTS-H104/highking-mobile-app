@@ -37,7 +37,7 @@
                     android:id="@+id/imageViewProfile"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="10dp"
                     android:src="@drawable/iv_profile_placeholder"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -76,7 +76,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="14dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -105,7 +105,7 @@
                     android:paddingBottom="3dp"
                     android:drawableTint="@color/green_primary"
                     android:paddingHorizontal="16dp"
-                    android:text="Favorite"
+                    android:text="Favorit"
                     android:textColor="@color/green_primary" />
             </LinearLayout>
 

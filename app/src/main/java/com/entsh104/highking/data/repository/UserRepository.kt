@@ -90,9 +90,7 @@ class UserRepository(
         imageUri: Uri
     ): Result<UpdatePhotoResponse> {
         val token = prefs.getToken() ?: return Result.failure(Exception("Token not found"))
-        Log.d("UploadPhoto", "Token: $token")
         val parcelFileDescriptor = contentResolver.openFileDescriptor(imageUri, "r", null) ?: return Result.failure(Exception("Failed to open file descriptor"))
-        Log.d("UploadPhoto", "File Descriptor opened successfully")
         val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
         val file = File(cacheDir, contentResolver.getFileName(imageUri))
         val outputStream = FileOutputStream(file)
@@ -103,7 +101,6 @@ class UserRepository(
 
         return try {
             val response = apiService.updatePhotoUser("Bearer $token", body)
-            Log.d("UploadPhoto", "Response: ${response.message()}")
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {

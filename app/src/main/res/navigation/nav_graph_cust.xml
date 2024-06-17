@@ -74,7 +74,7 @@
     <fragment
         android:id="@+id/nav_orders"
         android:name="com.entsh104.highking.ui.cust.ticket.TicketFragment"
-        android:label="Orders"
+        android:label="Histori Trip"
         tools:layout="@layout/fragment_cust_ticket" >
         <action
             android:id="@+id/action_nav_orders_to_orderDetailsFragment"
@@ -84,7 +84,7 @@
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.entsh104.highking.ui.cust.profile.ProfileFragment"
-        android:label="Profile"
+        android:label="Profil"
         tools:layout="@layout/fragment_cust_profile" >
         <action
             android:id="@+id/action_nav_profile_to_fragmentCustProfileEdit"
@@ -103,7 +103,7 @@
     <fragment
         android:id="@+id/nav_listMountain"
         android:name="com.entsh104.highking.ui.cust.mountain.ListMountainFragment"
-        android:label="List Mountain"
+        android:label="List Gunung"
         tools:layout="@layout/fragment_cust_list_mountain" >
         <action
             android:id="@+id/action_listMountain_to_detailMountain"
@@ -116,7 +116,7 @@
     <fragment
         android:id="@+id/nav_listAllMountain"
         android:name="com.entsh104.highking.ui.cust.mountain.ListAllMountainFragment"
-        android:label="List Mountain"
+        android:label="List Gunung"
         tools:layout="@layout/fragment_cust_list_mountain" >
         <action
             android:id="@+id/action_listMountain_to_detailMountain"
@@ -126,7 +126,7 @@
     <fragment
         android:id="@+id/nav_detailMountain"
         android:name="com.entsh104.highking.ui.cust.detailMountain.DetailMountainFragment"
-        android:label="Detail Mountain"
+        android:label="Detail Gunung"
         tools:layout="@layout/fragment_cust_detail_mountain">
         <argument
             android:name="mountainId"
@@ -179,7 +179,7 @@
     <fragment
         android:id="@+id/orderDetailsFragment"
         android:name="com.entsh104.highking.ui.cust.order.OrderDetailsFragment"
-        android:label="Detail Orders"
+        android:label="Detail Pesanan"
         tools:layout="@layout/fragment_cust_order_details" >
         <action
             android:id="@+id/action_orderDetailsFragment_to_nav_orders"
@@ -194,7 +194,7 @@
     <fragment
         android:id="@+id/profileMitraFragment"
         android:name="com.entsh104.highking.ui.cust.mitra.ProfileMitraFragment"
-        android:label="Profile Mitra"
+        android:label="Profil Mitra"
         tools:layout="@layout/fragment_cust_mitra_profile" >
         <action
             android:id="@+id/action_profileMitraFragment_to_fragmentCustReview"
@@ -215,7 +215,7 @@
     <fragment
         android:id="@+id/listAllTripFragment"
         android:name="com.entsh104.highking.ui.cust.trip.ListAllTripFragment"
-        android:label="List All Trip"
+        android:label="List Semua Trip"
         tools:layout="@layout/fragment_cust_list_all_trip" >
         <action
             android:id="@+id/action_listTrip_to_detailTrip"
@@ -225,7 +225,7 @@
     <fragment
         android:id="@+id/fragmentCustProfileEdit"
         android:name="com.entsh104.highking.ui.cust.profile.FragmentCustProfileEdit"
-        android:label="Edit Profile"
+        android:label="Edit Profil"
         tools:layout="@layout/fragment_cust_profile_edit" >
         <action
             android:id="@+id/action_fragmentCustProfileEdit_to_nav_profile"
@@ -234,7 +234,7 @@
     <fragment
         android:id="@+id/favoriteMountainFragment2"
         android:name="com.entsh104.highking.ui.cust.mountain.FavoriteMountainFragment"
-        android:label="Favorite Mountain"
+        android:label="Gunung Favorit"
         tools:layout="@layout/fragment_cust_fav_mountain" >
         <action
             android:id="@+id/action_listMountain_to_detailMountain"
@@ -243,7 +243,7 @@
     <fragment
         android:id="@+id/favoriteTripFragment"
         android:name="com.entsh104.highking.ui.cust.trip.FavoriteTripFragment"
-        android:label="Favorite Trip"
+        android:label="Trip Favorit"
         tools:layout="@layout/fragment_cust_fav_trip" >
         <action
             android:id="@+id/action_listTrip_to_detailTrip"
@@ -252,7 +252,7 @@
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.entsh104.highking.ui.cust.favorites.FavoritesFragment"
-        android:label="Favorite Items"
+        android:label="Favorit"
         tools:layout="@layout/fragment_cust_favorite" >
         <action
             android:id="@+id/action_listTrip_to_detailTrip"

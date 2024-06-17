@@ -28,6 +28,7 @@ import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TripFilter
 import kotlinx.coroutines.delay
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -93,7 +94,9 @@ class DetailTripFragment : Fragment() {
             tripList?.firstOrNull()?.let { trip ->
                 Glide.with(this@DetailTripFragment).load(trip.image_url).into(binding.ivTripImage)
                 val mPrice = trip.price
-                val mCurrencyFormat = DecimalFormat("#,###")
+                val symbols = DecimalFormatSymbols(Locale.getDefault())
+                symbols.groupingSeparator = '.'
+                val mCurrencyFormat = DecimalFormat("#,###", symbols)
                 val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
                 val schedule = trip.schedule_data[0]
 
@@ -320,7 +323,10 @@ class DetailTripFragment : Fragment() {
     private fun shareInformation(platform: String, trip: OpenTripDetail) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "Check out this trip: ${trip.open_trip_name} to ${trip.mountain_data.joinToString(", ") { it.name }}. Price: Rp ${trip.price}. Availability: ${trip.min_people}-${trip.max_people} people!")
+            val mPrice = trip.price
+            val mCurrencyFormat = DecimalFormat("#,###")
+            val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+            putExtra(Intent.EXTRA_TEXT, "Check out this trip: ${trip.open_trip_name} to ${trip.mountain_data.joinToString(", ") { it.name }}. Price: Rp ${myFormattedPrice}. Availability: ${trip.min_people}-${trip.max_people} people!")
             type = "text/plain"
         }
 

@@ -37,6 +37,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.delay
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
@@ -157,7 +160,14 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
                 binding.textViewTemperatureLabel.text = "Suhu Derajat"
                 binding.textViewTemperature.text = "${it.weather.temperature} Celcius"
                 binding.textViewFeeLabel.text = "Harga Masuk"
-                binding.textViewTicketPrice.text = "Rp ${it.harga}"
+
+                val mPrice = it.harga
+                val symbols = DecimalFormatSymbols(Locale.getDefault())
+                symbols.groupingSeparator = '.'
+                val mCurrencyFormat = DecimalFormat("#,###", symbols)
+                val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+                binding.textViewTicketPrice.text = "Rp $myFormattedPrice"
+
                 binding.tvSimilarTripsHeader.text = "Trip di ${it.name}"
 
                 binding.fabSearchTrips.text = "Cari Trip ke ${it.name}"
@@ -208,7 +218,12 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
     fun shareInformation(platform: String, detail: MountainDetailResponse) {
         val shareIntent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, "Check out ${detail.name} located at ${detail.province} with an elevation of ${detail.height} MDPL. Current weather: ${detail.weather.cuaca}, Temperature: ${detail.weather.temperature} °C. Entry fee: Rp ${detail.harga}")
+            val mPrice = detail.harga
+            val symbols = DecimalFormatSymbols(Locale.getDefault())
+            symbols.groupingSeparator = '.'
+            val mCurrencyFormat = DecimalFormat("#,###", symbols)
+            val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+            putExtra(Intent.EXTRA_TEXT, "Check out ${detail.name} located at ${detail.province} with an elevation of ${detail.height} MDPL. Current weather: ${detail.weather.cuaca}, Temperature: ${detail.weather.temperature} °C. Entry fee: Rp ${myFormattedPrice}")
             type = "text/plain"
         }
 

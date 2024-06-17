@@ -23,6 +23,8 @@ android {
         resValue("string", "google_maps_key", "AIzaSyDsbvczf_2-MgmpGzxjdrMRZPcatQI4bPA")
         resValue("string", "payment_gateway_uuid", "dc5ce8d6-e907-44fa-8d3f-106a83dd6f22")
         buildConfigField("String", "BASE_URL", "\"https://highking.cloud/api/\"")
+        buildConfigField("String", "MIDTRANS_CLIENT_KEY", "\"SB-Mid-client-0euqacxFYGhkN5uu\"")
+        buildConfigField("String", "MIDTRANS_URL", "\"https://api.sandbox.midtrans.com/\"")
     }
 
     buildTypes {

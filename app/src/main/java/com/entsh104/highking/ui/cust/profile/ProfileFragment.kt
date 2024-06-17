@@ -166,7 +166,6 @@ class ProfileFragment : Fragment() {
                     if (result.isSuccess) {
                         val user = result.getOrNull()
                         user?.let {
-                            Log.d("ProfileFragment", "User: $it")
                             binding.textViewUsername.text = "@" + it.username
                             binding.textViewName.text = it.username
                             binding.textViewEmail.text = it.email

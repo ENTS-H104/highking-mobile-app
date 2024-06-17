@@ -81,7 +81,6 @@ class PendingFragment : Fragment() {
                 }
             }
         }
-        Log.d("PendingFragment", "fetchTripDetailsForOrders: $tripDetailsMap")
         return tripDetailsMap
     }
 

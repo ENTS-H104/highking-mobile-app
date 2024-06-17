@@ -14,6 +14,9 @@ import com.entsh104.highking.data.model.OpenTripDetail
 import com.entsh104.highking.data.model.TransactionHistory
 import com.entsh104.highking.ui.cust.ticket.TicketFragmentDirections
 import com.entsh104.highking.ui.util.NavOptionsUtil
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 class OrdersAdapter(
     private val orders: Map<String, OpenTripDetail>,
@@ -46,7 +49,13 @@ class OrdersAdapter(
                 .into(imageView)
 
             textViewOrderName.text = order?.open_trip_name
-            textViewPrice.text = "Rp ${order?.price}"
+
+            val mPrice = order?.price
+            val symbols = DecimalFormatSymbols(Locale.getDefault())
+            symbols.groupingSeparator = '.'
+            val mCurrencyFormat = DecimalFormat("#,###", symbols)
+            val myFormattedPrice: String = mCurrencyFormat.format(mPrice)
+            textViewPrice.text = "Rp $myFormattedPrice"
 
             itemView.setOnClickListener {
                 if (order != null) {

@@ -132,7 +132,6 @@ class OrderDetailsFragment : Fragment() {
         binding.textViewContactInfo.text = contactInfoText
 
         val barcodeBitmap = generateBarcode(transactionId)
-        Log.d("OrderDetailsFragment", "Barcode bitmap: $barcodeBitmap transaction: $transaction")
         if (barcodeBitmap != null && transaction.status_accepted == "ACCEPTED" && transaction.status_payment == "SUCCESS") {
             binding.btnCallTour.visibility = View.VISIBLE
             binding.btnPrintTicket.visibility = View.VISIBLE
@@ -155,8 +154,14 @@ class OrderDetailsFragment : Fragment() {
         }
 
         binding.btnCallTour.setOnClickListener {
-            val phoneNumber = transaction.phone_number.replace("+", "").replace(" ", "")
-            val url = "https://wa.me/$phoneNumber"
+            var phoneNumber = transaction.phone_number.replace(Regex("\\D"), "")
+            phoneNumber = phoneNumber.replaceFirst("^0", "62")
+            val phoneNumberWithCountryCode = if (phoneNumber.startsWith("62")) {
+                phoneNumber
+            } else {
+                "62$phoneNumber"
+            }
+            val url = "https://wa.me/$phoneNumberWithCountryCode"
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)
             startActivity(intent)
