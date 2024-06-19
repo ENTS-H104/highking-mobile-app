@@ -1,8 +1,8 @@
-package com.entsh104.highking.ui.cust.chat
+package com.entsh104.highking.ui.model
 
-data class Chat(
-    val name: String,
+data class ChatMessage(
     val message: String,
     val time: String,
-    val unreadCount: Int
+    val email: String
 )
+

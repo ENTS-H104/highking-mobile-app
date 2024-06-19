@@ -253,3 +253,15 @@ data class TransactionHistory(
     val updated_at: String,
     val created_at: String
 )
+
+data class MessageListResponse(
+    val status: Int,
+    val message: String,
+    val data: List<MessageItem>
+)
+
+data class MessageDetailResponse(
+    val status: Int,
+    val message: String,
+    val data: List<MessageItem>
+)

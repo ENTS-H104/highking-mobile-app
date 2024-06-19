@@ -25,4 +25,25 @@ data class Participant(
     val handphone_number: String
 )
 
+data class MessageRequest(
+    val user_uid: String,
+    val partner_uid: String
+)
+
+data class SendMessageRequest(
+    val user_uid: String,
+    val partner_uid: String,
+    val message: String,
+    val email: String,
+)
+
+data class MessageItem(
+    val message_uuid: String,
+    val user_uid: String,
+    val partner_uid: String,
+    val email: String,
+    val message: String,
+    val created_at: String
+)
+
 

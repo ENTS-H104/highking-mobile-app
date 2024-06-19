@@ -3,40 +3,36 @@ package com.entsh104.highking.ui.cust.detailMountain
 import UserRepository
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.entsh104.highking.R
+import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.source.local.SharedPreferencesManager
 import com.entsh104.highking.data.source.remote.RetrofitClient
+import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.entsh104.highking.databinding.FragmentCustDetailMountainBinding
 import com.entsh104.highking.ui.adapters.TripsAdapter
 import com.entsh104.highking.ui.util.NavOptionsUtil
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.entsh104.highking.data.helper.ViewModelFactory
-import com.entsh104.highking.data.model.MountainDetailResponse
-import com.entsh104.highking.data.viewmodel.TripViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
@@ -50,7 +46,7 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
     private val tripViewModel: TripViewModel by viewModels()
 
     private lateinit var mapView: MapView
-    private lateinit var googleMap: GoogleMap
+    private var googleMap: GoogleMap? = null
     private var lat: Double = -6.200000
     private var lon: Double = 106.816666
 
@@ -112,11 +108,11 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun updateMapLocation() {
-        if (::googleMap.isInitialized) {
+        googleMap?.let {
             val location = LatLng(lat, lon)
-            googleMap.clear() // Hapus marker sebelumnya
-            googleMap.addMarker(MarkerOptions().position(location).title("Lokasi"))
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+            it.clear() // Hapus marker sebelumnya
+            it.addMarker(MarkerOptions().position(location).title("Lokasi"))
+            it.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
         }
     }
 
@@ -199,16 +195,16 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
 
             binding.fabSearchTrips.setOnClickListener {
                 val action = DetailMountainFragmentDirections.actionNavDetailMountainToNavListTrip(
-                    searchResults?.toTypedArray() ?: emptyArray()
+                    searchResults.toTypedArray()
                 )
                 findNavController().navigate(action)
             }
 
             binding.tvSeeAllTrips.setOnClickListener {
                 val action = DetailMountainFragmentDirections.actionNavDetailMountainToNavListTrip(
-                    searchResults?.toTypedArray() ?: emptyArray()
+                    searchResults.toTypedArray()
                 )
-                findNavController().navigate(action,  NavOptionsUtil.defaultNavOptions)
+                findNavController().navigate(action, NavOptionsUtil.defaultNavOptions)
             }
         } else {
             Toast.makeText(requireContext(), "Failed to load trips", Toast.LENGTH_SHORT).show()
@@ -250,16 +246,15 @@ class DetailMountainFragment : Fragment(), OnMapReadyCallback {
         mapView.onPause()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView.onDestroy()
-        _binding = null
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         mapView.onDestroy()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        googleMap = null
     }
 
     override fun onLowMemory() {

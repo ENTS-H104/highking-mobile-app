@@ -2,6 +2,9 @@ import com.entsh104.highking.data.model.BasicResponse
 import com.entsh104.highking.data.model.CreateTransactionRequest
 import com.entsh104.highking.data.model.CreateTransactionResponse
 import com.entsh104.highking.data.model.LoginRequest
+import com.entsh104.highking.data.model.MessageDetailResponse
+import com.entsh104.highking.data.model.MessageListResponse
+import com.entsh104.highking.data.model.MessageRequest
 import com.entsh104.highking.data.model.MitraProfileResponse
 import com.entsh104.highking.data.model.MountainDetailResponse
 import com.entsh104.highking.data.model.MountainsResponse
@@ -10,6 +13,7 @@ import com.entsh104.highking.data.model.OpenTripResponse
 import com.entsh104.highking.data.model.RegisterRequest
 import com.entsh104.highking.data.model.ResetPasswordRequest
 import com.entsh104.highking.data.model.SearchOpenTripResponse
+import com.entsh104.highking.data.model.SendMessageRequest
 import com.entsh104.highking.data.model.TokenResponse
 import com.entsh104.highking.data.model.TransactionDetailResponse
 import com.entsh104.highking.data.model.TransactionHistoryResponse
@@ -125,4 +129,17 @@ interface ApiService {
 
     @GET("/api/recommendation/open-trip/{user_uid}")
     suspend fun getRecommendedTrips(@Path("user_uid") userId: String): Response<OpenTripResponse>
+
+    @GET("messages/{user_uid}")
+    suspend fun getAllMessages(@Path("user_uid") userUid: String): Response<MessageListResponse>
+
+    @POST("messages/")
+    suspend fun getMessages(
+        @Body request: MessageRequest
+    ): Response<MessageDetailResponse>
+
+    @POST("messages/users")
+    suspend fun sendMessage(
+        @Body request: SendMessageRequest
+    ): Response<BasicResponse>
 }

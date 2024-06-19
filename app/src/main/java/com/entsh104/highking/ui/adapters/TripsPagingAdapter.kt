@@ -61,7 +61,7 @@ class TripsPagingAdapter(
             textViewTripName.text = trip.name
             textViewMountainName.text = trip.mountain_name
             textViewPrice.text = "Rp $myFormattedPrice"
-            textViewCapacity.text = trip.total_participants ?: "0"
+            textViewCapacity.text = "${trip.total_participants ?: "0"}/${trip.max_people ?: "0"}"
 
             // Adjust item layout params for horizontal orientation
             if (isHorizontal) {

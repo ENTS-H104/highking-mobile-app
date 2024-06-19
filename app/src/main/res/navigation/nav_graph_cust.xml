@@ -67,7 +67,7 @@
         android:label="Chat"
         tools:layout="@layout/fragment_cust_chat" >
         <action
-            android:id="@+id/action_nav_chat_to_chatRoomFragment"
+            android:id="@+id/actionNavChatToChatRoom"
             app:destination="@id/chatRoomFragment" />
     </fragment>
 
@@ -175,7 +175,17 @@
         android:id="@+id/chatRoomFragment"
         android:name="com.entsh104.highking.ui.cust.chatroom.ChatRoomFragment"
         android:label="ChatRoom"
-        tools:layout="@layout/fragment_cust_chatroom" />
+        tools:layout="@layout/fragment_cust_chatroom">
+        <argument
+            android:name="partnerUid"
+            app:argType="string" />
+        <argument
+            android:name="userUid"
+            app:argType="string" />
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/orderDetailsFragment"
         android:name="com.entsh104.highking.ui.cust.order.OrderDetailsFragment"
@@ -205,7 +215,11 @@
         <action
             android:id="@+id/action_listTrip_to_detailTrip"
             app:destination="@id/nav_detailTrip" />
+        <action
+            android:id="@+id/actionProfileMitraFragmentToChatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/fragmentCustReview"
         android:name="com.entsh104.highking.ui.cust.review.FragmentCustReview"
