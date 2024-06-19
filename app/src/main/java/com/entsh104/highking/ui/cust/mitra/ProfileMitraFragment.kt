@@ -28,6 +28,7 @@ class ProfileMitraFragment : Fragment() {
     private var _binding: FragmentCustMitraProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var userRepository: UserRepository
+
     private val args: ProfileMitraFragmentArgs by navArgs()
     private lateinit var mitraId: String
 
@@ -45,7 +46,7 @@ class ProfileMitraFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
         binding.linearLayoutProfileHeader.visibility = View.GONE
 
-        mitraId = args.mitraId ?: ""
+        mitraId = args.mitraId?: ""
         val prefs = SharedPreferencesManager(requireContext())
         userRepository = UserRepository(RetrofitClient.getInstance(), prefs)
 
@@ -64,6 +65,8 @@ class ProfileMitraFragment : Fragment() {
     }
 
     private fun fetchMitraProfile() {
+        val userId = userRepository.getCurrentUserId()
+        val emailId = userRepository.getCurrentUserEmail()
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 delay(500)
@@ -76,6 +79,16 @@ class ProfileMitraFragment : Fragment() {
                                 binding.textViewUsername.text = mitraProfile.username
                                 Glide.with(this@ProfileMitraFragment).load(mitraProfile.image_url)
                                     .into(binding.imageViewProfile)
+
+                                binding.fabChatMitra.setOnClickListener {
+                                    val action =
+                                        ProfileMitraFragmentDirections.actionProfileMitraFragmentToChatRoomFragment(
+                                            mitraProfile.partner_uid,
+                                            userId?: "",
+                                            emailId?: ""
+                                        )
+                                    findNavController().navigate(action)
+                                }
                             } ?: run {
                                 Toast.makeText(
                                     requireContext(),

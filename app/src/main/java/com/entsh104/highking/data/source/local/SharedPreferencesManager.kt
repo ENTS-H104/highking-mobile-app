@@ -14,6 +14,18 @@ class SharedPreferencesManager(context: Context) {
         prefs.edit().putString("userUid", uid).apply()
     }
 
+    fun saveEmail(email: String) {
+        prefs.edit().putString("email", email).apply()
+    }
+
+    fun getEmail(): String? {
+        return prefs.getString("email", null)
+    }
+
+    fun getUserUid(): String? {
+        return prefs.getString("userUid", null)
+    }
+
     fun getToken(): String? {
         return prefs.getString("token", null)
     }

@@ -215,7 +215,11 @@
         <action
             android:id="@+id/action_listTrip_to_detailTrip"
             app:destination="@id/nav_detailTrip" />
+        <action
+            android:id="@+id/actionProfileMitraFragmentToChatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/fragmentCustReview"
         android:name="com.entsh104.highking.ui.cust.review.FragmentCustReview"

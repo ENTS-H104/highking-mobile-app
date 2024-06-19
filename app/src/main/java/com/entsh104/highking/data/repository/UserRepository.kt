@@ -155,6 +155,8 @@ class UserRepository(
                     val userApiResponse = response.body()
                     if (userApiResponse != null && userApiResponse.data.isNotEmpty()) {
                         currentUser = userApiResponse.data[0]
+                        prefs.saveUserUid(currentUser?.user_uid ?: "")
+                        prefs.saveEmail(currentUser?.email ?: "")
                         Result.success(userApiResponse.data[0])
                     } else {
                         Result.failure(Exception("No user data found"))
@@ -171,7 +173,11 @@ class UserRepository(
     }
 
     fun getCurrentUserId(): String? {
-        return currentUser?.user_uid
+        return prefs.getUserUid()
+    }
+
+    fun getCurrentUserEmail(): String? {
+        return prefs.getEmail()
     }
 
     suspend fun logoutUser(token: String): Result<BasicResponse> {
