@@ -4,31 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.navArgs
+import com.entsh104.highking.data.model.MessageRequest
+import com.entsh104.highking.data.model.SendMessageRequest
+import com.entsh104.highking.data.source.remote.RetrofitClient
 import com.entsh104.highking.databinding.FragmentCustChatroomBinding
+import com.entsh104.highking.ui.adapters.ChatRoomAdapter
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class ChatRoomFragment : Fragment() {
 
     private var _binding: FragmentCustChatroomBinding? = null
     private val binding get() = _binding!!
+    private lateinit var chatRoomAdapter: ChatRoomAdapter
 
-    private val chatMessages = listOf(
-        ChatMessage("Halo, apakah ada opentrip ke Gunung Semeru minggu depan?", "09:00 AM", true),
-        ChatMessage("Halo, terima kasih telah menghubungi kami. Ya, kami memiliki opentrip ke Gunung Semeru minggu depan.", "09:05 AM", false),
-        ChatMessage("Bagus, berapa biayanya?", "09:10 AM", true),
-        ChatMessage("Biaya untuk opentrip ke Gunung Semeru minggu depan adalah Rp 1.500.000 per orang.", "09:15 AM", false),
-        ChatMessage("Apakah sudah termasuk transportasi dan akomodasi?", "09:20 AM", true),
-        ChatMessage("Ya, biaya tersebut sudah termasuk transportasi pulang pergi, akomodasi, makanan, dan guide.", "09:25 AM", false),
-        ChatMessage("Baik, saya akan ikut. Bagaimana cara pendaftarannya?", "09:30 AM", true),
-        ChatMessage("Anda dapat mendaftar melalui website kami atau menghubungi kami langsung melalui WhatsApp.", "09:35 AM", false),
-        ChatMessage("Oke, terima kasih atas informasinya.", "09:40 AM", true)
-    )
+    private val args: ChatRoomFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCustChatroomBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,16 +36,65 @@ class ChatRoomFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView()
+        chatRoomAdapter = ChatRoomAdapter(args.userEmail)
+        binding.recyclerViewChatMessages.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = chatRoomAdapter
+        }
+
+        fetchMessages(args.userUid, args.partnerUid)
 
         binding.buttonSend.setOnClickListener {
-            // Handle send button click
+            val message = binding.editTextMessage.text.toString()
+            if (message.isNotEmpty()) {
+                sendMessage(args.userUid, args.partnerUid, message)
+            } else {
+                showToast("Message cannot be empty")
+            }
         }
     }
 
-    private fun setupRecyclerView() {
-        binding.recyclerViewChatMessages.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewChatMessages.adapter = ChatRoomAdapter(chatMessages)
+    private fun fetchMessages(userUid: String, partnerUid: String) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.getInstance().getMessages(MessageRequest(userUid, partnerUid))
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        chatRoomAdapter.updateMessages(it.data)
+                    } ?: showToast("No data available")
+                } else {
+                    showToast("Failed to fetch messages")
+                }
+            } catch (e: HttpException) {
+                showToast("Failed to fetch messages")
+            } catch (e: Exception) {
+                showToast("An error occurred")
+            }
+        }
+    }
+
+    private fun sendMessage(userUid: String, partnerUid: String, message: String) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.getInstance().sendMessage(SendMessageRequest(userUid, partnerUid, message, args.userEmail))
+                if (response.isSuccessful) {
+                    fetchMessages(userUid, partnerUid)
+                    binding.editTextMessage.text.clear()
+                } else {
+                    showToast("Failed to send message")
+                }
+            } catch (e: HttpException) {
+                showToast("Failed to send message")
+            } catch (e: Exception) {
+                showToast("An error occurred")
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        activity?.runOnUiThread {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {
