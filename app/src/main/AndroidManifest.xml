@@ -25,7 +25,7 @@
             android:name=".ui.cust.CustActivity"
             android:screenOrientation="portrait"
             android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".ui.auth.AuthActivity"

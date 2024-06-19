@@ -1,12 +1,16 @@
 package com.entsh104.highking.ui.cust.chatroom
 
+import android.graphics.Rect
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +32,7 @@ class ChatRoomFragment : Fragment() {
     private var _binding: FragmentCustChatroomBinding? = null
     private val binding get() = _binding!!
     private lateinit var chatRoomAdapter: ChatRoomAdapter
+    private lateinit var onGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener
 
     private val args: ChatRoomFragmentArgs by navArgs()
 
@@ -46,15 +51,21 @@ class ChatRoomFragment : Fragment() {
         binding.recyclerViewChatMessages.visibility = View.GONE
         chatRoomAdapter = ChatRoomAdapter(args.userEmail)
         binding.recyclerViewChatMessages.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context).apply {
+                stackFromEnd = true
+            }
             adapter = chatRoomAdapter
         }
 
         fetchPartnerProfile(args.partnerUid)
-        fetchMessages(args.userUid, args.partnerUid)
+        fetchMessagesPeriodically(args.userUid, args.partnerUid)
 
         binding.progressBar.visibility = View.GONE
         binding.recyclerViewChatMessages.visibility = View.VISIBLE
+
+        binding.editTextMessage.setOnFocusChangeListener { v, hasFocus ->
+
+        }
 
         binding.buttonSend.setOnClickListener {
             val message = binding.editTextMessage.text.toString()
@@ -64,6 +75,21 @@ class ChatRoomFragment : Fragment() {
                 showToast("Message cannot be empty")
             }
         }
+
+        onGlobalLayoutListener = ViewTreeObserver.OnGlobalLayoutListener {
+            if (_binding != null) {
+                val rect = Rect()
+                binding.root.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = binding.root.rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                if (keypadHeight > screenHeight * 0.15) {
+                    binding.recyclerViewChatMessages.scrollToPosition(chatRoomAdapter.itemCount - 1)
+                }
+            }
+        }
+
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener(onGlobalLayoutListener)
     }
 
     private fun fetchPartnerProfile(partnerUid: String) {
@@ -92,17 +118,17 @@ class ChatRoomFragment : Fragment() {
         }
     }
 
-    private fun fetchMessages(userUid: String, partnerUid: String) {
+    private fun fetchMessagesPeriodically(userUid: String, partnerUid: String) {
         viewLifecycleOwner.lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                delay(500)
-                if (viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                while (true) {
                     try {
                         val response = RetrofitClient.getInstance()
                             .getMessages(MessageRequest(userUid, partnerUid))
                         if (response.isSuccessful) {
                             response.body()?.let {
                                 chatRoomAdapter.updateMessages(it.data)
+                                binding.recyclerViewChatMessages.scrollToPosition(chatRoomAdapter.itemCount - 1)
                             } ?: showToast("No data available")
                         } else {
                             showToast("Failed to fetch messages")
@@ -112,6 +138,7 @@ class ChatRoomFragment : Fragment() {
                     } catch (e: Exception) {
                         showToast("An error occurred")
                     }
+                    delay(4000)
                 }
             }
         }
@@ -132,7 +159,7 @@ class ChatRoomFragment : Fragment() {
                             )
                         )
                         if (response.isSuccessful) {
-                            fetchMessages(userUid, partnerUid)
+                            fetchMessagesPeriodically(userUid, partnerUid)
                             binding.editTextMessage.text.clear()
                         } else {
                             showToast("Failed to send message")
@@ -155,6 +182,10 @@ class ChatRoomFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        if (_binding != null) {
+            binding.root.viewTreeObserver.removeOnGlobalLayoutListener(onGlobalLayoutListener)
+        }
         _binding = null
     }
 }
+
