@@ -3,6 +3,7 @@ package com.entsh104.highking.ui.cust.detailTrip
 import UserRepository
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -225,6 +226,7 @@ class DetailTripFragment : Fragment() {
                 val faqLayout = binding.llFaq
                 trip.faq_data?.forEach { faq ->
                     val faqView = layoutInflater.inflate(R.layout.item_dropdown, faqLayout, false)
+                    Log.d("FAQ", faq.description)
                     val splitDescription = faq.description.split("Question:", "Answer:")
                     if (splitDescription.size >= 3) {
                         val question = splitDescription[1].trim()
@@ -233,15 +235,15 @@ class DetailTripFragment : Fragment() {
                         faqView.findViewById<TextView>(R.id.tv_dropdown_description).text = answer
                     }
                     val dropdownItem = faqView.findViewById<LinearLayout>(R.id.ll_item_dropdown)
-                    val toggleArrow = faqView.findViewById<ImageView>(R.drawable.ic_arrow_down)
-                    val rundownContent = faqView.findViewById<LinearLayout>(R.id.ll_dropdown_content)
+                    val toggleArrow = faqView.findViewById<ImageView>(R.id.iv_expand_dropdown)
+                    val faqContent = faqView.findViewById<LinearLayout>(R.id.ll_dropdown_content)
 
                     dropdownItem.setOnClickListener {
-                        if (rundownContent.visibility == View.GONE) {
-                            rundownContent.visibility = View.VISIBLE
+                        if (faqContent.visibility == View.GONE) {
+                            faqContent.visibility = View.VISIBLE
                             toggleArrow.setImageResource(R.drawable.ic_arrow_up)
                         } else {
-                            rundownContent.visibility = View.GONE
+                            faqContent.visibility = View.GONE
                             toggleArrow.setImageResource(R.drawable.ic_arrow_down)
                         }
                     }
